@@ -1,0 +1,9 @@
+a, .link {
+  color: $on-base;
+  text-decoration: none;
+  transition: .2s ease-in-out;
+
+  &:hover {
+    color: $secondary;
+  }
+}

@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'ASGC Icons';
+  src:  url('asgd-icons.eot?j29f8p');
+  src:  url('asgd-icons.eot?j29f8p#iefix') format('embedded-opentype'),
+    url('asgd-icons.ttf?j29f8p') format('truetype'),
+    url('asgd-icons.woff?j29f8p') format('woff'),
+    url('asgd-icons.svg?j29f8p#asgd-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ASGC Icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Behance {
+  &::before {
+    content: "\e900";
+  }
+}
+.icon-Facebook {
+  &::before {
+    content: "\e901";
+  }
+}
+.icon-Instagram {
+  &::before {
+    content: "\e902";
+  }
+}
+.icon-LinkedIn {
+  &::before {
+    content: "\e903";
+  }
+}
+.icon-Malt {
+  &::before {
+    content: "\e904";
+  }
+}

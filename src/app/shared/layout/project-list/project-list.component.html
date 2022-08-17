@@ -1,0 +1,10 @@
+<div class="projects-list">
+
+  <h2 class="projects-list__title" *ngIf="title">{{title}}</h2>
+  <p class="projects-list__description">{{description}}</p>
+
+  <div class="projects-list__grid" *ngIf="projects.length > 0">
+      <project *ngFor="let project of projects" [project]="project"></project>
+  </div>
+
+</div>

@@ -1,0 +1,15 @@
+<div (click)="redirectTo(project.slug)" class="projects-list__content">
+  <div class="project">
+    <div class="project-content">
+      <h3 class="project-content__title">{{project.title}}</h3>
+
+      <div class="project-content__categories" *ngIf="project.categories.length > 0">
+        <div class="project-content__category" *ngFor="let category of project.categories; let index=index">
+          <a>{{category.title}}</a> <span *ngIf=" index < (project.categories.length - 1)">-</span>
+        </div>
+      </div>
+    </div>
+
+    <img src="{{project.thumbnail}}" class="project__img" alt="{{project.title}}">
+  </div>
+</div>
