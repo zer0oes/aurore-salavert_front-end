@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Category, Project } from '@app/models/frontend/project';
-import { BoProject } from '@app/models/backend/project';
+import { Category, Gallery, Project } from '@app/models/frontend/project';
 
 @Component({
   selector: 'app-project-list',
@@ -19,17 +18,19 @@ export class ProjectListComponent implements OnInit {
   ngOnInit(): void {
     /**TODO: DEFINE TYPE OF project */
     this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
-      console.log('project : ', project);
 
       /**TODO: DEFINE TYPE OF element */
       project.data.forEach((element: any) => {
-        console.log('element : ', element);
-        let cat: Array<Category> = []
-
+        let cat: Array<Category> = [];
         /**TODO: DEFINE TYPE OF category */
         element.attributes.categories.data.forEach((category: any) => {
-          console.log('category : ', category);
           cat.push({ title: category.attributes.title, slug: category.attributes.slug });
+        });
+
+        let gal: Array<Gallery> = [];
+        /**TODO: DEFINE TYPE OF item */
+        element.attributes.gallery.data.forEach((item: any) => {
+          gal.push({ id: item.attributes.id, img: item.attributes.url, alt: item.attributes.alternativeText });
         });
 
         let newProjects: Project = {
@@ -39,11 +40,15 @@ export class ProjectListComponent implements OnInit {
           description: element.attributes.description,
           createdAt: element.attributes.createdAt,
           thumbnail: 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url,
-          categories: cat
+          categories: cat,
+          gallery: gal
         }
 
         /**TODO: SORT ELEMENTS BY CREATION DATE */
         this.projects.push(newProjects);
+        this.projects.sort(function (b, a) {
+          return a.createdAt.localeCompare(b.createdAt);
+        });
       });
     });
   }

@@ -8,6 +8,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  background-color: $base;
+  padding-top: 8rem;
 
   &__title {
     &::after {
@@ -16,14 +18,17 @@
   }
   &__description {
     @extend .p;
+    margin-bottom: 4rem;
   }
 
   &__grid {
     position: relative;
-    height: 100%;
     width: 100%;
-    column-count: 3;
-    column-gap: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: masonry;
+    gap: 0;
+    break-inside: avoid;
 
     project {
       display: flex;
