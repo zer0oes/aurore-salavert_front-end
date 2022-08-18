@@ -13,6 +13,7 @@
   align-items: center;
   overflow-y: auto;
   z-index: 20;
+  pointer-events: none;
 
   .hamburger {
     position: fixed;
