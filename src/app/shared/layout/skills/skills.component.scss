@@ -1,0 +1,69 @@
+@import 'styles/colors';
+@import 'styles/fonts';
+
+.skills {
+  display: flex;
+  padding: 12rem 4rem;
+  background-color: $base;
+  justify-content: space-between;
+  align-items: start;
+
+  &__title {
+    margin: 2rem;
+    text-transform: none;
+    font-size: 4.5rem;
+    flex-shrink: 1;
+
+    &:after {
+      display: inline-flex;
+      content: ":";
+      color: $primary;
+      margin: 0;
+      width: auto;
+      height: auto;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: masonry;
+    grid-gap: 4rem;
+    flex-shrink: 2;
+
+    .skill {
+      &__content {
+
+      }
+
+      &__title {
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        font-weight: $semibold;
+        margin: 2rem 0;
+
+        &:after {
+          display: inline-flex;
+          content: ".";
+          color: $primary;
+          margin: 0;
+          width: auto;
+          height: auto;
+        }
+      }
+
+      &__text {
+        font-size: 2rem;
+
+        &:after {
+          display: block;
+          content: "";
+          background-color: $on-base;
+          margin: 2rem 0 0;
+          width: 3rem;
+          height: .3rem;
+        }
+      }
+    }
+  }
+}
