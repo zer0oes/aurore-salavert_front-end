@@ -1,5 +1,5 @@
 <nav class="main-nav">
-  <button class="hamburger">
+  <button class="hamburger" (click)="toggleNavbar();" *ngIf="!menuOpened">
     <span class="hamburger-box">
       <span class="hamburger-icon"></span>
     </span>
@@ -7,16 +7,16 @@
 
   <ol class="main-nav__list">
     <li>
-      <a>Home</a>
+      <a routerLink="">Home</a>
     </li>
     <li>
-      <a>Creative showcase</a>
+      <a routerLink="">Creative showcase</a>
     </li>
     <li>
-      <a>What I can do</a>
+      <a routerLink="">What I can do</a>
     </li>
     <li>
-      <a>Let's work together!</a>
+      <a routerLink="">Let's work together!</a>
     </li>
   </ol>
 </nav>
