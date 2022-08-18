@@ -2,6 +2,7 @@ a, .link {
   color: $on-base;
   text-decoration: none;
   transition: .2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     color: $secondary;

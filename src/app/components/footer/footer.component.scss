@@ -1,0 +1,38 @@
+@import 'styles/fonts';
+@import 'styles/colors';
+
+
+footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  padding: 0 4rem;
+  background: $base-light;
+  z-index: 5;
+
+  .social-networks {
+    a {
+      color: $tertiary;
+
+      &:hover {
+        color: $secondary;
+      }
+
+      i {
+        font-size: 2.6rem;
+      }
+    }
+  }
+  .copyright {
+    color: $tertiary;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: .02em;
+  }
+}

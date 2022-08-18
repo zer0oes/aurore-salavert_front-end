@@ -10,7 +10,8 @@
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'ASGC Icons' !important;
   speak: never;
@@ -26,27 +27,32 @@
 }
 
 .icon-Behance {
-  &::before {
+  &:before {
     content: "\e900";
   }
 }
 .icon-Facebook {
-  &::before {
+  &:before {
     content: "\e901";
   }
 }
 .icon-Instagram {
-  &::before {
+  &:before {
     content: "\e902";
   }
 }
 .icon-LinkedIn {
-  &::before {
+  &:before {
     content: "\e903";
   }
 }
 .icon-Malt {
-  &::before {
+  &:before {
     content: "\e904";
+  }
+}
+.icon-GitHub {
+  &:before {
+    content: "\e905";
   }
 }
