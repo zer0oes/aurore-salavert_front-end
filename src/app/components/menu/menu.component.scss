@@ -36,8 +36,8 @@
         background: $base-light;
         transition: all .2s ease-in-out;
 
-        &::before,
-        &::after {
+        &:before,
+        &:after {
           content: '';
           position: absolute;
           display: block;
@@ -46,11 +46,26 @@
           background: $base-light;
         }
 
-        &::before {
-          transform: translateY(-300%);
+        &:before {
+          transform: translateY(300%) rotate(0);
         }
-        &::after {
-          transform: translateY(300%);
+        &:after {
+          transform: translateY(-300%) rotate(0);
+        }
+      }
+    }
+
+    &.is-active {
+      .hamburger-icon {
+        // opacity: 0;
+        // transform: translateX(300%);
+
+        &:before {
+          transform: rotate(45deg) translateY(0);
+        }
+
+        &:after {
+          transform: rotate(-45deg) translateY(0);
         }
       }
     }
@@ -58,6 +73,7 @@
 
   &__list {
     text-align: center;
+    opacity: 0;
     li {
       transform: translateY(0);
       transition: transform .2s ease-in-out, text-shadow .2s ease-in-out;
@@ -79,17 +95,14 @@
 }
 
 .modal-backdrop {
-  // background-color: rgba($secondary, 0);
-  background-color: rgba($secondary, 0.95);
+  background-color: rgba($secondary, 0);
   block-size: calc(100% - 8rem);
   inline-size: calc(100% - 8rem);
   position: fixed;
   transition: background-color .5s ease-in-out, backdrop-filter .5s ease-in-out;
   z-index: 15;
-  // backdrop-filter: blur(0);
-  backdrop-filter: blur(4px);
-  // pointer-events: none;
-  pointer-events: inherit;
+  backdrop-filter: blur(0);
+  pointer-events: none;
 
   &-open {
     background-color: rgba($secondary, 0.75);
