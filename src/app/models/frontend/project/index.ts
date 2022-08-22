@@ -19,3 +19,11 @@ export interface Gallery {
   img: string;
   alt: string;
 }
+
+export interface Skill {
+  id: number;
+	title: string;
+	text: string;
+	createdAt: string;
+  icon: string;
+}
