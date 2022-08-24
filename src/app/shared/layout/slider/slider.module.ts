@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { SliderComponent } from './slider.component';
 
 
-
 @NgModule({
   declarations: [
     SliderComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     SliderComponent
