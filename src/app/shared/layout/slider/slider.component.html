@@ -2,20 +2,23 @@
 
     <!-- ARROWS CONTROLS -->
     <div class="slider_controls-arrows" *ngIf="arrows">
-      <button class="material-symbols-outlined"
+      <button class="material-symbols-outlined btn-prev"
         (click)="onPrevClick()"
-      >chevron_left</button>
-      <button class="material-symbols-outlined"
+        (mouseenter)="pauseSlider()"
+      >arrow_back_ios</button>
+      <button class="material-symbols-outlined btn-next"
         (click)="onNextClick()"
-      >chevron_right</button>
+        (mouseenter)="pauseSlider()"
+      >arrow_forward_ios</button>
     </div>
 
     <!-- DOTS CONTROLS -->
-    <div class="slider_controls-dots" *ngIf="indicators">
+    <div class="slider_controls-dots" *ngIf="dots">
       <span class="controls_dot"
         *ngFor="let dot of images; let i = index"
         [ngClass]="{'dot-active': selectedIndex === i}"
         (click)="selectImage(i)"
+        (mouseenter)="pauseSlider()"
       ></span>
     </div>
 

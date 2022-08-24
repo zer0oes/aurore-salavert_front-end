@@ -12,8 +12,10 @@ export class SliderComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   @Input() images: Array<SliderItems> = [];
-  @Input() indicators: boolean = true;
+  @Input() dots: boolean = true;
   @Input() arrows: boolean = true;
+  @Input() autoSlide: boolean = true;
+  @Input() slideInterval: number = 3000;
 
   selectedIndex: number = 0;
 
@@ -30,6 +32,10 @@ export class SliderComponent implements OnInit {
         this.images.push(newImages);
       });
     });
+
+    if (this.autoSlide) {
+      this.autoSlideImages();
+    }
   }
 
   // set index of image on click on a dot/indocator
@@ -53,5 +59,18 @@ export class SliderComponent implements OnInit {
     } else {
       this.selectedIndex++;
     }
+  }
+
+  // Auto slide
+  autoSlideImages(): void {
+    setInterval(() => {
+      this.onNextClick();
+    }, this.slideInterval);
+  }
+
+  pauseSlider(): void {
+    clearInterval(setInterval(() => {
+      this.onNextClick();
+    }, 3000));
   }
 }
