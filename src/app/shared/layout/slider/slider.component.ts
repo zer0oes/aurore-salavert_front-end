@@ -12,12 +12,12 @@ export class SliderComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   @Input() images: Array<SliderItems> = [];
+  @Input() selectedIndex: number = 0;
   @Input() dots: boolean = true;
   @Input() arrows: boolean = true;
   @Input() autoSlide: boolean = true;
   @Input() slideInterval: number = 3000;
 
-  selectedIndex: number = 0;
 
   ngOnInit(): void {
     this.http.get('http://localhost:1337/api/slider-item?populate=*').subscribe((sliderItem: any) => {

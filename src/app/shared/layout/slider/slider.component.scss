@@ -33,8 +33,9 @@
     }
   }
 
-  &__presentation {
+  &_presentation {
     margin: 0 auto;
+    align-self: center;
   }
 
   &_controls {
