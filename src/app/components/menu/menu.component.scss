@@ -12,7 +12,6 @@
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  z-index: 20;
   pointer-events: none;
 
   .hamburger {
@@ -20,6 +19,7 @@
     top: 8rem;
     right: 8rem;
     background-color: transparent;
+    z-index: 4;
     cursor: pointer;
 
     .hamburger-box {
@@ -76,6 +76,7 @@
   &__list {
     text-align: center;
     opacity: 0;
+    z-index: 3;
     li {
       transform: translateY(0);
       transition: transform .2s ease-in-out, text-shadow .2s ease-in-out;
@@ -102,7 +103,7 @@
   inline-size: calc(100% - 8rem);
   position: fixed;
   transition: background-color .5s ease-in-out, backdrop-filter .5s ease-in-out;
-  z-index: 15;
+  z-index: 3;
   backdrop-filter: blur(0);
   pointer-events: none;
 

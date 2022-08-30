@@ -27,3 +27,8 @@ export interface Skill {
 	createdAt: string;
   icon: string;
 }
+
+export interface SliderItems {
+  imgSrc: string;
+  imgAlt: string;
+}
