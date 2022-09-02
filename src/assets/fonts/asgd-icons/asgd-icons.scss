@@ -56,3 +56,13 @@
     content: "\e905";
   }
 }
+.icon-arrow_prev {
+  &:before {
+    content: "\e906";
+  }
+}
+.icon-arrow_next {
+  &:before {
+    content: "\e907";
+  }
+}
