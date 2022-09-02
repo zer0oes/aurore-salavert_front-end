@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  @Input() menuOpened: boolean = true;
+  @Input() menuOpened: boolean = false;
 
   constructor() { }
 
