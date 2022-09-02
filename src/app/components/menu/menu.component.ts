@@ -1,5 +1,5 @@
-import { HostBinding } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'menu',
@@ -7,13 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  @HostBinding('class.main-nav__is-open') menuOpened = false;
+  @Input() menuOpened: boolean = true;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
   toggleNavbar() {
-    this.menuOpened = !this.menuOpened;
+    if (this.menuOpened) {
+      this.menuOpened = false;
+    } else {
+      this.menuOpened = true;
+    }
   }
 }

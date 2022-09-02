@@ -1,8 +1,8 @@
 @import 'styles/colors';
 @import 'styles/fonts';
 
-.main-nav {
-  position: absolute;
+.menu {
+  position: fixed;
   top: 4rem;
   left: 4rem;
   right: 4rem;
@@ -13,86 +13,99 @@
   align-items: center;
   overflow-y: auto;
   pointer-events: none;
+  z-index: 4;
 
-  .hamburger {
+  &_icon {
     position: fixed;
     top: 8rem;
     right: 8rem;
     background-color: transparent;
-    z-index: 4;
-    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    z-index: 5;
 
-    .hamburger-box {
+    .hamburger-icon {
       position: relative;
-      height: 2rem;
+      height: 1.6rem;
       width: 2rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
 
-      .hamburger-icon {
-        display: block;
-        width: 100%;
-        height: .2rem;
-        background: $base-light;
-        transition: all .2s ease-in-out;
-
-        &:before,
-        &:after {
-          content: '';
+      .hamburger-bar {
+        &__1,
+        &__2,
+        &__3 {
           position: absolute;
           display: block;
           width: 100%;
           height: .2rem;
           background: $base-light;
+          transform: translateX(0);
+          transition: transform .2s ease-in-out, background .15s ease-in-out;
         }
 
-        &:before {
-          transform: translateY(300%) rotate(0);
+        &__1 {
+          top: 0;
         }
-        &:after {
-          transform: translateY(-300%) rotate(0);
+
+        &__3 {
+          bottom: 0;
         }
       }
     }
 
-    &.is-active {
+    &.is-open {
       .hamburger-icon {
-        // opacity: 0;
-        // transform: translateX(300%);
+        .hamburger-bar {
+          &__1 {
+            transform: translateY(.7rem) rotate(-45deg);
+          }
 
-        &:before {
-          transform: rotate(45deg) translateY(0);
-        }
+          &__2 {
+            background: transparent;
+            transform: translateX(30%);
+          }
 
-        &:after {
-          transform: rotate(-45deg) translateY(0);
+          &__3 {
+            transform: translateY(-.7rem) rotate(45deg);
+          }
         }
+      }
+    }
+
+    &:hover {
+      &_icon {
+        transition: transform .3s ease-in-out;
       }
     }
   }
 
-  &__list {
+  &_content {
     text-align: center;
     opacity: 0;
-    z-index: 3;
+    z-index: 4;
     li {
-      transform: translateY(0);
-      transition: transform .2s ease-in-out, text-shadow .2s ease-in-out;
-
-      &:hover {
-        transform: translateY(-1rem);
-        text-shadow: 0 .5rem 2rem rgba($base-light, 1);
-      }
-
       a {
         width: 100%;
         font-family: $secondary-font-family;
         font-size: 2.5rem;
         line-height: 3;
         color: $base-light;
+        cursor: pointer;
+        transform: translateY(0);
+        transition: transform .2s ease-in-out, text-shadow .2s ease-in-out;
+
+        &:hover {
+          transform: translateY(-1rem);
+          text-shadow: 0 .5rem 2rem rgba($base-light, 1);
+        }
       }
+    }
+
+    &.menu-opened {
+      opacity: 1;
     }
   }
 }
@@ -107,7 +120,7 @@
   backdrop-filter: blur(0);
   pointer-events: none;
 
-  &-open {
+  &.is-open {
     background-color: rgba($secondary, 0.75);
     backdrop-filter: blur(4px);
     pointer-events: inherit;
