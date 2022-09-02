@@ -65,7 +65,7 @@
 
           &__2 {
             background: transparent;
-            transform: translateX(30%);
+            transform: translateX(15%);
           }
 
           &__3 {
@@ -85,27 +85,29 @@
   &_content {
     text-align: center;
     opacity: 0;
-    z-index: 4;
+
+
     li {
+      transform: translateY(0);
+      transition: transform .3s ease-in-out, text-shadow .2s ease-in-out;
+
       a {
         width: 100%;
         font-family: $secondary-font-family;
         font-size: 2.5rem;
         line-height: 3;
         color: $base-light;
-        cursor: pointer;
-        transform: translateY(0);
-        transition: transform .2s ease-in-out, text-shadow .2s ease-in-out;
+      }
 
-        &:hover {
-          transform: translateY(-1rem);
-          text-shadow: 0 .5rem 2rem rgba($base-light, 1);
-        }
+      &:hover {
+        transform: translateY(-.35rem);
+        text-shadow: 0 .5rem 2rem rgba($base-light, 1);
       }
     }
 
     &.menu-opened {
       opacity: 1;
+      pointer-events: initial;
     }
   }
 }
