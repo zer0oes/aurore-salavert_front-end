@@ -1,8 +1,120 @@
-.home-slider {
-  width: 100%;
+@import 'styles/colors';
+@import 'styles/fonts';
 
-  img {
-    display: block;
+.slider {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background: $secondary;
+  background: linear-gradient(180deg, rgba($secondary, 1) 0%, rgba($primary, 1) 100%);
+
+  &_content {
+    display: flex;
+    height: 100%;
     width: 100%;
+
+    &-img {
+      display: block;
+      object-fit: cover;
+      opacity: 0;
+      min-width: 100%;
+      height: 100%;
+      order: 2;
+      z-index: 1;
+      transition: opacity .4s ease-in-out;
+
+      &.img-active {
+        opacity: 1;
+        flex: 1;
+        order: 1;
+      }
+    }
+  }
+
+  &_presentation {
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  &_controls {
+
+    &-arrows,
+    &-dots {
+      position: absolute;
+      z-index: 2;
+    }
+
+    &-arrows {
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4rem;
+
+      button {
+        align-self: center;
+        opacity: .5;
+        transition: opacity .25s ease-in-out, transform .3s ease-in-out;
+
+        i {
+          font-size: 2.6rem;
+          color: $base-light;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &.btn-next {
+          &:hover {
+            transform: translateX(.5rem);
+          }
+        }
+        &.btn-prev {
+          &:hover {
+            transform: translateX(-.5rem);
+          }
+        }
+      }
+    }
+
+    &-dots {
+      bottom: 4rem;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .controls_dot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin:0 .5rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        border: 2px solid $base-light;
+        cursor: pointer;
+
+        &:before {
+          content: "";
+          width: .4rem;
+          height: .4rem;
+          border-radius: 50%;
+          background: transparent;
+          transition: background .25s ease-in-out;
+        }
+
+        &:hover,
+        &.dot-active {
+          &:before {
+            background: $base-light;
+          }
+        }
+      }
+    }
   }
 }
+

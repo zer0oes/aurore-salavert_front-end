@@ -17,6 +17,7 @@ footer {
   z-index: 5;
 
   .social-networks {
+    line-height: 1;
     a {
       color: $tertiary;
 
@@ -32,6 +33,7 @@ footer {
   .copyright {
     color: $tertiary;
     font-size: 1.2rem;
+    line-height: 1;
     font-weight: 300;
     letter-spacing: .02em;
   }

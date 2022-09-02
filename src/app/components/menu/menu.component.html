@@ -1,25 +1,32 @@
-<nav class="main-nav">
-  <button class="hamburger">
-    <span class="hamburger-box">
-      <span class="hamburger-icon"></span>
-    </span>
-  </button>
+<button class="menu_icon"
+  [ngClass]="{'is-open': menuOpened}"
+  (click)="toggleNavbar();"
+>
+  <span class="hamburger-icon">
+    <span class="hamburger-bar__1"></span>
+    <span class="hamburger-bar__2"></span>
+    <span class="hamburger-bar__3"></span>
+  </span>
+</button>
 
-  <ol class="main-nav__list">
+<nav class="menu">
+  <ol class="menu_content"
+    [ngClass]="{'menu-opened': menuOpened}"
+  >
     <li>
-      <a>Home</a>
+      <a href="">Home</a>
     </li>
     <li>
-      <a>Creative showcase</a>
+      <a href="">Creative showcase</a>
     </li>
     <li>
-      <a>What I can do</a>
+      <a href="">What I can do</a>
     </li>
     <li>
-      <a>Let's work together!</a>
+      <a href="">Let's work together!</a>
     </li>
   </ol>
 </nav>
 
-<div class="modal-backdrop"></div>
+<div class="modal-backdrop" [ngClass]="{'is-open': menuOpened}"></div>
 
