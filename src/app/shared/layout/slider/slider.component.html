@@ -2,14 +2,16 @@
 
     <!-- ARROWS CONTROLS -->
     <div class="slider_controls-arrows" *ngIf="arrows">
-      <button class="material-symbols-outlined btn-prev"
+      <button class="btn-prev"
         (click)="onPrevClick()"
         (mouseenter)="pauseSlider()"
-      >arrow_back_ios</button>
-      <button class="material-symbols-outlined btn-next"
+      >
+        <i class="icon-arrow_prev"></i>
+      </button>
+      <button class="btn-next"
         (click)="onNextClick()"
         (mouseenter)="pauseSlider()"
-      >arrow_forward_ios</button>
+      ><i class="icon-arrow_next"></i></button>
     </div>
 
     <!-- DOTS CONTROLS -->
