@@ -24,12 +24,15 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: minmax(auto, 42rem);
+    grid-template-rows: minmax(40rem, 42rem);
     grid-auto-flow: dense;
     grid-gap: 0;
   }
 
   &__item {
+      grid-row: span 1;
+      grid-column: span 1;
+
     &.double-vertical {
       grid-row: span 2;
     }
