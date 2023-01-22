@@ -41,6 +41,7 @@ export class ProjectListComponent implements OnInit {
           createdAt: element.attributes.createdAt,
           thumbnail: 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url,
           categories: cat,
+          layout: element.attributes.layout.data.attributes.slug,
           gallery: gal
         }
 

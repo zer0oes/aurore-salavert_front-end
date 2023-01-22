@@ -22,16 +22,19 @@
   }
 
   &__grid {
-    position: relative;
-    width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: masonry;
-    gap: 0;
-    break-inside: avoid;
+    grid-template-rows: minmax(auto, 42rem);
+    grid-auto-flow: dense;
+    grid-gap: 0;
+  }
 
-    project {
-      display: flex;
+  &__item {
+    &.double-vertical {
+      grid-row: span 2;
+    }
+    &.double-horizontal {
+      grid-column: span 2;
     }
   }
 }
