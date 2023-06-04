@@ -34,7 +34,7 @@
       opacity: 0;
       transition: margin-top .3s ease-in-out, opacity .3s ease-in-out;
 
-      &:after {
+      &::after {
         display: block;
         content: "";
         width: .1rem;
