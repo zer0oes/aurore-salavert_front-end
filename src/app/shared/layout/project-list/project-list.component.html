@@ -4,7 +4,11 @@
   <p class="projects-list__description">{{description}}</p>
 
   <div class="projects-list__grid" *ngIf="projects.length > 0">
-      <project *ngFor="let project of projects" [project]="project"></project>
+    <project class="projects-list__item"
+             *ngFor="let project of projects; let i = index"
+             [project]="project"
+             [ngClass]="project.layout"
+             [ngStyle]="{'order': i + 1}">
+    </project>
   </div>
-
 </div>
