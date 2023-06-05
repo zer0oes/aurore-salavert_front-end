@@ -24,7 +24,6 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: minmax(40rem, 42rem);
     grid-auto-flow: dense;
     grid-gap: 0;
   }
