@@ -7,9 +7,9 @@ header {
   left: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   z-index: 5;
-
+  
   &:before {
     content: "";
     display: block;
@@ -21,11 +21,14 @@ header {
     height: 4rem;
     width: 100%;
   }
-
+  
   svg {
-    position: relative;
+    position: absolute;
     top: 8rem;
     width: 12.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all .4s ease-in-out;
 
     .color {
       &-primary { fill: $base-light; }
@@ -35,13 +38,12 @@ header {
   }
 
   &.header-alt {
-    justify-content: flex-start;
     
     svg {
-      position: relative;
       top: 8rem;
       left: 8rem;
       width: 12.5rem;
+      transform: translateX(0);
 
       .color {
         &-primary { fill: $primary; }
@@ -50,5 +52,6 @@ header {
       }
     }
   }
+
 }
 
