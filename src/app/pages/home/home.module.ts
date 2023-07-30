@@ -16,7 +16,7 @@ import { HomeComponent } from './home.component';
     HttpClientModule,
     ProjectListModule,
     SliderModule,
-    SkillsModule
+    SkillsModule,
   ]
 })
 export class HomeModule { }

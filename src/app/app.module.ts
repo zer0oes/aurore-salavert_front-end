@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderAltComponent } from './components/header-alt/header-alt.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { HeaderAltComponent } from './components/header-alt/header-alt.component
     FooterComponent,
     MenuComponent,
     HeaderAltComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
