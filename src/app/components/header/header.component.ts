@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   onWindowScroll(event: Event) {
     const scrollPosition = window.scrollY;
     const viewportHeight = window.innerHeight;
-    const thresholdScrollPosition = 0.7 * viewportHeight;
+    const thresholdScrollPosition = 0.6 * viewportHeight;
     this.headerAltClassAdded = scrollPosition >= thresholdScrollPosition;
   }
 
