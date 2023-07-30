@@ -10,6 +10,7 @@
   align-items: center;
   background-color: $base;
   padding-top: 8rem;
+  gap: 4rem;
 
   &__title {
     &::after {
@@ -18,7 +19,6 @@
   }
   &__description {
     @extend .p;
-    margin-bottom: 4rem;
   }
 
   &__grid {

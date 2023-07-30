@@ -3,6 +3,8 @@
   <h2 class="projects-list__title" *ngIf="title">{{title}}</h2>
   <p class="projects-list__description">{{description}}</p>
 
+  <project-filters></project-filters>
+
   <div class="projects-list__grid" *ngIf="projects.length > 0">
     <project class="projects-list__item"
              *ngFor="let project of projects; let i = index"
