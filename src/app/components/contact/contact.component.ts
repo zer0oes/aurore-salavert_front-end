@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { Contact } from '@app/models/frontend/project';
 
 @Component({
   selector: 'contact',
@@ -9,6 +10,18 @@ import { Component, Input } from '@angular/core';
 export class ContactComponent {
   constructor(private http: HttpClient) { }
 
-  @Input() title: string = 'Let’s work together';
-  @Input() email: string = 'hello@aurore-salavert.fr';
+  @Input() contactInfos: Array<Contact> = [];
+
+  ngOnInit(): void {
+    this.http.get('http://localhost:1337/api/contact?populate=*').subscribe((response: any) => {
+      const contactData = response.data;
+
+      const contact: Contact = {
+        title: contactData.attributes.Title,
+        email: contactData.attributes.Email
+      };
+
+      this.contactInfos.push(contact);
+    });
+  }
 }

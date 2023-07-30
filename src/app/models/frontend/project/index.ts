@@ -38,3 +38,8 @@ export interface SliderItems {
   imgSrc: string;
   imgAlt: string;
 }
+
+export interface Contact {
+  title: string;
+  email: string;
+}
