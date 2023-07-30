@@ -1,3 +1,5 @@
+import { SafeHtml } from "@angular/platform-browser";
+
 export interface Project {
   id: number;
 	slug: string;
@@ -42,4 +44,9 @@ export interface SliderItems {
 export interface Contact {
   title: string;
   email: string;
+}
+
+export interface Service {
+  title: string;
+  text: string | SafeHtml;
 }

@@ -1,1 +1,9 @@
-<p>services works!</p>
+<div class="services" *ngIf="serviceContent && serviceContent.length > 0">
+    <div class="services__slider">
+        <img src="https://picsum.photos/800/800" alt="">
+    </div>
+    <div class="services__content" *ngFor="let service of serviceContent">
+        <div class="services__content__title">{{service.title}}</div>
+        <div class="services__content__text" [innerHtml]="service.text"></div>
+    </div>
+</div>

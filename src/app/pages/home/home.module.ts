@@ -5,12 +5,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProjectListModule, SkillsModule, SliderModule } from '@app/shared';
 import { HomeComponent } from './home.component';
 import { ContactComponent } from '@app/components/contact/contact.component';
+import { ServicesComponent } from '@app/components/services/services.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    ServicesComponent
   ],
   imports: [
     CommonModule,
