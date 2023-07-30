@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Category, Gallery, Project } from '@app/models/frontend/project';
 
 @Component({
-  selector: 'app-project-list',
+  selector: 'project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
@@ -45,7 +45,6 @@ export class ProjectListComponent implements OnInit {
           gallery: gal
         }
 
-        /**TODO: SORT ELEMENTS BY CREATION DATE */
         this.projects.push(newProjects);
         this.projects.sort(function (b, a) {
           return a.createdAt.localeCompare(b.createdAt);

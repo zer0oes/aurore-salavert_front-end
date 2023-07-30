@@ -1,0 +1,73 @@
+@import 'styles/colors';
+@import 'styles/fonts';
+
+.contact {
+    &__wrap {
+        background: $base;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4rem;
+        padding: 16rem 8rem;
+    }
+
+    &__title {
+        font-family: $base-font-family;
+        font-size: 4.2rem;
+        font-weight: 700;
+        text-transform: none;
+
+        &::after {
+            display: none;
+        }
+
+        span { color: $primary; }
+    }
+    .material-symbols-outlined {
+        color: $primary;
+        font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+        transition: .2s ease-in-out;
+
+        &:hover {
+            color: $primary-dark;
+        }
+    }
+    &__email {
+        font-family: $base-font-family;
+        color: $primary;
+        font-size: 2rem;
+        font-weight: 700;
+        position: relative;
+        letter-spacing: .04rem;
+        padding-bottom: 2rem;
+
+        &::after {
+            display: block;
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: .3rem;
+            background: $primary;
+            transition: .2s ease-in-out;
+        }
+
+        &:hover {
+            color: $primary-dark;
+            transform: translateY(-1rem);
+            
+            &::after {
+                left: 4rem;
+                right: 4rem;
+                transform: translateY(1rem);
+                background-color: $primary-dark;
+            }
+        }
+    }
+}
