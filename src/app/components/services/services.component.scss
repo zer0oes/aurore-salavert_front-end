@@ -1,0 +1,51 @@
+@import 'styles/fonts';
+@import 'styles/colors';
+
+.services {
+    display: flex;
+    
+    &__slider {
+        width: 50%;
+    }
+    &__content {
+        background: $on-base;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: $base-light;
+        gap: 4rem;
+        padding: 12rem;
+        width: 50%;
+
+        &__title {
+            font-family: $base-font-family;
+            text-transform: uppercase;
+            font-weight: $bold;
+            line-height: normal;
+            letter-spacing: .03rem;
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            p {
+                font-size: 2rem;
+                font-weight: $light;
+                letter-spacing: .04rem;
+            }
+
+            &::after {
+                display: block;
+                content: "";
+                width: 0.1rem;
+                height: 12rem;
+                margin: 4rem auto 0;
+                background: $base-light;
+            }
+        }
+    }
+}
