@@ -25,5 +25,17 @@ header {
   img {
     position: relative;
     top: 8rem;
+    width: 12.5rem;
+  }
+
+  &.header-alt {
+    justify-content: flex-start;
+    
+    img {
+      position: relative;
+      top: 8rem;
+      left: 8rem;
+      width: 12.5rem;
+    }
   }
 }
