@@ -7,9 +7,9 @@ header {
   left: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   z-index: 5;
-
+  
   &:before {
     content: "";
     display: block;
@@ -21,21 +21,37 @@ header {
     height: 4rem;
     width: 100%;
   }
-
-  img {
-    position: relative;
+  
+  svg {
+    position: absolute;
     top: 8rem;
     width: 12.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all .4s ease-in-out;
+
+    .color {
+      &-primary { fill: $base-light; }
+      &-secondary { fill: $primary; }
+      &-tertiary { fill: $base-light; }
+    }
   }
 
   &.header-alt {
-    justify-content: flex-start;
     
-    img {
-      position: relative;
+    svg {
       top: 8rem;
       left: 8rem;
-      width: 12.5rem;
+      width: 10.5rem;
+      transform: translateX(0);
+
+      .color {
+        &-primary { fill: $primary; }
+        &-secondary { fill: $secondary; }
+        &-tertiary { fill: $tertiary; }
+      }
     }
   }
+
 }
+
