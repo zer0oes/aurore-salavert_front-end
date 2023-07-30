@@ -1,1 +1,7 @@
-<p>contact works!</p>
+<div class="contact" *ngIf="contactInfos && contactInfos.length > 0">
+    <div class="contact__wrap" *ngFor="let contact of contactInfos">
+        <h2 class="contact__title" *ngIf="contact.title">{{ contact.title }}<span>!</span></h2>
+        <span class="material-symbols-outlined">send</span>
+        <a class="contact__email" *ngIf="contact.email" href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+    </div>
+</div>
