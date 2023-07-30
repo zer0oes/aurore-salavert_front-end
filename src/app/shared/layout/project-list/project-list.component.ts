@@ -45,7 +45,6 @@ export class ProjectListComponent implements OnInit {
           gallery: gal
         }
 
-        /**TODO: SORT ELEMENTS BY CREATION DATE */
         this.projects.push(newProjects);
         this.projects.sort(function (b, a) {
           return a.createdAt.localeCompare(b.createdAt);
