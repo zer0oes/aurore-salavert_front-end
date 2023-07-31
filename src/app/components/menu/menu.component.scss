@@ -17,12 +17,14 @@
 
   &_icon {
     position: fixed;
-    top: 8rem;
+    top: 10.7rem;
     right: 8rem;
-    background-color: transparent;
-    width: 2rem;
-    height: 2rem;
+    width: 4rem;
+    height: 4rem;
     z-index: 5;
+    padding: 1rem;
+    border-radius: 100%;
+    transition: background .4s .4s ease-in-out;
 
     .hamburger-icon {
       position: relative;
@@ -32,6 +34,16 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      .ripple {
+        position: absolute;
+        border-radius: 100%;
+        width: 4rem;
+        height: 4rem;
+        background-color: rgba(red($primary), green($primary), blue($primary), .5);
+        transform: scale(0);
+        transition: transform .6s ease-in-out, opacity .6s ease-in-out;
+      }
 
       .hamburger-bar {
         &__1,
@@ -52,6 +64,18 @@
 
         &__3 {
           bottom: 0;
+        }
+      }
+    }
+
+    &:hover {
+      background: rgba(red($primary), green($primary), blue($primary), .8);
+      transition: background .4s .2s ease-in-out;
+
+      .hamburger-icon {
+        .ripple {
+          transform: scale(2);
+          opacity: 0;
         }
       }
     }
@@ -126,5 +150,12 @@
     background-color: rgba($secondary, 0.75);
     backdrop-filter: blur(4px);
     pointer-events: inherit;
+  }
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
   }
 }

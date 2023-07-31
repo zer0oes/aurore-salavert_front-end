@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
 
         if (isHomePage) {
           this.enableScrollListener();
-          console.log("headerAltClassAdded: ", this.headerAltClassAdded);
         } else {
           this.disableScrollListener();
           this.headerAltClassAdded = false;

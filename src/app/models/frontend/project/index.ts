@@ -50,3 +50,8 @@ export interface Service {
   title: string;
   text: string | SafeHtml;
 }
+
+export interface PresPortfolio {
+  title: string;
+  description: string | SafeHtml;
+}

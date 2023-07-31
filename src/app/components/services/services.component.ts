@@ -28,16 +28,10 @@ export class ServicesComponent {
   }
 
   processText(text: string): SafeHtml {
-    // Replace \n with <p>...</p>
     text = text.replace(/\n/g, '</p><p>');
-
-    // Replace **text** with <b>text</b>
     text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-
-    // Replace _text_ with <i>text</i>
     text = text.replace(/_(.*?)_/g, '<i>$1</i>');
-
-    // Surround the entire text with <p>...</p>
+    text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
     text = `<p>${text}</p>`;
 
     // Mark the processed text as safe to display

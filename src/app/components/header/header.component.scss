@@ -3,8 +3,8 @@
 header {
   position: fixed;
 	top: 0;
-  right: 0;
-  left: 0;
+  right: 4rem;
+  left: 4rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -28,6 +28,7 @@ header {
     width: 12.5rem;
     left: 50%;
     transform: translateX(-50%);
+    filter: drop-shadow(0px .2rem .6rem rgba(red($on-base), green($on-base), blue($on-base), .5));
     transition: all .4s ease-in-out;
 
     .color {
@@ -42,8 +43,8 @@ header {
     svg {
       top: 8rem;
       left: 8rem;
-      width: 10.5rem;
       transform: translateX(0);
+      filter: drop-shadow(0px .2rem .2rem rgba(red($on-base), green($on-base), blue($on-base), .25));
 
       .color {
         &-primary { fill: $primary; }
