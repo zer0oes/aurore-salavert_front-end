@@ -4,8 +4,7 @@ import { ProjectDetailComponent } from './project-detail.component';
 
 const routes: Routes = [
   {
-    path: '',
-    // data: ,
+    path: 'project/:slug',
     component: ProjectDetailComponent,
     children: []
   }
