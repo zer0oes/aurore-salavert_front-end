@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Category, Gallery, Project } from '@app/models/frontend/project';
+import { Project } from '@app/models/frontend/project';
+import { ProjectService } from '@app/services/project.service';
 
 @Component({
   selector: 'project-list',
@@ -9,47 +9,49 @@ import { Category, Gallery, Project } from '@app/models/frontend/project';
 })
 
 export class ProjectListComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private projectService: ProjectService) { }
 
   @Input() title: string = 'creative showcase';
   @Input() description: string = 'Discover my ideas and my graphic touch by watching the projects below';
-  @Input() projects: Array<Project> = [];
+  projects: Array<Project> = [];
 
   ngOnInit(): void {
-    /**TODO: DEFINE TYPE OF project */
-    this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
+    this.projectService.getProjects().subscribe(
+      (response: any) => {
+        if (Array.isArray(response.data)) {
+          this.projects = response.data.map((element: any) => {
+            const cat = element.attributes.categories.data.map((category: any) => ({
+              title: category.attributes.title,
+              slug: category.attributes.slug,
+            }));
 
-      /**TODO: DEFINE TYPE OF element */
-      project.data.forEach((element: any) => {
-        let cat: Array<Category> = [];
-        /**TODO: DEFINE TYPE OF category */
-        element.attributes.categories.data.forEach((category: any) => {
-          cat.push({ title: category.attributes.title, slug: category.attributes.slug });
-        });
+            const gal = element.attributes.gallery.data.map((item: any) => ({
+              id: item.attributes.id,
+              img: item.attributes.url,
+              alt: item.attributes.alternativeText,
+            }));
 
-        let gal: Array<Gallery> = [];
-        /**TODO: DEFINE TYPE OF item */
-        element.attributes.gallery.data.forEach((item: any) => {
-          gal.push({ id: item.attributes.id, img: item.attributes.url, alt: item.attributes.alternativeText });
-        });
+            return {
+              id: element.id,
+              slug: element.attributes.slug,
+              title: element.attributes.title,
+              description: element.attributes.description,
+              createdAt: element.attributes.createdAt,
+              thumbnail: 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url,
+              categories: cat,
+              layout: element.attributes.layout.data.attributes.slug,
+              gallery: gal,
+            };
+          });
 
-        let newProjects: Project = {
-          id: element.id,
-          slug: element.attributes.slug,
-          title: element.attributes.title,
-          description: element.attributes.description,
-          createdAt: element.attributes.createdAt,
-          thumbnail: 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url,
-          categories: cat,
-          layout: element.attributes.layout.data.attributes.slug,
-          gallery: gal
+          this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+
         }
-
-        this.projects.push(newProjects);
-        this.projects.sort(function (b, a) {
-          return a.createdAt.localeCompare(b.createdAt);
-        });
-      });
-    });
+      },
+      (error: any) => {
+        console.error('Error during HTTP request:', error);
+        // Handle the error as needed
+      }
+    );
   }
 }

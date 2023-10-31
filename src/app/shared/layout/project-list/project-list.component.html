@@ -5,7 +5,7 @@
 
   <project-filters></project-filters>
 
-  <div class="projects-list__grid" *ngIf="projects.length > 0">
+  <div class="projects-list__grid" *ngIf="projects">
     <project class="projects-list__item"
              *ngFor="let project of projects; let i = index"
              [project]="project"
