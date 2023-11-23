@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Skill } from '@app/models/frontend/project';
+import { SkillsService } from '@app/services/skills.service';
 
 @Component({
   selector: 'skills',
@@ -8,24 +9,30 @@ import { Skill } from '@app/models/frontend/project';
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private skillsService: SkillsService) { }
 
   @Input() title: string = 'What I can do for you and your project';
   @Input() skills: Array<Skill> = [];
 
   ngOnInit(): void {
-    this.http.get('http://localhost:1337/api/skills?populate=*').subscribe((skill: any) => {
-      skill.data.forEach((element: any) => {
-        let newSkills: Skill = {
-          id: element.id,
-          title: element.attributes.title,
-          text: element.attributes.text,
-          createdAt: element.attributes.createdAt,
-          icon: 'http://localhost:1337' + element.attributes.icon.data.attributes.url
+    this.skillsService.getSkills().subscribe(
+      (response: any) => {
+        if (Array.isArray(response.data)) {
+          this.skills = response.data.map((element: any) => {
+            return {
+              id: element.id,
+              title: element.attributes.title,
+              text: element.attributes.text,
+              createdAt: element.attributes.createdAt,
+              icon: 'http://localhost:1337' + element.attributes.icon.data.attributes.url
+            };
+          });
         }
-
-        this.skills.push(newSkills);
-      });
-    });
+      },
+      (error: any) => {
+        console.error('Error during HTTP request:', error);
+        // Handle the error as needed
+      }
+    );
   }
 }

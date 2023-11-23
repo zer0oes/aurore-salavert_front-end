@@ -1,13 +1,10 @@
 <div class="project">
   <div class="project__content">
-    <h1>MyCoach'in<span>:</span></h1>
+    <h1>{{ project.title }}<span>:</span></h1>
 
     <div class="separator"></div>
 
-    <div class="project__content__description">
-      <p>Graphic redesign of the mobile application and creation of the website design for MyCoach’in, a sports coaching mobile application.</p>
-      <p>Creation of trophies’ design for the application and presentation slides for application on the AppStore.</p>
-    </div>
+    <div class="project__content__description" [innerHTML]="project.description"></div>
 
     <div class="separator"></div>
 
@@ -16,7 +13,10 @@
       <div class="category">
         <a href="" class="category__tag">App</a> <a href="" class="category__tag">Web</a>
       </div>
-    </div>
+      <!-- <div class="category" *ngFor="let category of project.categories">
+        <div href="" class="category__tag">{{ category.title }}</div>
+      </div> -->
+    </div> 
   </div>
 
   <div class="project__gallery">
@@ -25,5 +25,7 @@
     <img src="https://picsum.photos/2000/1500" alt="">
     <img src="https://picsum.photos/2000/1500" alt="">
   </div>
+  <!-- <div class="project__gallery" *ngFor="let image of project.gallery">
+    <img [src]="image.img" alt="{{ image.alt }}">
+  </div> -->
 </div>
-

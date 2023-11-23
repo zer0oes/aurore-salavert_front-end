@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { SliderItems } from '@app/models/frontend/project';
+import { DEV_API_URL } from '@app/services/constants';
 
 @Component({
   selector: 'slider',
@@ -20,7 +21,7 @@ export class SliderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.http.get('http://localhost:1337/api/slider-item?populate=*').subscribe((sliderItem: any) => {
+    this.http.get(`${DEV_API_URL}slider-item?populate=*`).subscribe((sliderItem: any) => {
 
       /**TODO: DEFINE TYPE OF element */
       sliderItem.data.attributes.Gallery.data.forEach((item: any) => {

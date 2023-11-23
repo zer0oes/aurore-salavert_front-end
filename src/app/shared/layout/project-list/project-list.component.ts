@@ -9,6 +9,7 @@ import { ProjectService } from '@app/services/project.service';
 })
 
 export class ProjectListComponent implements OnInit {
+  route: any;
   constructor(private projectService: ProjectService) { }
 
   @Input() title: string = 'creative showcase';

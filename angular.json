@@ -107,5 +107,8 @@
       }
     }
   },
-  "defaultProject": "aurore-salavert_front-end"
+  "defaultProject": "aurore-salavert_front-end",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,4 +1,4 @@
-<div (click)="redirectTo(project.slug)" class="projects-list__content">
+<div (click)="redirectTo(project.slug)" class="projects-list__content" role="link" tabindex="0">
   <div class="project">
     <div class="project-content">
       <h3 class="project-content__title">{{project.title}}</h3>
@@ -10,6 +10,6 @@
       </div>
     </div>
 
-    <img src="{{project.thumbnail}}" class="project__img" alt="{{project.title}}">
+    <img [src]="project.thumbnail" class="project__img" [alt]="project.title">
   </div>
 </div>
