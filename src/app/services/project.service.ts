@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Project } from '@app/models/frontend/project';
-import { Observable, catchError, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs';
 import { DEV_API_URL } from './constants';
 
 @Injectable({
@@ -9,6 +9,74 @@ import { DEV_API_URL } from './constants';
 })
 
 export class ProjectService {
+  private _projects = new BehaviorSubject<Array<Project>>([]);
+
+  get projects() {
+    return this._projects.asObservable();
+  }
+
+  fetchProjects() {
+    return this.http.get(`${DEV_API_URL}projects?populate=*`).pipe(
+      map(
+        (resData: any) => {
+          return resData.data.map((item: any) => {
+            const { slug, title, description, createdAt, thumbnail, categories, layout, gallery } = item.attributes;
+            return { slug, title, description, createdAt, thumbnail, categories, layout, gallery };
+          });
+        }
+      ),
+      tap(
+        (data) => {
+          this._projects.next(data);
+        }
+      )
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   private apiProjects = `${DEV_API_URL}projects`;
 
   constructor(private http: HttpClient) { }

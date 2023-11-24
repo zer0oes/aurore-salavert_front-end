@@ -10,7 +10,7 @@ import { ProjectService } from '@app/services/project.service';
   styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements OnInit {
-  @Input() project: Project;
+  @Input() project: Array<Project>;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,45 +18,45 @@ export class ProjectDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const urlSlug = params['slug']; // Slug from the URL
-      this.projectService.getProjects().subscribe(
-        (response: any) => {
-          const projects = response.data;
+    // this.route.params.subscribe(params => {
+    //   const urlSlug = params['slug']; // Slug from the URL
+    //   this.projectService.getProjects().subscribe(
+    //     (response: any) => {
+    //       const projects = response.data;
   
-          // Find the project with the matching slug
-          const matchingProject = projects.find((project: any) => project.attributes.slug === urlSlug);
+    //       // Find the project with the matching slug
+    //       const matchingProject = projects.find((project: any) => project.attributes.slug === urlSlug);
   
-          if (matchingProject) {
-            this.project = {
-              id: matchingProject.id,
-              slug: matchingProject.attributes.slug,
-              title: matchingProject.attributes.title,
-              description: this.convertMarkdownToHTML(matchingProject.attributes.description),
-              createdAt: matchingProject.attributes.createdAt,
-              thumbnail: 'http://localhost:1337' + matchingProject.attributes.thumbnail.data.attributes.url,
-              categories: matchingProject.attributes.categories.data.map((category: any) => ({
-                title: category.attributes.title,
-                slug: category.attributes.slug,
-              })),
-              layout: matchingProject.attributes.layout.data.attributes.slug,
-              gallery: matchingProject.attributes.gallery.data.map((item: any) => ({
-                id: item.attributes.id,
-                img: 'http://localhost:1337' + item.attributes.url,
-                alt: item.attributes.alternativeText,
-              })),
-            };
-          } else {
-            console.error('Project not found for slug:', urlSlug);
-            // Gérer le cas où aucun projet n'est trouvé pour le slug
-          }
-        },
-        (error: any) => {
-          console.error('Error retrieving projects:', error);
-          // Gérer l'erreur selon vos besoins
-        }
-      );
-    });
+    //       if (matchingProject) {
+    //         this.project = {
+    //           id: matchingProject.id,
+    //           slug: matchingProject.attributes.slug,
+    //           title: matchingProject.attributes.title,
+    //           description: this.convertMarkdownToHTML(matchingProject.attributes.description),
+    //           createdAt: matchingProject.attributes.createdAt,
+    //           thumbnail: 'http://localhost:1337' + matchingProject.attributes.thumbnail.data.attributes.url,
+    //           categories: matchingProject.attributes.categories.data.map((category: any) => ({
+    //             title: category.attributes.title,
+    //             slug: category.attributes.slug,
+    //           })),
+    //           layout: matchingProject.attributes.layout.data.attributes.slug,
+    //           gallery: matchingProject.attributes.gallery.data.map((item: any) => ({
+    //             id: item.attributes.id,
+    //             img: 'http://localhost:1337' + item.attributes.url,
+    //             alt: item.attributes.alternativeText,
+    //           })),
+    //         };
+    //       } else {
+    //         console.error('Project not found for slug:', urlSlug);
+    //         // Gérer le cas où aucun projet n'est trouvé pour le slug
+    //       }
+    //     },
+    //     (error: any) => {
+    //       console.error('Error retrieving projects:', error);
+    //       // Gérer l'erreur selon vos besoins
+    //     }
+    //   );
+    // });
   }
   
   convertMarkdownToHTML(markdownText: string): string {
@@ -81,5 +81,4 @@ export class ProjectDetailComponent implements OnInit {
     const doc = new DOMParser().parseFromString(text, 'text/html');
     return doc.body.textContent || "";
   }
-  
 }

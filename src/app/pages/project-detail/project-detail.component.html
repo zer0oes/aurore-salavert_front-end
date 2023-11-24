@@ -1,4 +1,4 @@
-<div class="project">
+<!-- <div class="project">
   <div class="project__content">
     <h1>{{ project.title }}<span>:</span></h1>
 
@@ -8,14 +8,12 @@
 
     <div class="separator"></div>
 
-    <div class="project__content__categories">
+    <div class="project__content__categories" *ngIf="project.categories">
       <h4>Categories</h4>
-      <div class="category">
-        <a href="" class="category__tag">App</a> <a href="" class="category__tag">Web</a>
-      </div>
-      <!-- <div class="category" *ngFor="let category of project.categories">
+      {{ project.categories.length }}
+      <div class="category" *ngFor="let category of project.categories">
         <div href="" class="category__tag">{{ category.title }}</div>
-      </div> -->
+      </div>
     </div> 
   </div>
 
@@ -24,8 +22,8 @@
     <img src="https://picsum.photos/2000/1500" alt="">
     <img src="https://picsum.photos/2000/1500" alt="">
     <img src="https://picsum.photos/2000/1500" alt="">
-  </div>
+  </div> -->
   <!-- <div class="project__gallery" *ngFor="let image of project.gallery">
     <img [src]="image.img" alt="{{ image.alt }}">
   </div> -->
-</div>
+<!-- </div> -->
