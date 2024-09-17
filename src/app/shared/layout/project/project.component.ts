@@ -20,6 +20,6 @@ export class ProjectComponent implements OnInit {
   }
 
   public redirectTo(slug: string): void {
-    this.route.navigateByUrl('/project?=' + slug);
+    this.route.navigate(['/project', slug]);
   }
 }

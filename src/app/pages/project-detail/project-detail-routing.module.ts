@@ -3,12 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectDetailComponent } from './project-detail.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    // data: ,
-    component: ProjectDetailComponent,
-    children: []
-  }
+  { path: '', component: ProjectDetailComponent } // Route par défaut pour le module de détails
 ];
 
 @NgModule({

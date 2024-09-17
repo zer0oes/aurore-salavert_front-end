@@ -1,12 +1,11 @@
-<div class="project">
+<div *ngIf="project" class="project">
   <div class="project__content">
-    <h1>MyCoach'in<span>:</span></h1>
+    <h1>{{ project.title }}<span>:</span></h1>
 
     <div class="separator"></div>
 
     <div class="project__content__description">
-      <p>Graphic redesign of the mobile application and creation of the website design for MyCoach’in, a sports coaching mobile application.</p>
-      <p>Creation of trophies’ design for the application and presentation slides for application on the AppStore.</p>
+      {{ project.description }}
     </div>
 
     <div class="separator"></div>
@@ -14,16 +13,15 @@
     <div class="project__content__categories">
       <h4>Categories</h4>
       <div class="category">
-        <a href="" class="category__tag">App</a> <a href="" class="category__tag">Web</a>
+        <a *ngFor="let category of project.categories" class="category__tag">
+          {{ category.title }}
+        </a>
       </div>
     </div>
   </div>
 
-  <div class="project__gallery">
-    <img src="https://picsum.photos/2000/1500" alt="">
-    <img src="https://picsum.photos/2000/1500" alt="">
-    <img src="https://picsum.photos/2000/1500" alt="">
-    <img src="https://picsum.photos/2000/1500" alt="">
+  <div *ngFor="let item of project.gallery" class="project__gallery">
+    <img [src]="'http://localhost:1337' + item.img" alt="{{ item.alt }}">
   </div>
 </div>
 
