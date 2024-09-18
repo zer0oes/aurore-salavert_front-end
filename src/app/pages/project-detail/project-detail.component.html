@@ -10,18 +10,17 @@
 
     <div class="separator"></div>
 
-    <div class="project__content__categories">
+    <div class="project__content__categories" *ngIf="project.categories.length > 0">
       <h4>Categories</h4>
       <div class="category">
-        <a *ngFor="let category of project.categories" class="category__tag">
+        <a *ngFor="let category of project.categories; let index = index" class="category__tag">
           {{ category.title }}
         </a>
       </div>
     </div>
   </div>
 
-  <div *ngFor="let item of project.gallery" class="project__gallery">
-    <img [src]="'http://localhost:1337' + item.img" alt="{{ item.alt }}">
+  <div *ngIf="project.gallery.length > 0" class="project__gallery">
+    <img *ngFor="let item of project.gallery" [src]="'http://localhost:1337' + item.img" [alt]="item.alt">
   </div>
 </div>
-

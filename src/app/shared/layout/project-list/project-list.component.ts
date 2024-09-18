@@ -16,30 +16,35 @@ export class ProjectListComponent implements OnInit {
   @Input() projects: Array<Project> = [];
 
   ngOnInit(): void {
-    /**TODO: DEFINE TYPE OF project */
     this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
-
-      /**TODO: DEFINE TYPE OF element */
+  
       project.data.forEach((element: any) => {
         if (element.attributes) {
+          // Traitement des catégories
           let cat: Array<Category> = [];
-          /**TODO: DEFINE TYPE OF category */
           if (element.attributes.categories?.data) {
             element.attributes.categories.data.forEach((category: any) => {
-              cat.push({ title: category.attributes.title, slug: category.attributes.slug });
+              cat.push({
+                title: category.attributes.title,
+                slug: category.attributes.slug
+              });
             });
           }
-          
-
+  
+          // Traitement de la galerie
           let gal: Array<Gallery> = [];
-          /**TODO: DEFINE TYPE OF item */
           if (element.attributes.gallery?.data) {
             element.attributes.gallery.data.forEach((item: any) => {
-              gal.push({ id: item.id, img: item.attributes.url, alt: item.attributes.alternativeText });
+              gal.push({
+                id: item.id,
+                img: 'http://localhost:1337' + item.attributes.url,
+                alt: item.attributes.alternativeText || 'Image'
+              });
             });
           }
-
-          let newProjects: Project = {
+  
+          // Création du projet
+          let newProject: Project = {
             id: element.id,
             slug: element.attributes.slug,
             title: element.attributes.title,
@@ -47,16 +52,16 @@ export class ProjectListComponent implements OnInit {
             createdAt: element.attributes.createdAt,
             thumbnail: element.attributes.thumbnail?.data ? 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url : '',
             categories: cat,
-            layout: element.attributes.layout?.data?.attributes?.slug || '',
+            layout: element.attributes.layout?.data?.attributes?.slug || '', // Vérifie que c'est bien un slug
             gallery: gal
           }
-
-          this.projects.push(newProjects);
-          this.projects.sort(function (b, a) {
-            return a.createdAt.localeCompare(b.createdAt);
-          });
+  
+          // Ajoute le projet à la liste des projets et trie par date
+          this.projects.push(newProject);
+          this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
         }
       });
     });
   }
+  
 }

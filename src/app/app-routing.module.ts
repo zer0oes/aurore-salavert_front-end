@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
       {
         path: 'project/:slug', // Route avec slug dynamique
         loadChildren: () => import('./pages/project-detail/project-detail.module').then(m => m.ProjectDetailModule)
-      }
+      },
     ]
   }
 ];
