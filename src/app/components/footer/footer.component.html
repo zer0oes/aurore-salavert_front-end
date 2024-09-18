@@ -1,15 +1,12 @@
 <footer>
   <ul class="social-networks">
-    <li>
-      <a><i class="icon-LinkedIn"></i></a>
-      <a><i class="icon-Facebook"></i></a>
-      <a><i class="icon-Behance"></i></a>
-      <a><i class="icon-Malt"></i></a>
-      <a><i class="icon-Instagram"></i></a>
-      <a><i class="icon-GitHub"></i></a>
+    <li *ngFor="let network of socialNetworks">
+      <a [href]="network.attributes.url" target="_blank">
+        <i [class]="'icon-' + network.attributes.icon"></i>
+      </a>
     </li>
   </ul>
   <div class="copyright">
-    Copyright © {{ currentYear }} - <a>Aurore Salavert</a>
+    Copyright © {{ currentYear }} - <a [href]="">Aurore Salavert</a>
   </div>
 </footer>
