@@ -10,6 +10,7 @@ import { Project } from '@app/models/frontend/project';
 })
 export class ProjectDetailComponent implements OnInit {
   project: Project;
+  projectDescriptionHtml: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,15 +39,35 @@ export class ProjectDetailComponent implements OnInit {
                 alt: item.attributes.alternativeText || 'Image'
               })) || []
             };
-  
-            console.log('Project:', this.project);
-            console.log('Categories:', this.project.categories);
-            console.log('Gallery:', this.project.gallery);
+
+            this.projectDescriptionHtml = this.convertMarkdownToHtml(attributes.description);
           } else {
             console.error('Projet non trouvé');
           }
         });
     }
   }
+
+  convertMarkdownToHtml(markdown: string): string {
+    let html = markdown
+      .split(/\n+/)
+      .map(line => `<p>${line}</p>`)
+      .join('');
+    
+    html = html
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\_(.*?)\_/g, '<em>$1</em>')
+      .replace(/\<u\>(.*?)\<\/u\>/g, '<u>$1</u>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
   
+    return html;
+  }
+
+  toggleImageSize(event: Event): void {
+    event.stopPropagation(); // Évite que le clic sur le bouton agrandisse aussi l'image
+    const image = (event.target as HTMLElement).parentElement?.querySelector('img');
+    if (image) {
+      image.classList.toggle('expanded');
+    }
+  }
 }

@@ -16,7 +16,7 @@ export class SliderComponent implements OnInit {
   @Input() dots: boolean = true;
   @Input() arrows: boolean = true;
   @Input() autoSlide: boolean = true;
-  @Input() slideInterval: number = 3000;
+  @Input() slideInterval: number = 30000;
 
 
   ngOnInit(): void {

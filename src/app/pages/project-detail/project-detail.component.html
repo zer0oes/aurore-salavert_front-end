@@ -2,13 +2,7 @@
   <div class="project__content">
     <h1>{{ project.title }}<span>:</span></h1>
 
-    <div class="separator"></div>
-
-    <div class="project__content__description">
-      {{ project.description }}
-    </div>
-
-    <div class="separator"></div>
+    <div class="project__content__description" [innerHTML]="projectDescriptionHtml"></div>
 
     <div class="project__content__categories" *ngIf="project.categories.length > 0">
       <h4>Categories</h4>
@@ -21,6 +15,16 @@
   </div>
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
-    <img *ngFor="let item of project.gallery" [src]="'http://localhost:1337' + item.img" [alt]="item.alt">
+    <div class="gallery-item" *ngFor="let item of project.gallery" style="position: relative;">
+      <!-- Image avec un clic pour agrandir -->
+      <img [src]="'http://localhost:1337' + item.img" [alt]="item.alt" (click)="toggleImageSize($event)" class="gallery-image">
+  
+      <!-- Bouton superposé en bas à droite -->
+      <button class="expand-button" (click)="toggleImageSize($event)">
+        <span class="material-symbols-outlined">
+          fullscreen
+        </span>
+      </button>
+    </div>
   </div>
 </div>

@@ -22,8 +22,16 @@ h6, .h6 {
 
 p, .p {
   font-family: $base-font-family;
-  font-size: 2rem;
+  font-size: 1.6rem;
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: .02em;
+}
+
+b, strong {
+  font-weight: $medium;
+}
+
+i, em {
+  font-style: italic
 }
