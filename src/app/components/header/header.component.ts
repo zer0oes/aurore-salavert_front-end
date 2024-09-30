@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +6,9 @@ import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
+  @ViewChild('headerElement') headerElement!: ElementRef;
+
+  constructor(private renderer: Renderer2) { }
   
   scrolled = false;
 
@@ -16,9 +18,9 @@ export class HeaderComponent {
     const triggerHeight = window.innerHeight * 0.75;
 
     if (scrollPosition > triggerHeight) {
-      this.renderer.addClass(this.el.nativeElement, 'scrolled');
+      this.renderer.addClass(this.headerElement.nativeElement, 'scrolled');
     } else {
-      this.renderer.removeClass(this.el.nativeElement, 'scrolled');
+      this.renderer.removeClass(this.headerElement.nativeElement, 'scrolled');
     }
   }
 }

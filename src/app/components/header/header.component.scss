@@ -2,12 +2,9 @@
 
 header {
   position: fixed;
-	top: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 0;
+  right: 4rem;
+  left: 4rem;
   z-index: 5;
 
   &:before {
@@ -22,29 +19,55 @@ header {
     width: 100%;
   }
 
-  svg {
+  .logo-container {
     position: relative;
-    top: 8rem;
-    width: 12.5rem;
-    transition: fill 0.5s ease-in-out;
 
-    .primary-color { fill: $primary; }
-    .secondary-color { fill: $secondary; }
-    .tertiary-color { fill: $tertiary; }
-  }
+    a {
+      display: block;
+      position: relative;
+      transform: translateX(calc(50vw - 8rem));
+      transition: transform 0.5s ease-in-out;
 
-  &.header-alt {
-    justify-content: flex-start;
-    
-    svg { left: 8rem; }
+      svg {
+        position: relative;
+        top: 8rem;
+        width: 12.5rem;
+  
+        .primary-color,
+        .secondary-color,
+        .tertiary-color {
+          transition: fill 0.3s ease-in-out;
+        }
+  
+        .primary-color {
+          fill: $primary;
+        }
+        .secondary-color {
+          fill: $secondary;
+        }
+        .tertiary-color {
+          fill: $tertiary;
+        }
+      }
+    }
   }
 
   &.scrolled {
-    svg {
 
-      .primary-color { fill: $base-light; }
-      .secondary-color { fill: $base-light; }
-      .tertiary-color { fill: $base-light; }
+    .logo-container {
+      a {
+        transform: translateX(4rem);
+        transition: transform 0.5s ease-in-out;
+
+        svg {
+          .primary-color,
+          .secondary-color,
+          .tertiary-color {
+            // fill: $base-light;
+            transition: fill 0.3s ease-in-out;
+          }
+        }
+      }
     }
   }
 }
