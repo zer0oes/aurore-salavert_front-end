@@ -22,20 +22,29 @@ header {
     width: 100%;
   }
 
-  img {
+  svg {
     position: relative;
     top: 8rem;
     width: 12.5rem;
+    transition: fill 0.5s ease-in-out;
+
+    .primary-color { fill: $primary; }
+    .secondary-color { fill: $secondary; }
+    .tertiary-color { fill: $tertiary; }
   }
 
   &.header-alt {
     justify-content: flex-start;
     
-    img {
-      position: relative;
-      top: 8rem;
-      left: 8rem;
-      width: 12.5rem;
+    svg { left: 8rem; }
+  }
+
+  &.scrolled {
+    svg {
+
+      .primary-color { fill: $base-light; }
+      .secondary-color { fill: $base-light; }
+      .tertiary-color { fill: $base-light; }
     }
   }
 }
