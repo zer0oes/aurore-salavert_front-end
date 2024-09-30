@@ -2,6 +2,11 @@
   <div class="project__content">
     <h1>{{ project.title }}<span>:</span></h1>
 
+    <div class="project__navigation">
+      <button (click)="navigateToPreviousProject()" [disabled]="currentIndex === 0">Prev</button>
+      <button (click)="navigateToNextProject()" [disabled]="currentIndex === projects.length - 1">Next</button>
+    </div>
+
     <div class="project__content__description" [innerHTML]="projectDescriptionHtml"></div>
 
     <div class="project__content__categories" *ngIf="project.categories.length > 0">

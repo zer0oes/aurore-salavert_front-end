@@ -11,7 +11,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
       },
       {
-        path: 'project/:slug', // Route avec slug dynamique
+        path: 'project/:slug',
         loadChildren: () => import('./pages/project-detail/project-detail.module').then(m => m.ProjectDetailModule)
       },
     ]

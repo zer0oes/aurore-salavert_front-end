@@ -16,7 +16,6 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
     this.socialNetworkService.getSocialNetworks().subscribe((response: any) => {
       this.socialNetworks = response.data;
-      console.log('Social Networks:', this.socialNetworks);
     });
   }
 }
