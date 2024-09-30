@@ -13,6 +13,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   projectDescriptionHtml: string = '';
   projects: Project[] = [];
   currentIndex: number | null = null;
+  isHeaderAlt: boolean = false; 
+  previousProject: Project | null = null;
+  nextProject: Project | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,7 +67,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         console.error('Erreur lors de la récupération des projets:', error);
       });
   }
-  
+
   private fetchProjectData(slug: string): void {
     this.http.get(`http://localhost:1337/api/projects?filters[slug][$eq]=${slug}&populate=*`)
       .subscribe((response: any) => {
@@ -87,6 +90,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           this.projectDescriptionHtml = this.convertMarkdownToHtml(attributes.description);
 
           this.updateCurrentIndex();
+          this.isHeaderAlt = this.currentIndex > 0; 
+          this.previousProject = this.currentIndex > 0 ? this.projects[this.currentIndex - 1] : null;
+          this.nextProject = this.currentIndex < this.projects.length - 1 ? this.projects[this.currentIndex + 1] : null;
         } else {
           console.error('Projet non trouvé');
         }
@@ -95,7 +101,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private updateCurrentIndex(): void {
+  updateCurrentIndex(): void {
     const slug = this.route.snapshot.paramMap.get('slug');
     this.currentIndex = this.projects.findIndex(project => project.slug === slug);
   }
