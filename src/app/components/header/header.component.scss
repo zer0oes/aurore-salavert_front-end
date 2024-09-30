@@ -52,21 +52,12 @@ header {
     }
   }
 
-  &.scrolled {
-
+  &.scrolled,
+  &.header-alt {
     .logo-container {
       a {
         transform: translateX(4rem);
         transition: transform 0.5s ease-in-out;
-
-        svg {
-          .primary-color,
-          .secondary-color,
-          .tertiary-color {
-            // fill: $base-light;
-            transition: fill 0.3s ease-in-out;
-          }
-        }
       }
     }
   }

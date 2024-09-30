@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
@@ -8,16 +8,22 @@ import { Project } from '@app/models/frontend/project';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss']
 })
-export class ProjectDetailComponent implements OnInit {
+export class ProjectDetailComponent implements OnInit, OnDestroy {
   project: Project;
   projectDescriptionHtml: string;
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
+    const header = document.querySelector('header');
+    if (header) {
+      this.renderer.addClass(header, 'header-alt');
+    }
+
     const slug = this.route.snapshot.paramMap.get('slug');
   
     if (slug) {
@@ -25,8 +31,7 @@ export class ProjectDetailComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.data.length > 0) {
             const attributes = response.data[0].attributes;
-  
-            // Extraire les catégories et la galerie correctement
+
             this.project = {
               ...attributes,
               categories: attributes.categories?.data.map((item: any) => ({
@@ -48,6 +53,13 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    const header = document.querySelector('header');
+    if (header) {
+      this.renderer.removeClass(header, 'header-alt');
+    }
+  }
+
   convertMarkdownToHtml(markdown: string): string {
     let html = markdown
       .split(/\n+/)
@@ -64,7 +76,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   toggleImageSize(event: Event): void {
-    event.stopPropagation(); // Évite que le clic sur le bouton agrandisse aussi l'image
+    event.stopPropagation();
     const image = (event.target as HTMLElement).parentElement?.querySelector('img');
     if (image) {
       image.classList.toggle('expanded');
