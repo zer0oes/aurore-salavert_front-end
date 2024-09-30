@@ -26,18 +26,18 @@ header {
       display: block;
       position: relative;
       transform: translateX(calc(50vw - 8rem));
-      transition: transform 0.5s ease-in-out;
+      transition: transform .5s ease-in-out;
 
       svg {
         position: relative;
         top: 8rem;
         width: 12.5rem;
-        transition: width 0.3s ease-in-out;
+        transition: width .3s ease-in-out;
   
         .primary-color,
         .secondary-color,
         .tertiary-color {
-          transition: fill 0.3s ease-in-out;
+          transition: fill .3s ease-in-out;
         }
   
         .primary-color {
@@ -58,16 +58,19 @@ header {
     .logo-container {
       a {
         transform: translateX(4rem);
-        transition: transform 0.5s ease-in-out;
+        transition: transform .2s ease-in-out;
       }
     }
   }
   &.scrolled {
     .logo-container {
       a {
+        transform: translateX(4rem);
+        transition: transform .5s ease-in-out;
+
         svg {
           width: 10.5rem;
-          transition: width 0.3s ease-in-out;
+          transition: width .3s ease-in-out;
         }
       }
     }
