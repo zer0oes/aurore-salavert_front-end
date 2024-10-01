@@ -53,20 +53,24 @@ header {
     }
   }
 
-  &.scrolled,
   &.header-alt {
     .logo-container {
       a {
         transform: translateX(4rem);
-        transition: transform .2s ease-in-out;
+        
+        svg {
+          width: 10.5rem;
+        }
       }
     }
   }
+
   &.scrolled {
     .logo-container {
       a {
+        width: 10.5rem;
         transform: translateX(4rem);
-        transition: transform .5s ease-in-out;
+        transition: transform .2s ease-in-out;
 
         svg {
           width: 10.5rem;

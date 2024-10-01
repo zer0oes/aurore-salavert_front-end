@@ -1,10 +1,9 @@
 <div *ngIf="project" class="project">
   <div class="project__content">
-    <h1>{{ project.title }}<span>:</span></h1>
-
     <div class="project__navigation">
-      <button (click)="navigateToPreviousProject()" [disabled]="currentIndex === 0" class="btn-nav"><i class="material-symbols-outlined">arrow_back_ios</i> {{ previousProject.title }}</button>
-      <button (click)="navigateToNextProject()" [disabled]="currentIndex === projects.length - 1" class="btn-nav">{{ nextProject.title }} <i class="material-symbols-outlined">arrow_forward_ios</i></button>
+      <button (click)="navigateToPreviousProject()" [disabled]="currentIndex === 0" class="btn-nav"><i class="material-symbols-outlined">arrow_back_ios</i></button>
+      <h1>{{ project.title }}<span>:</span></h1>
+      <button (click)="navigateToNextProject()" [disabled]="currentIndex === projects.length - 1" class="btn-nav"><i class="material-symbols-outlined">arrow_forward_ios</i></button>
     </div>
 
     <div class="project__content__description" [innerHTML]="projectDescriptionHtml"></div>

@@ -19,7 +19,7 @@
   &__content {
     flex-direction: column;
     justify-content: space-between;
-    padding: 10rem 0;
+    padding: 12.5rem 0 8rem 0;
     left: 4rem;
     position: fixed;
     background: $base;
@@ -28,7 +28,6 @@
       font-family: $base-font-family;
       font-weight: $bold;
       font-size: 4.5rem;
-      height: 4.5rem;
       line-height: 1;
       text-transform: none;
       text-align: center;
@@ -36,6 +35,10 @@
 
       span {
         color: $primary;
+      }
+
+      &::after {
+        display: none;
       }
     }
 
@@ -60,16 +63,16 @@
       &::after {
         content: "";
         display: block;
-        height: 12rem;
-        width: 1px;
+        height: .2rem;
+        width: 6rem;
         background: $on-base;
         margin: 0 auto;
       }
       &::before {
-        margin-bottom: 2rem;
+        margin-bottom: 4rem;
       }
       &::after {
-        margin-top: 2rem;
+        margin-top: 4rem;
       }
     }
 
@@ -192,6 +195,10 @@
       i {
         font-size: 1.2rem;
         font-style: normal;
+      }
+
+      &:disabled {
+        display: none;
       }
     }
 
