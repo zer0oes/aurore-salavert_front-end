@@ -65,6 +65,20 @@ header {
     }
   }
 
+  &.menu-opened {
+    .logo-container {
+      a {
+        svg {
+          .primary-color,
+          .secondary-color,
+          .tertiary-color {
+            fill: $base-light;
+          }
+        }
+      }
+    }
+  }
+
   &.scrolled {
     .logo-container {
       a {

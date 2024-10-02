@@ -59,7 +59,9 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
       this.currentImageId = service.gallery[currentImageIndex + 1].id;
     }
     this.pauseSlider();
+    this.autoSlideImages();
   }
+  
 
   autoSlideImages(): void {
     this.autoSlideTimer = setInterval(() => {
