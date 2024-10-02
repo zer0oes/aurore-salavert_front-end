@@ -16,7 +16,6 @@ export class SkillsComponent implements OnInit {
   ngOnInit(): void {
     this.http.get('http://localhost:1337/api/skills?populate=*').subscribe((skill: any) => {
 
-      /**TODO: DEFINE TYPE OF element */
       skill.data.forEach((element: any) => {
         let newSkills: Skill = {
           id: element.id,
@@ -26,7 +25,6 @@ export class SkillsComponent implements OnInit {
           icon: 'http://localhost:1337' + element.attributes.icon.data.attributes.url
         }
 
-        /**TODO: SORT ELEMENTS BY CREATION DATE */
         this.skills.push(newSkills);
       });
     });

@@ -27,7 +27,7 @@ export class CustomServicesComponent implements OnInit {
             id: g.id,
             img: g.img,
             alt: g.alt
-          })) as Gallery[], // Assurez-vous que cela correspond au type Gallery
+          })) as Gallery[],
         }));
       },
       (error) => {
