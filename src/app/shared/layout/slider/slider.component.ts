@@ -22,7 +22,6 @@ export class SliderComponent implements OnInit {
   ngOnInit(): void {
     this.http.get('http://localhost:1337/api/slider-item?populate=*').subscribe((sliderItem: any) => {
 
-      /**TODO: DEFINE TYPE OF element */
       sliderItem.data.attributes.Gallery.data.forEach((item: any) => {
         let newImages: SliderItems = {
           imgSrc: 'http://localhost:1337' + item.attributes.url,

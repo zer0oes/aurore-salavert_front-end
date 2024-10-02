@@ -39,6 +39,12 @@ export interface SliderItems {
   imgAlt: string;
 }
 
+export interface CustomService {
+  title: string;
+  text: string;
+  gallery: Array<Gallery>;
+}
+
 export interface Contact {
   title: string;
   email: string;

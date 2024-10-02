@@ -1,9 +1,14 @@
 <div class="custom-services">
-    <div class="custom-services__gallery">
-        <img src="http://localhost:1337/uploads/My_Coachin_Application_a2e2d1878f.jpg" alt="">
+    <div *ngFor="let service of services" class="custom-services__item">
+      <div class="custom-services__gallery">
+        <!-- <div *ngFor="let image of service.gallery" class="custom-services__image">
+          <img [src]="image.url" alt="{{ image.altText }}">
+        </div> -->
+      </div>
+      <div class="custom-services__wrap">
+        <h3 class="custom-services__title">{{ service.title }}</h3>
+        <p class="custom-services__text">{{ service.text }}</p>
+      </div>
     </div>
-    <div class="custom-services__wrap">
-        <h3 class="custom-services__title">custom services</h3>
-        <p class="custom-services__text">Every project is unique and deserves a very personalized support. I make it a point of honor to take your project as far as possible.</p>
-    </div>
-</div>
+  </div>
+  
