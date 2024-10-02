@@ -5,27 +5,89 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    
+    position: relative;
+    background: $on-base;
+
     &__gallery {
+        position: relative;
+        display: flex;
         flex: 1;
         max-width: 50%;
-        height: 100%;
+        height: 75vh;
         overflow: hidden;
 
-        img {
-            display: block;
+        &-content {
+            display: flex;
+            flex: 1;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+
+            .gallery {
+                &_content-img {
+                    display: block;
+                    object-fit: cover;
+                    opacity: 0;
+                    min-width: 100%;
+                    height: 100%;
+                    order: 2;
+                    z-index: 1;
+                    transition: opacity 1s ease-out;
+
+                    &.is-active {
+                        opacity: 1;
+                        flex: 1;
+                        order: 1;
+                        transition: opacity .6s ease-in;
+                    }
+                }
+
+                &_controls {
+                    &-dots {
+                        position: absolute;
+                        z-index: 2;
+                        bottom: 4rem;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        filter: drop-shadow(0px 1px 1px rgba($secondary, 50%));
+
+                        .controls_dot {
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin:0 .5rem;
+                            width: 1.2rem;
+                            height: 1.2rem;
+                            border-radius: 50%;
+                            border: 2px solid $base-light;
+                            cursor: pointer;
+
+                            &:before {
+                                content: "";
+                                width: .4rem;
+                                height: .4rem;
+                                border-radius: 50%;
+                                background: transparent;
+                                transition: background .25s ease-in-out;
+                            }
+
+                            &:hover,
+                            &.dot-active {
+                                &:before {
+                                background: $base-light;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
     &__wrap {
         flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: $on-base;
         color: $base-light;
         text-align: center;
         gap: 4rem;

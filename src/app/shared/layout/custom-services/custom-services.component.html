@@ -1,14 +1,28 @@
-<div class="custom-services">
-    <div *ngFor="let service of services" class="custom-services__item">
-      <div class="custom-services__gallery">
-        <!-- <div *ngFor="let image of service.gallery" class="custom-services__image">
-          <img [src]="image.url" alt="{{ image.altText }}">
-        </div> -->
+<div class="custom-services" *ngFor="let service of services">
+  <div class="custom-services__gallery" *ngIf="service.gallery && service.gallery.length > 0">
+    <div class="custom-services__gallery-content">
+      
+      <!-- DOTS CONTROLS -->
+      <div class="gallery_controls-dots">
+        <span class="controls_dot"
+          *ngFor="let image of service.gallery; let i = index"
+          [ngClass]="{'dot-active': currentImageId === image.id}"
+          (click)="selectImage(image.id)"
+          (mouseenter)="pauseSlider()"
+        ></span>
       </div>
-      <div class="custom-services__wrap">
-        <h3 class="custom-services__title">{{ service.title }}</h3>
-        <p class="custom-services__text">{{ service.text }}</p>
-      </div>
+
+      <img class="gallery_content-img" *ngFor="let image of service.gallery; let i = index"
+        [src]="image.img"
+        [ngClass]="{'is-active': image.id === currentImageId}"
+        [alt]="image.alt"
+        (click)="selectImage(image.id)"
+        (mouseenter)="pauseSlider()"
+      >
     </div>
   </div>
-  
+  <div class="custom-services__wrap">
+    <h3 class="custom-services__title">{{ service.title }}</h3>
+    <p class="custom-services__text">{{ service.text }}</p>
+  </div>
+</div>

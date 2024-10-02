@@ -17,16 +17,15 @@ export class SliderComponent implements OnInit {
   @Input() arrows: boolean = true;
   @Input() autoSlide: boolean = true;
   @Input() slideInterval: number = 30000;
-
+  @Input() slideIntervalId: any;
 
   ngOnInit(): void {
     this.http.get('http://localhost:1337/api/slider-item?populate=*').subscribe((sliderItem: any) => {
-
       sliderItem.data.attributes.Gallery.data.forEach((item: any) => {
         let newImages: SliderItems = {
           imgSrc: 'http://localhost:1337' + item.attributes.url,
-          imgAlt: 'http://localhost:1337' + item.attributes.alternativeText
-        }
+          imgAlt: item.attributes.alternativeText
+        };
 
         this.images.push(newImages);
       });
@@ -37,30 +36,32 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  // set index of image on click on a dot/indocator
-  selectImage(index: number): void {
-    this.selectedIndex = index
+  ngOnDestroy(): void {
+    this.pauseSlider();
   }
 
-  // go to previous image
+  selectImage(index: number): void {
+    this.selectedIndex = index;
+  }
+
   onPrevClick(): void {
     if (this.selectedIndex === 0) {
       this.selectedIndex = this.images.length - 1;
     } else {
       this.selectedIndex--;
     }
+    this.pauseSlider();
   }
 
-  // go to next image
   onNextClick(): void {
     if (this.selectedIndex === this.images.length - 1) {
       this.selectedIndex = 0;
     } else {
       this.selectedIndex++;
     }
+    this.pauseSlider();
   }
 
-  // Auto slide
   autoSlideImages(): void {
     setInterval(() => {
       this.onNextClick();
@@ -68,8 +69,6 @@ export class SliderComponent implements OnInit {
   }
 
   pauseSlider(): void {
-    clearInterval(setInterval(() => {
-      this.onNextClick();
-    }, 3000));
+    clearInterval(this.slideInterval);
   }
 }

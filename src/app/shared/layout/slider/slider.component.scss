@@ -23,12 +23,13 @@
       height: 100%;
       order: 2;
       z-index: 1;
-      transition: opacity .4s ease-in-out;
+      transition: opacity 1s ease-out;
 
       &.img-active {
         opacity: 1;
         flex: 1;
         order: 1;
+        transition: opacity .6s ease-in;
       }
     }
   }
