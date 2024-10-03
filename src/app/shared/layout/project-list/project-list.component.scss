@@ -10,15 +10,16 @@
   align-items: center;
   background-color: $base;
   padding-top: 8rem;
+  gap: 4rem;
 
   &__title {
     &::after {
       background-color: $on-base;
+      margin: 4rem auto 0;
     }
   }
   &__description {
     @extend .p;
-    margin-bottom: 4rem;
   }
 
   &__grid {
@@ -37,6 +38,44 @@
     }
     &.double-horizontal {
       grid-column: span 2;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    .btn {
+      &-filter {
+        font-family: $base-font-family;
+        color: $primary;
+        text-transform: uppercase;
+        border: 1px solid $primary;
+        border-radius: 1rem;
+        letter-spacing: .02rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background: transparent;
+        padding: 1.5rem 4rem;
+        transition: color .2s ease-in-out, background .4s ease-in-out, border-color .4s ease-in-out;
+
+        &.is-active {
+          color: $on-primary;
+          background: $primary;
+
+          &:hover {
+            color: $on-secondary;
+            background: $secondary;
+            border-color: $secondary;
+          }
+        }
+
+        &:hover {
+          color: $on-primary;
+          background: $primary;
+        }
+      }
     }
   }
 }

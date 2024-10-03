@@ -7,20 +7,20 @@ import { Category, Gallery, Project } from '@app/models/frontend/project';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-
 export class ProjectListComponent implements OnInit {
-  constructor(private http: HttpClient) { }
-
   @Input() title: string = 'creative showcase';
   @Input() description: string = 'Discover my ideas and my graphic touch by watching the projects below';
-  @Input() projects: Array<Project> = [];
+  projects: Array<Project> = [];
+  originalProjects: Array<Project> = [];
+  usedCategories: string[] = [];
+  activeCategory: string = 'All'; // Catégorie active par défaut
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
-  
       project.data.forEach((element: any) => {
         if (element.attributes) {
-          // Traitement des catégories
           let cat: Array<Category> = [];
           if (element.attributes.categories?.data) {
             element.attributes.categories.data.forEach((category: any) => {
@@ -28,10 +28,12 @@ export class ProjectListComponent implements OnInit {
                 title: category.attributes.title,
                 slug: category.attributes.slug
               });
+              if (!this.usedCategories.includes(category.attributes.slug)) {
+                this.usedCategories.push(category.attributes.slug);
+              }
             });
           }
-  
-          // Traitement de la galerie
+
           let gal: Array<Gallery> = [];
           if (element.attributes.gallery?.data) {
             element.attributes.gallery.data.forEach((item: any) => {
@@ -42,8 +44,7 @@ export class ProjectListComponent implements OnInit {
               });
             });
           }
-  
-          // Création du projet
+
           let newProject: Project = {
             id: element.id,
             slug: element.attributes.slug,
@@ -52,16 +53,34 @@ export class ProjectListComponent implements OnInit {
             createdAt: element.attributes.createdAt,
             thumbnail: element.attributes.thumbnail?.data ? 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url : '',
             categories: cat,
-            layout: element.attributes.layout?.data?.attributes?.slug || '', // Vérifie que c'est bien un slug
+            layout: element.attributes.layout?.data ? element.attributes.layout.data.attributes.slug : '',
             gallery: gal
           }
-  
-          // Ajoute le projet à la liste des projets et trie par date
-          this.projects.push(newProject);
-          this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+
+          this.originalProjects.push(newProject);
         }
       });
+
+      this.originalProjects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+      this.projects = [...this.originalProjects];
     });
   }
-  
+
+  getProjectClasses(project: Project): string[] {
+    const layoutClass = typeof project.layout === 'string' ? project.layout : '';
+    const categoryClasses = project.categories.map(cat => cat.slug);
+    return [layoutClass, ...categoryClasses].filter(cls => cls);
+  }
+
+  filterProjectsByCategory(category: string): void {
+    this.activeCategory = category; // Met à jour la catégorie active
+    if (category === 'All') {
+      this.projects = [...this.originalProjects];
+    } else {
+      this.projects = this.originalProjects.filter(project =>
+        project.categories.some(cat => cat.slug === category)
+      );
+    }
+    this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+  }
 }

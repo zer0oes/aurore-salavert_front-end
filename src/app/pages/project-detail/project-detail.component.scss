@@ -191,15 +191,20 @@
       align-items: center;
       font-size: 1.4rem;
       gap: 1rem;
-
+      
       i {
-        font-size: 1.2rem;
+        color: $primary;
         font-style: normal;
+        transition: color .4s ease-in-out;
+
+        &:hover {
+          color: $secondary;
+          transition: color .4s ease-in-out;
+        }
+
       }
 
-      &:disabled {
-        color: transparent
-      }
+      &:disabled { color: transparent; }
     }
 
   }
