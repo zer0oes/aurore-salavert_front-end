@@ -227,7 +227,7 @@
     bottom: 4rem;
     right: 4rem;
     opacity: 0;
-    transition: opacity .2s ease-in-out;
+    transition: opacity .2s ease-in-out, background .4s ease-in-out;
   }
 }
 
@@ -276,7 +276,7 @@
     .gallery-item {
       &__close-expand-button {
         opacity: 1;
-        transition: opacity .4s ease-in-out .1s;
+        transition: opacity .4s ease-in-out .1s, background .4s ease-in-out;
       }
     }
   }
