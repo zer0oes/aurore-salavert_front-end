@@ -29,6 +29,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
       (response) => {
         const item = response.data;
         this.services = [{
+          slug: item.attributes.slug,
           title: item.attributes.Title,
           text: item.attributes.Text,
           gallery: item.attributes.Gallery.data.map((g: { id: number; attributes: { url: string; alternativeText: string } }) => ({

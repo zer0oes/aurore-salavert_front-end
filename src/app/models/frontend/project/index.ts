@@ -21,6 +21,11 @@ export interface Gallery {
   alt: string;
 }
 
+export interface Competence {
+  slug: string;
+	title: string;
+}
+
 export interface Skill {
   id: number;
 	title: string;
@@ -40,17 +45,20 @@ export interface SliderItems {
 }
 
 export interface CreativeShowcase {
+  slug: string;
   title: string;
   descritpion: string;
 }
 
 export interface CustomService {
+  slug: string;
   title: string;
   text: string;
   gallery: Array<Gallery>;
 }
 
 export interface Contact {
+  slug: string;
   title: string;
   email: string;
 }

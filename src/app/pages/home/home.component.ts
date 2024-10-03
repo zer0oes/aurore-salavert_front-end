@@ -1,28 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuService } from '@app/services/menu.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-
 export class HomeComponent implements OnInit {
-  constructor() { }
-
+  menuItems: any[] = [];
   title: string = 'Aurore Salavert - Graphic & Web designer, front-end developer - Paris - France';
 
+  constructor(private menuService: MenuService) {}
+
   ngOnInit(): void {
-    // Vérifie si l'URL contient un hash
+    this.menuService.getMenuItems().subscribe((items: any[]) => {
+      this.menuItems = items;
+    });
+
     const hash = window.location.hash;
     if (hash) {
-      // Scrolle jusqu'à la section correspondante après un court délai
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 600); // Le délai permet d'assurer que la page est complètement chargée
+      }, 600);
     }
   }
 }
-

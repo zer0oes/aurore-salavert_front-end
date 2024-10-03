@@ -11,23 +11,12 @@
 </button>
 
 <nav class="menu">
-  <ol class="menu_content"
-    [ngClass]="{'menu-opened': menuOpened}"
-  >
+  <ol class="menu_content" [ngClass]="{'menu-opened': menuOpened}">
     <li>
       <a [routerLink]="['/']"  (click)="navigateToSection('home')">Home</a>
     </li>
-    <li>
-      <a [routerLink]="['/']"  (click)="navigateToSection('showcase')">Creative showcase</a>
-    </li>
-    <li>
-      <a [routerLink]="['/']"  (click)="navigateToSection('skills')">What I can do</a>
-    </li>
-    <li>
-      <a [routerLink]="['/']"  (click)="navigateToSection('services')">Custom services</a>
-    </li>
-    <li>
-      <a [routerLink]="['/']"  (click)="navigateToSection('contact')">Let's work together!</a>
+    <li *ngFor="let item of menuItems">
+      <a [routerLink]="['/']"  (click)="navigateToSection(item.slug)">{{ item.title }}</a>
     </li>
   </ol>
 </nav>

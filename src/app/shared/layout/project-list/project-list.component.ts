@@ -18,12 +18,13 @@ export class ProjectListComponent implements OnInit {
   fadeOut: boolean = false;
 
   ngOnInit(): void {
-    this.http.get('http://localhost:1337/api/portfolio?populate=*').subscribe((response: any) => {
+    this.http.get('http://localhost:1337/api/showcase?populate=*').subscribe((response: any) => {
       const showcaseData = response.data;
 
       const showcase: CreativeShowcase = {
         title: showcaseData.attributes.Title,
-        descritpion: showcaseData.attributes.Description
+        descritpion: showcaseData.attributes.Description,
+        slug: showcaseData.attributes.slug
       };
 
       this.showcaseInfos.push(showcase);

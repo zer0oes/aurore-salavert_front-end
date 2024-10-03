@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { MenuService } from '@app/services/menu.service';
 
@@ -7,10 +7,11 @@ import { MenuService } from '@app/services/menu.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent {
-  menuOpened = false;
-
+export class MenuComponent implements OnInit {
   constructor(private router: Router, private menuService: MenuService) {}
+  
+  menuOpened = false;
+  menuItems: any[] = [];
 
   toggleNavbar() {
     this.menuOpened = !this.menuOpened;
@@ -39,6 +40,14 @@ export class MenuComponent {
           behavior: 'smooth'
         });
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.menuService.getMenuItems().subscribe((items: any[]) => {
+      this.menuItems = items;
+    }, error => {
+      console.error('Erreur lors de la récupération des éléments du menu :', error);
     });
   }
 }
