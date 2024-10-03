@@ -12,6 +12,14 @@
   padding-top: 8rem;
   gap: 4rem;
 
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4rem;
+  }
+
   &__title {
     &::after {
       background-color: $on-base;

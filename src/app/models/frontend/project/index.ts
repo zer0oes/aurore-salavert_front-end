@@ -39,6 +39,11 @@ export interface SliderItems {
   imgAlt: string;
 }
 
+export interface CreativeShowcase {
+  title: string;
+  descritpion: string;
+}
+
 export interface CustomService {
   title: string;
   text: string;

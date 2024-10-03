@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Category, Gallery, Project } from '@app/models/frontend/project';
+import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
 
 @Component({
   selector: 'project-list',
@@ -8,17 +8,27 @@ import { Category, Gallery, Project } from '@app/models/frontend/project';
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
-  @Input() title: string = 'creative showcase';
-  @Input() description: string = 'Discover my ideas and my graphic touch by watching the projects below';
-  projects: Array<Project> = [];
-  originalProjects: Array<Project> = [];
+  constructor(private http: HttpClient) { }
+
+  @Input() showcaseInfos: Array<CreativeShowcase> = [];
+  @Input() projects: Array<Project> = [];
+  @Input() originalProjects: Array<Project> = [];
   usedCategories: string[] = [];
   activeCategory: string = 'All';
   fadeOut: boolean = false;
 
-  constructor(private http: HttpClient) { }
-
   ngOnInit(): void {
+    this.http.get('http://localhost:1337/api/portfolio?populate=*').subscribe((response: any) => {
+      const showcaseData = response.data;
+
+      const showcase: CreativeShowcase = {
+        title: showcaseData.attributes.Title,
+        descritpion: showcaseData.attributes.Description
+      };
+
+      this.showcaseInfos.push(showcase);
+    });
+
     this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
       project.data.forEach((element: any) => {
         if (element.attributes) {
