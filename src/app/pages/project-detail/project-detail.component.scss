@@ -120,6 +120,7 @@
 
     &::-webkit-scrollbar {
       width: .5rem;
+      background: $base;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -225,6 +226,8 @@
   &__close-expand-button {
     bottom: 4rem;
     right: 4rem;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
   }
 }
 
@@ -255,17 +258,25 @@
     }
   }
 
+  
   &.is-expanded {
     background-color: rgba($base-rev, .75);
     backdrop-filter: blur(4px);
     pointer-events: inherit;
     transition: background-color .4s ease-in-out, backdrop-filter .4s ease-in-out;
-
+    
     .expanded-image {
       &.is-visible {
         transform: scale(100%);
         opacity: 1;
         transition: opacity .4s ease-in-out .1s, transform .4s ease-in-out .1s;
+      }
+    }
+
+    .gallery-item {
+      &__close-expand-button {
+        opacity: 1;
+        transition: opacity .4s ease-in-out .1s;
       }
     }
   }
