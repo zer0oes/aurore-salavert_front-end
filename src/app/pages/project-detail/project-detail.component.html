@@ -9,26 +9,29 @@
     <div class="project__content__description" [innerHTML]="projectDescriptionHtml"></div>
 
     <div class="project__content__categories" *ngIf="project.categories.length > 0">
-      <h4>Categories</h4>
+      <h4>Categories<span>:</span></h4>
       <div class="category">
-        <a *ngFor="let category of project.categories; let index = index" class="category__tag">
+        <div *ngFor="let category of project.categories; let index = index" class="category__tag">
           {{ category.title }}
-        </a>
+        </div>
       </div>
     </div>
   </div>
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
     <div class="gallery-item" *ngFor="let item of project.gallery" style="position: relative;">
-      <!-- Image avec un clic pour agrandir -->
-      <img [src]="'http://localhost:1337' + item.img" [alt]="item.alt" (click)="toggleImageSize($event)" class="gallery-image">
-  
-      <!-- Bouton superposé en bas à droite -->
-      <button class="expand-button" (click)="toggleImageSize($event)">
-        <span class="material-symbols-outlined">
-          fullscreen
-        </span>
+      <img [src]="'http://localhost:1337' + item.img" [alt]="item.alt" class="gallery-image" (click)="toggleImageSize($event, item)">
+
+      <button class="gallery-item__expand-button" (click)="toggleImageSize($event, item)">
+        <span class="material-symbols-outlined">expand_content</span>
       </button>
     </div>
   </div>
+</div>
+
+<div class="modal-backdrop" [ngClass]="{'is-expanded': isImageExpanded}">
+  <img [ngClass]="{'is-visible': isImageExpanded}" [src]="expandedImageSrc" alt="Expanded Image" class="expanded-image" (click)="closeImage()">
+  <button class="gallery-item__close-expand-button" (click)="closeImage()">
+    <span class="material-symbols-outlined">collapse_content</span>
+  </button>
 </div>

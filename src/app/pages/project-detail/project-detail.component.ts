@@ -16,6 +16,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   isHeaderAlt: boolean = false; 
   previousProject: Project | null = null;
   nextProject: Project | null = null;
+  isImageExpanded: boolean = false;
+  expandedImageSrc: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,15 +125,19 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     return html;
   }
 
-  toggleImageSize(event: Event): void {
+  toggleImageSize(event: Event, item: any): void {
     event.stopPropagation();
-    const image = (event.target as HTMLElement).parentElement?.querySelector('img');
-    if (image) {
-      image.classList.toggle('expanded');
-    }
+    this.expandedImageSrc = 'http://localhost:1337' + item.img;
+    this.isImageExpanded = !this.isImageExpanded;
   }
 
-  // Méthodes de navigation
+  closeImage(): void {
+    this.isImageExpanded = false;
+    setTimeout(() => {
+      this.expandedImageSrc = null;
+    }, 400);
+  }
+
   navigateToPreviousProject(): void {
     if (this.currentIndex !== null && this.currentIndex > 0) {
       const previousProject = this.projects[this.currentIndex - 1];

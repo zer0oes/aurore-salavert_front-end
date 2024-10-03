@@ -1,3 +1,5 @@
+@import 'styles/colors';
+
 h1, .h1,
 h2, .h2,
 h3, .h3,
@@ -30,6 +32,18 @@ p, .p {
 
 b, strong {
   font-weight: $medium;
+  position: relative;
+
+  &::after {
+    content: '';
+    height: 40%;
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    right: 0;
+    background: rgba($primary, 25%);
+    z-index: -1;
+  }
 }
 
 i, em {
