@@ -13,7 +13,8 @@ export class ProjectListComponent implements OnInit {
   projects: Array<Project> = [];
   originalProjects: Array<Project> = [];
   usedCategories: string[] = [];
-  activeCategory: string = 'All'; // Catégorie active par défaut
+  activeCategory: string = 'All';
+  fadeOut: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -66,21 +67,30 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  getProjectClasses(project: Project): string[] {
+  getProjectClasses(project: Project): string {
     const layoutClass = typeof project.layout === 'string' ? project.layout : '';
-    const categoryClasses = project.categories.map(cat => cat.slug);
-    return [layoutClass, ...categoryClasses].filter(cls => cls);
+    const categoryClasses = project.categories.map(cat => cat.slug).join(' ');
+    return [layoutClass, categoryClasses].filter(cls => cls).join(' ');
   }
+  
 
   filterProjectsByCategory(category: string): void {
-    this.activeCategory = category; // Met à jour la catégorie active
-    if (category === 'All') {
-      this.projects = [...this.originalProjects];
-    } else {
-      this.projects = this.originalProjects.filter(project =>
-        project.categories.some(cat => cat.slug === category)
-      );
-    }
-    this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+    this.fadeOut = true;
+    setTimeout(() => {
+      this.activeCategory = category;
+      if (category === 'All') {
+        this.projects = [...this.originalProjects];
+      } else {
+        this.projects = this.originalProjects.filter(project =>
+          project.categories.some(cat => cat.slug === category)
+        );
+      }
+      this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+      this.fadeOut = false;
+    }, 400);
+  }
+
+  getAnimationClass(project: Project): string {
+    return this.fadeOut ? 'fade-out' : 'fade-in';
   }
 }

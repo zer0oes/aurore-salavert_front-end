@@ -30,8 +30,12 @@
   }
 
   &__item {
-      grid-row: span 1;
-      grid-column: span 1;
+    grid-row: span 1;
+    grid-column: span 1;
+    transition: opacity .4s ease-in-out;
+
+    &.fade-out { opacity: 0; }
+    &.fade-in { opacity: 1; }
 
     &.double-vertical {
       grid-row: span 2;

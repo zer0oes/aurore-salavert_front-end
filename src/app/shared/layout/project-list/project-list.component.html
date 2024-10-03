@@ -16,7 +16,7 @@
     <project class="projects-list__item"
         *ngFor="let project of projects; let i = index"
         [project]="project"
-        [ngClass]="getProjectClasses(project)"
+        [ngClass]="getProjectClasses(project) + ' ' + getAnimationClass(project)"
         [ngStyle]="{'order': i + 1}">
     </project>
   </div>
