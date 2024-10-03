@@ -27,11 +27,20 @@
       </button>
     </div>
   </div>
-</div>
 
-<div class="modal-backdrop" [ngClass]="{'is-expanded': isImageExpanded}">
-  <img [ngClass]="{'is-visible': isImageExpanded}" [src]="expandedImageSrc" alt="Expanded Image" class="expanded-image" (click)="closeImage()">
-  <button class="gallery-item__close-expand-button" (click)="closeImage()">
-    <span class="material-symbols-outlined">collapse_content</span>
-  </button>
+  <div class="modal-backdrop" [ngClass]="{'is-expanded': isImageExpanded}">
+    <img [ngClass]="{'is-visible': isImageExpanded}" 
+       [src]="expandedImageSrc" 
+       (mousemove)="moveLens($event)" 
+       (mouseleave)="hideLens()" 
+       alt="Expanded Image" 
+       class="expanded-image" 
+       (click)="closeImage()">
+
+    <div class="zoom-lens" id="lens" *ngIf="isImageExpanded"></div>
+  
+    <button class="gallery-item__close-expand-button" (click)="closeImage()">
+      <span class="material-symbols-outlined">collapse_content</span>
+    </button>
+  </div>
 </div>

@@ -280,4 +280,18 @@
       }
     }
   }
+
+  .zoom-lens {
+    position: absolute;
+    border: 2px solid $on-base;
+    border-radius: 50%;
+    pointer-events: none;
+    display: block;
+    width: 20rem;
+    height: 20rem;
+    background-color: rgba($base, 0.5);
+    background-size: 200%;
+    opacity: 0;
+    transition: opacity .4s ease-in-out;
+  }
 }

@@ -18,6 +18,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   nextProject: Project | null = null;
   isImageExpanded: boolean = false;
   expandedImageSrc: string | null = null;
+  isLensVisible: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -150,5 +151,58 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       const nextProject = this.projects[this.currentIndex + 1];
       this.router.navigate(['/project', nextProject.slug]);
     }
+  }
+
+  moveLens(event: MouseEvent): void {
+    const img = event.target as HTMLImageElement;
+    const lens = document.querySelector('.zoom-lens') as HTMLElement;
+  
+    if (!lens) {
+      return;
+    }
+  
+    // Afficher la loupe seulement lors du survol de l'image agrandie
+    this.isLensVisible = true;
+  
+    const pos = this.getCursorPos(event, img);
+    const zoom = 2; // Facteur de zoom
+  
+    // Calcul de la position de la loupe, ajusté pour centrer la loupe par rapport au curseur
+    let x = pos.x - lens.offsetWidth / 2 + 300;
+    let y = pos.y - lens.offsetHeight / 2;
+  
+    // Limiter la loupe pour qu'elle ne dépasse pas l'image
+    if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+    if (x < 0) { x = 0; }
+    if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+    if (y < 0) { y = 0; }
+  
+    lens.style.left = `${x}px`;
+    lens.style.top = `${y}px`;
+  
+    // Application de l'image zoomée dans la loupe
+    lens.style.backgroundImage = `url('${img.src}')`;
+    lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
+    lens.style.backgroundPosition = `-${(pos.x * zoom) - (lens.offsetWidth / 2)}px -${(pos.y * zoom) - (lens.offsetHeight / 2)}px`;
+
+    lens.style.opacity = '1';
+  }
+  
+  hideLens(): void {
+    const lens = document.getElementById('lens') as HTMLElement;
+  
+    if (lens) {
+      lens.style.opacity = '0';
+    }
+  
+    this.isLensVisible = false; // Optionnel : changez l'état de visibilité
+  }
+  
+  
+  getCursorPos(event: MouseEvent, img: HTMLImageElement): { x: number, y: number } {
+    const rect = img.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    return { x: x, y: y };
   }
 }
