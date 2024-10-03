@@ -249,8 +249,9 @@
     height: 100%;
 
     &:not(.is-visible) {
+      transform: scale(0);
       opacity: 0;
-      transition: opacity .1s ease-in-out;
+      transition: opacity .2s ease-in-out, transform .2s ease-in-out;
     }
   }
 
@@ -262,8 +263,9 @@
 
     .expanded-image {
       &.is-visible {
+        transform: scale(100%);
         opacity: 1;
-        transition: opacity .4s ease-in-out .2s;
+        transition: opacity .4s ease-in-out .1s, transform .4s ease-in-out .1s;
       }
     }
   }
