@@ -1,5 +1,5 @@
 <header #headerElement>
-  <div class="logo-container">
+  <div class="logo-container" [ngClass]="{'has-menu-opened': menuOpened}">
     <a [routerLink]="['/']">
       <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="Calque_1" x="0" y="0" style="" version="1.1" viewBox="0 0 125 93.6">
         <g id="LOGO_AS_GRAPHIC_DESIGN" transform="translate(.033 .008)">

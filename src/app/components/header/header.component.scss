@@ -2,16 +2,20 @@
 
 header {
   position: fixed;
-  top: 0;
+  top: 4rem;
   right: 4rem;
   left: 4rem;
+  height: calc(12.5rem + 4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 5;
 
   &:before {
     content: "";
     display: block;
     position: absolute;
-    top: 0;
+    top: -4rem;
     right: 0;
     left: 0;
     background-color: $base-light;
@@ -21,16 +25,14 @@ header {
 
   .logo-container {
     position: relative;
+    transition: flex .6s ease-in-out, transform .6s ease-in-out;
 
     a {
       display: block;
       position: relative;
-      transform: translateX(calc(50vw - 8rem));
-      transition: transform .5s ease-in-out;
 
       svg {
         position: relative;
-        top: 8rem;
         width: 12.5rem;
         transition: width .3s ease-in-out;
   
@@ -51,44 +53,38 @@ header {
         }
       }
     }
-  }
 
-  &.header-alt {
-    .logo-container {
-      a {
-        transform: translateX(4rem);
-        
-        svg {
-          width: 10.5rem;
-        }
-      }
-    }
-  }
+    &.has-menu-opened {
+      flex: unset;
+      transform: translateX(0);
 
-  &.menu-opened {
-    .logo-container {
       a {
         svg {
+          width: 12.5rem;
           .primary-color,
-          .secondary-color,
           .tertiary-color {
             fill: $base-light;
+          }
+          .secondary-color {
+            fill: $primary;
           }
         }
       }
     }
   }
 
-  &.scrolled {
+  &.scrolled,
+  &.header-alt {
     .logo-container {
-      a {
-        width: 10.5rem;
+      &:not(.has-menu-opened) {
+        flex: 1;
         transform: translateX(4rem);
-        transition: transform .2s ease-in-out;
-
-        svg {
-          width: 10.5rem;
-          transition: width .3s ease-in-out;
+        transition: flex .6s ease-in-out, transform .6s ease-in-out;
+        a {
+          svg {
+            width: 10.5rem;
+            transition: width .3s ease-in-out;
+          }
         }
       }
     }

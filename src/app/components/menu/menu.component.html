@@ -1,12 +1,13 @@
-<button class="menu_icon"
-  [ngClass]="{'is-open': menuOpened}"
-  (click)="toggleNavbar();"
->
+<button class="menu_icon" 
+  [ngClass]="{'is-open': menuOpened}" 
+  (click)="toggleNavbar()">
+
   <span class="hamburger-icon">
     <span class="hamburger-bar__1"></span>
     <span class="hamburger-bar__2"></span>
     <span class="hamburger-bar__3"></span>
   </span>
+
 </button>
 
 <nav class="menu">
@@ -14,16 +15,19 @@
     [ngClass]="{'menu-opened': menuOpened}"
   >
     <li>
-      <a [routerLink]="['/']">Home</a>
+      <a [routerLink]="['/']"  (click)="navigateToSection('home')">Home</a>
     </li>
     <li>
-      <a href="">Creative showcase</a>
+      <a [routerLink]="['/']"  (click)="navigateToSection('showcase')">Creative showcase</a>
     </li>
     <li>
-      <a href="">What I can do</a>
+      <a [routerLink]="['/']"  (click)="navigateToSection('skills')">What I can do</a>
     </li>
     <li>
-      <a href="">Let's work together!</a>
+      <a [routerLink]="['/']"  (click)="navigateToSection('services')">Custom services</a>
+    </li>
+    <li>
+      <a [routerLink]="['/']"  (click)="navigateToSection('contact')">Let's work together!</a>
     </li>
   </ol>
 </nav>

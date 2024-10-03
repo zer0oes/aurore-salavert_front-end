@@ -19,6 +19,9 @@ body {
   color: $on-base;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   padding: 4rem;
   font-size: $base-font-size;
