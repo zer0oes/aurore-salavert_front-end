@@ -1,3 +1,5 @@
+import { SafeHtml } from "@angular/platform-browser";
+
 export interface Project {
   id: number;
 	slug: string;
@@ -61,4 +63,9 @@ export interface Contact {
   slug: string;
   title: string;
   email: string;
+}
+
+export interface Service {
+  title: string;
+  text: string | SafeHtml;
 }

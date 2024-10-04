@@ -1,3 +1,37 @@
+<<<<<<< HEAD
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: $base-font-family;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: $bold;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+
+  &::after {
+    display: block;
+    content: "";
+    width: .1rem;
+    height: 8rem;
+    margin: 2rem auto;
+  }
+}
+
+p, .p {
+  font-family: $base-font-family;
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: $light;
+  letter-spacing: .02em;
+}
+
+b { font-weight: $semibold; }
+i { font-style: italic; }
+=======
 @import 'styles/colors';
 
 h1, .h1,
@@ -73,3 +107,4 @@ b, strong {
 i, em {
   font-style: italic
 }
+>>>>>>> master

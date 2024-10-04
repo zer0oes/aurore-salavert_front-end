@@ -7,10 +7,15 @@ header {
   left: 4rem;
   height: calc(12.5rem + 4rem);
   display: flex;
+<<<<<<< HEAD
+  align-items: center;
+  justify-content: flex-end;
+=======
   justify-content: center;
   align-items: center;
+>>>>>>> master
   z-index: 5;
-
+  
   &:before {
     content: "";
     display: block;
@@ -22,6 +27,21 @@ header {
     height: 4rem;
     width: 100%;
   }
+<<<<<<< HEAD
+  
+  svg {
+    position: absolute;
+    top: 8rem;
+    width: 12.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all .4s ease-in-out;
+
+    .color {
+      &-primary { fill: $base-light; }
+      &-secondary { fill: $primary; }
+      &-tertiary { fill: $base-light; }
+=======
 
   .logo-container {
     position: relative;
@@ -70,11 +90,25 @@ header {
           }
         }
       }
+>>>>>>> master
     }
   }
 
   &.scrolled,
   &.header-alt {
+<<<<<<< HEAD
+    
+    svg {
+      top: 8rem;
+      left: 8rem;
+      width: 10.5rem;
+      transform: translateX(0);
+
+      .color {
+        &-primary { fill: $primary; }
+        &-secondary { fill: $secondary; }
+        &-tertiary { fill: $tertiary; }
+=======
     .logo-container {
       &:not(.has-menu-opened) {
         flex: 1;
@@ -86,7 +120,10 @@ header {
             transition: width .3s ease-in-out;
           }
         }
+>>>>>>> master
       }
     }
   }
+
 }
+

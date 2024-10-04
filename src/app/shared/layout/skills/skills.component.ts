@@ -28,7 +28,10 @@ export class SkillsComponent implements OnInit {
 
     // Skills
     this.http.get('http://localhost:1337/api/skills?populate=*').subscribe((skill: any) => {
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
       skill.data.forEach((element: any) => {
         let newSkills: Skill = {
           id: element.id,
