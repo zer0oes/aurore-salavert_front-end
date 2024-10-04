@@ -28,6 +28,30 @@ p, .p {
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: .02em;
+
+  a {
+    position: relative;
+
+    &::after {
+      content: '';
+      height: .3rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba($primary, .75);
+      z-index: -1;
+      transition: height .4s ease-in-out, background .4s ease-in-out;
+    }
+
+    &:hover {
+      &::after {
+        height: .6rem;
+        background: rgba($primary, .25);
+        transition: height .4s ease-in-out, background .4s ease-in-out;
+      }
+    }
+  }
 }
 
 b, strong {
