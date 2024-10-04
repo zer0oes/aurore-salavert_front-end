@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectListComponent } from './project-list.component';
 import { ProjectModule } from '../project/project.module';
-import { ProjectFiltersModule } from '../project-filters/project-filters.module';
 
 
 
@@ -13,7 +12,6 @@ import { ProjectFiltersModule } from '../project-filters/project-filters.module'
   imports: [
     CommonModule,
     ProjectModule,
-    ProjectFiltersModule,
   ],
   exports: [
     ProjectListComponent,

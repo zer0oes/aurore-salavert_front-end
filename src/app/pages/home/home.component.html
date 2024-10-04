@@ -1,14 +1,5 @@
 <slider [autoSlide]="true" [arrows]="true" [dots]="true" id="home"></slider>
 
-<<<<<<< HEAD
-<project-list></project-list>
-
-<skills></skills>
-
-<services></services>
-
-<contact></contact>
-=======
 <ng-container *ngFor="let item of menuItems">
     <ng-container [ngSwitch]="item.slug">
       <project-list *ngSwitchCase="'creative-showcase'" [id]="item.slug"></project-list>
@@ -17,4 +8,3 @@
       <contact *ngSwitchCase="'lets-work-together'" [id]="item.slug"></contact>
     </ng-container>
   </ng-container>
->>>>>>> master
