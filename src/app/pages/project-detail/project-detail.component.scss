@@ -204,7 +204,7 @@
     align-items: center;
     width: 4rem;
     height: 4rem;
-    z-index: 5;
+    z-index: 2;
     transition: background .4s ease-in-out;
     color: $on-secondary;
     filter: drop-shadow(0px 1px 1px rgba($secondary, 50%));
@@ -304,14 +304,15 @@
       height: auto;
       width: calc(100vw - 8rem);
     }
+
     &__content {
       order: 1;
       gap: 4rem;
       
       h1 {
         padding: 0;
-        flex: 1;
-        order: 1;
+        order: 0;
+        grid-column: 1 / -1;
       }
 
       &__description {
@@ -325,14 +326,31 @@
         }
       }
     }
+
     &__gallery {
       order: 2;
+      height: auto;
+      overflow-y: visible;
     }
+
     &__navigation {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      align-items: center;
       padding: 0 4rem;
 
       .btn-nav {
-        order: 2;
+        &:first-of-type {
+          order: 1;
+          grid-column: 1;
+          
+        }
+        &:last-of-type {
+          order: 2;
+          grid-column: 2;
+          justify-self: flex-end;
+        }
       }
     }
   }

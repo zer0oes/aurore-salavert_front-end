@@ -138,3 +138,19 @@
     pointer-events: inherit;
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+  .menu {
+    &_content {
+      padding: 0 4rem;
+      li {
+        margin: 4rem 0;
+        a {
+          font-size: 2rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}
