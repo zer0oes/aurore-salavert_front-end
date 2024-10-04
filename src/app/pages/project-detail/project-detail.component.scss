@@ -291,3 +291,49 @@
     transition: opacity .4s ease-in-out;
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+  .project {
+    flex-direction: column;
+    overflow: auto;
+
+    &__content,
+    &__gallery {
+      position: unset;
+      height: auto;
+      width: calc(100vw - 8rem);
+    }
+    &__content {
+      order: 1;
+      gap: 4rem;
+      
+      h1 {
+        padding: 0;
+        flex: 1;
+        order: 1;
+      }
+
+      &__description {
+        padding: 0 4rem;
+
+        &::before {
+          margin-bottom: 2rem;
+        }
+        &::after {
+          margin-top: 2rem;
+        }
+      }
+    }
+    &__gallery {
+      order: 2;
+    }
+    &__navigation {
+      padding: 0 4rem;
+
+      .btn-nav {
+        order: 2;
+      }
+    }
+  }
+}

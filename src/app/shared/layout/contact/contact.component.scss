@@ -71,3 +71,13 @@
         }
     }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+    .contact {
+        &__wrap {
+            padding: 6rem 4rem;
+            text-align: center;
+        }
+    }
+}

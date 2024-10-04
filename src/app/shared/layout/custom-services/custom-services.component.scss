@@ -121,3 +121,20 @@
         }
     }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+    .custom-services {
+        flex-direction: column;
+
+        &__gallery,
+        &__wrap {
+            max-width: calc(100vw - 8rem);
+            width: calc(100vw - 8rem);
+        }
+
+        &__wrap {
+            margin: 4rem 0;
+        }
+    }
+}

@@ -91,3 +91,49 @@
     }
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+  .projects-list {
+    padding-top: 6rem;
+
+    &__wrap {
+      padding: 0 4rem;
+      text-align: center;
+    }
+
+    &__filters {
+      width: calc(100vw - 8rem);
+      padding-bottom: 1rem;
+      overflow-x: scroll;
+      overflow-y: hidden;
+
+      &::-webkit-scrollbar {
+        height: .5rem;
+        background: $base;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background: $primary;
+      }
+    }
+
+    &__grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &__item {
+      height: 25rem;
+
+      &.double-vertical {
+        height: 50rem;
+      }
+
+      &.double-horizontal {
+        grid-row: span 1;
+        grid-column: span 1;
+      }
+    }
+  }
+}
