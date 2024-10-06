@@ -73,3 +73,13 @@ b, strong {
 i, em {
   font-style: italic
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+  p, .p { font-size: 1.4rem; }
+}
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  p, .p { font-size: 1.4rem; }
+}
