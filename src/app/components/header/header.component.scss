@@ -137,3 +137,37 @@ header {
     }
   }
 }
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  header {
+    .logo-container {
+      a {
+        svg {
+          width: 10.5rem;
+        }
+      }
+
+      &.has-menu-opened {
+        a {
+          svg {
+            width: 10.5rem;
+          }
+        }
+      }
+    }
+
+    &.scrolled,
+    &.header-alt {
+      .logo-container {
+        &:not(.has-menu-opened) {
+          a {
+            svg {
+              width: 8.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

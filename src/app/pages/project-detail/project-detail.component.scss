@@ -79,6 +79,7 @@
       h4 {
         text-align: center;
         height: 1.5rem;
+        padding: 0;
 
         span {
           color: $primary;
@@ -313,6 +314,7 @@
         padding: 0;
         order: 0;
         grid-column: 1 / -1;
+        font-size: 3rem;
       }
 
       &__description {
@@ -350,6 +352,31 @@
           order: 2;
           grid-column: 2;
           justify-self: flex-end;
+        }
+      }
+    }
+  }
+}
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  .project {
+    &__content {
+      padding: 14.5rem 0 4rem 0;
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      &__description {
+        padding: 0 8rem;
+        gap: 1rem;
+
+        &::before {
+          margin-bottom: 1rem;
+        }
+        &::after {
+          margin-top: 1rem;
         }
       }
     }

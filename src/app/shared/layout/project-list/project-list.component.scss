@@ -137,3 +137,32 @@
     }
   }
 }
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  .projects-list {
+    padding-top: 6rem;
+
+    &__wrap {
+      padding: 0 4rem;
+      text-align: center;
+    }
+
+    &__filters {
+      width: calc(100vw - 8rem);
+      padding-bottom: 1rem;
+      overflow-x: scroll;
+      overflow-y: hidden;
+
+      &::-webkit-scrollbar {
+        height: .5rem;
+        background: $base;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background: $primary;
+      }
+    }
+  }
+}

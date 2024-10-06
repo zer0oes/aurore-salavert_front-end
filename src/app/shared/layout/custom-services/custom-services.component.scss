@@ -138,3 +138,15 @@
         }
     }
 }
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    .custom-services {
+        &__gallery {
+            height: 100%;
+        }
+        &__wrap {
+            margin: 4rem 0;
+        }
+    }
+}
