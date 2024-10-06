@@ -1,0 +1,86 @@
+@import 'styles/colors';
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 20;
+    width: calc(100vw - 8rem);
+    height: calc(100vh - 8rem);
+    background: linear-gradient(180deg, rgba($primary, 1) 0%, rgba($secondary, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    
+    &__logo {
+        width: 15rem;
+        opacity: 1;
+        transition: opacity .3s ease-in-out;
+
+        .primary-color,
+        .tertiary-color {
+          fill: $base-light;
+        }
+        .secondary-color {
+          fill: $secondary;
+        }
+    }
+
+    &.ng-leave {
+        opacity: 0;
+
+        .loading__logo {
+            opacity: 0;
+        }
+    }
+
+    .path-animation,
+    .path-animation-secondary {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        stroke-width: 0;
+        fill: transparent;
+    }
+
+    .path-animation {
+        animation: fill 1s ease-in-out forwards;
+    }
+    .path-animation-secondary {
+        animation: fillSec 1s ease-in-out forwards;
+    }
+
+    #logo_AS-A { animation-delay: 0s; }
+    #logo_AS-apostrophe { animation-delay: .4s; }
+    #logo_AS-S { animation-delay: .2s; }
+
+    #logo_graphic-G { animation-delay: .4s; }
+    #logo_graphic-R { animation-delay: .8s; }
+    #logo_graphic-A { animation-delay: .6s; }
+    #logo_graphic-P { animation-delay: 1s; }
+    #logo_graphic-H { animation-delay: 1.4s; }
+    #logo_graphic-I { animation-delay: 1.6s; }
+    #logo_graphic-C { animation-delay: 1.2s; }
+
+    #logo_design-D { animation-delay: .4s; }
+    #logo_design-E { animation-delay: 1s; }
+    #logo_design-S { animation-delay: .8s; }
+    #logo_design-I { animation-delay: .6s; }
+    #logo_design-G { animation-delay: 1.2s; }
+    #logo_design-N { animation-delay: 1.4s; }
+}
+
+@keyframes fill {
+    to {
+        fill: $base;
+    }
+}
+
+@keyframes fillSec {
+    to {
+        fill: $secondary;
+    }
+}
