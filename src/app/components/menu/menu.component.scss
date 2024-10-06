@@ -138,3 +138,39 @@
     pointer-events: inherit;
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+  .menu {
+    &_content {
+      padding: 0 4rem;
+      li {
+        margin: 4rem 0;
+        a {
+          font-size: 2rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+  .menu {
+    &_content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: calc(12.5rem + 4rem) 4rem 6rem;
+      
+      li {
+        margin: 0;
+        a {
+          font-size: 2rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}
