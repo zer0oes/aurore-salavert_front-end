@@ -121,3 +121,32 @@
         }
     }
 }
+
+// MOBILE
+@media only screen and (max-width: 600px) {
+    .custom-services {
+        flex-direction: column;
+
+        &__gallery,
+        &__wrap {
+            max-width: calc(100vw - 8rem);
+            width: calc(100vw - 8rem);
+        }
+
+        &__wrap {
+            margin: 4rem 0;
+        }
+    }
+}
+
+// TABLETS
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    .custom-services {
+        &__gallery {
+            height: 100%;
+        }
+        &__wrap {
+            margin: 4rem 0;
+        }
+    }
+}
