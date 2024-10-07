@@ -19,13 +19,12 @@ export class SkillsComponent implements OnInit {
   ngOnInit(): void {
     // Compétences
     this.http.get(`${this.url}/api/competence?populate=*`).subscribe((response: any) => {
-      const competenceData = response?.data; // Assurer que response.data existe
+      const competenceData = response?.data;
 
       if (competenceData && competenceData.Title) {
-        // Ajouter l'objet dans le tableau des compétences
         let newCompetence: Competence = {
           title: competenceData.Title,
-          slug: competenceData.slug || 'no-slug', // Fournir un slug si manquant
+          slug: competenceData.slug || 'no-slug',
         };
 
         this.competence.push(newCompetence);
@@ -33,8 +32,6 @@ export class SkillsComponent implements OnInit {
         console.error('Les données de compétence sont manquantes ou mal formées.');
       }
     });
-
-
 
     // Skills
     this.http.get(`${this.url}/api/skills?populate=*`).subscribe((skill: any) => {

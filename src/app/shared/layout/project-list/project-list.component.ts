@@ -25,61 +25,74 @@ export class ProjectListComponent implements OnInit {
       const showcaseData = response.data;
 
       const showcase: CreativeShowcase = {
-        title: showcaseData.attributes.Title,
-        descritpion: showcaseData.attributes.Description,
-        slug: showcaseData.attributes.slug
+        title: showcaseData.Title,
+        descritpion: showcaseData.Description,
+        slug: showcaseData.slug
       };
 
       this.showcaseInfos.push(showcase);
     });
 
-    this.http.get(`${this.url}/api/projects?populate=*`).subscribe((project: any) => {
-      project.data.forEach((element: any) => {
-        if (element.attributes) {
-          let cat: Array<Category> = [];
-          if (element.attributes.categories?.data) {
-            element.attributes.categories.data.forEach((category: any) => {
-              cat.push({
-                title: category.attributes.title,
-                slug: category.attributes.slug
+    this.http.get(`${this.url}/api/projects?populate=*`).subscribe((response: any) => {
+      const projectData = response?.data;
+    
+      if (Array.isArray(projectData)) {
+        projectData.forEach((element: any) => {
+          if (element) {
+            const attributes = element;
+    
+            // Récupération des catégories
+            let cat: Array<Category> = [];
+            if (attributes.categories && Array.isArray(attributes.categories)) {
+              attributes.categories.forEach((category: any) => {
+                cat.push({
+                  title: category.title || 'No Title',
+                  slug: category.slug || 'no-slug'
+                });
+                if (!this.usedCategories.includes(category.slug)) {
+                  this.usedCategories.push(category.slug);
+                }
               });
-              if (!this.usedCategories.includes(category.attributes.slug)) {
-                this.usedCategories.push(category.attributes.slug);
-              }
-            });
-          }
-
-          let gal: Array<Gallery> = [];
-          if (element.attributes.gallery?.data) {
-            element.attributes.gallery.data.forEach((item: any) => {
-              gal.push({
-                id: item.id,
-                img: this.url + item.attributes.url,
-                alt: item.attributes.alternativeText || 'Image'
+            }
+    
+            // Récupération de la galerie
+            let gal: Array<Gallery> = [];
+            if (attributes.gallery && Array.isArray(attributes.gallery)) {
+              attributes.gallery.forEach((item: any) => {
+                gal.push({
+                  id: item.id,
+                  img: this.url + (item.url || ''),
+                  alt: item.alternativeText || 'Image'
+                });
               });
-            });
+            }
+    
+            // Création du nouvel objet projet
+            const newProject: Project = {
+              id: attributes.id,
+              slug: attributes.slug || 'no-slug',
+              title: attributes.title || 'No Title',
+              description: attributes.description || 'No Description',
+              createdAt: attributes.createdAt || '',
+              thumbnail: attributes.thumbnail ? this.url + attributes.thumbnail.url : '',
+              categories: cat,
+              layout: attributes.layout ? attributes.layout.slug : '',
+              gallery: gal
+            };
+    
+            this.originalProjects.push(newProject);
           }
-
-          let newProject: Project = {
-            id: element.id,
-            slug: element.attributes.slug,
-            title: element.attributes.title,
-            description: element.attributes.description,
-            createdAt: element.attributes.createdAt,
-            thumbnail: element.attributes.thumbnail?.data ? this.url + element.attributes.thumbnail.data.attributes.url : '',
-            categories: cat,
-            layout: element.attributes.layout?.data ? element.attributes.layout.data.attributes.slug : '',
-            gallery: gal
-          }
-
-          this.originalProjects.push(newProject);
-        }
-      });
-
-      this.originalProjects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
-      this.projects = [...this.originalProjects];
+        });
+    
+        this.originalProjects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+        this.projects = [...this.originalProjects];
+      } else {
+        console.error('Les données de projet ne sont pas au format attendu.');
+      }
+    }, (error) => {
+      console.error('Erreur lors du chargement des projets:', error);
     });
-  }
+  };
 
   getProjectClasses(project: Project): string {
     const layoutClass = typeof project.layout === 'string' ? project.layout : '';

@@ -60,14 +60,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjects(): void {
-    this.http.get(`${this.url}api/projects?populate=*'`)
+    this.http.get(`${this.url}/api/projects?populate=*`)
       .subscribe((response: any) => {
         if (response.data) {
           this.projects = response.data.map((item: any) => ({
             id: item.id,
             ...item.attributes
           }));
-
+  
           this.updateCurrentIndex();
         } else {
           console.error('Aucun projet trouvé');
@@ -78,28 +78,42 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjectData(slug: string): void {
-    this.http.get(`${this.url}api/projects?filters[slug][$eq]=${slug}&populate=*`)
+    this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&populate=*`)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
-          const attributes = response.data[0].attributes;
-
+          const projectData = response.data[0];  // Récupère directement les données du projet
+  
           this.project = {
-            ...attributes,
-            categories: attributes.categories?.data.map((item: any) => ({
-              title: item.attributes.title,
-              slug: item.attributes.slug
+            id: projectData.id,
+            slug: projectData.slug || 'no-slug',
+            title: projectData.title || 'No Title',
+            description: projectData.description || 'No Description',
+            
+            // Gestion des catégories
+            categories: projectData.categories?.map((category: any) => ({
+              title: category.title || 'No Title',
+              slug: category.slug || 'no-slug'
             })) || [],
-            gallery: attributes.gallery?.data.map((item: any) => ({
+  
+            // Gestion de la galerie
+            gallery: projectData.gallery?.map((item: any) => ({
               id: item.id,
-              img: item.attributes.url,
-              alt: item.attributes.alternativeText || 'Image'
-            })) || []
+              img: this.url + (item.url || ''),
+              alt: item.alternativeText || 'Image'
+            })) || [],
+  
+            // Gestion du thumbnail
+            thumbnail: projectData.thumbnail ? this.url + projectData.thumbnail.url : '',
+  
+            // Ajout de createdAt et layout avec valeurs par défaut
+            createdAt: projectData.createdAt || '',
+            layout: projectData.layout ? projectData.layout.slug : ''
           };
-
-          this.projectDescriptionHtml = this.convertMarkdownToHtml(attributes.description);
-
+  
+          this.projectDescriptionHtml = this.convertMarkdownToHtml(projectData.description);
+  
           this.updateCurrentIndex();
-          this.isHeaderAlt = this.currentIndex > 0; 
+          this.isHeaderAlt = this.currentIndex !== null && this.currentIndex > 0;
           this.previousProject = this.currentIndex > 0 ? this.projects[this.currentIndex - 1] : null;
           this.nextProject = this.currentIndex < this.projects.length - 1 ? this.projects[this.currentIndex + 1] : null;
           this.titlePrev = this.previousProject ? this.previousProject.title : '';
@@ -136,7 +150,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   toggleImageSize(event: Event, item: any): void {
     event.stopPropagation();
-    this.expandedImageSrc = environment.url + item.img;
+    this.expandedImageSrc = item.img;
     this.isImageExpanded = !this.isImageExpanded;
   }
 

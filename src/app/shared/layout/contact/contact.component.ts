@@ -16,16 +16,25 @@ export class ContactComponent  {
   @Input() contactInfos: Array<Contact> = [];
 
   ngOnInit(): void {
-    this.http.get(`${this.url}/api/contact?populate=*`).subscribe((response: any) => {
-      const contactData = response.data;
+    this.http.get(`${this.url}/api/contact?populate=*`).subscribe(
+      (response: any) => {
+        const contactData = response?.data;
 
-      const contact: Contact = {
-        slug: contactData.attributes.slug,
-        title: contactData.attributes.Title,
-        email: contactData.attributes.Email
-      };
-
-      this.contactInfos.push(contact);
-    });
+        if (contactData) {
+          const contact: Contact = {
+            slug: contactData.slug || 'no-slug',
+            title: contactData.Title || 'No Title',
+            email: contactData.Email || 'No Email'
+          };
+  
+          this.contactInfos.push(contact);
+        } else {
+          console.error("Les données de contact sont manquantes ou mal structurées.");
+        }
+      },
+      (error) => {
+        console.error("Erreur lors du chargement des données de contact:", error);
+      }
+    );
   }
 }

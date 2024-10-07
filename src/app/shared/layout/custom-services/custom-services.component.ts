@@ -32,13 +32,13 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
       (response) => {
         const item = response.data;
         this.services = [{
-          slug: item.attributes.slug,
-          title: item.attributes.Title,
-          text: item.attributes.Text,
-          gallery: item.attributes.Gallery.data.map((g: { id: number; attributes: { url: string; alternativeText: string } }) => ({
+          slug: item.slug,
+          title: item.Title,
+          text: item.Text,
+          gallery: item.Gallery.map((g: { id: number; name: string; alternativeText: string; url: string }) => ({
             id: g.id,
-            img: this.url + g.attributes.url,
-            alt: g.attributes.alternativeText
+            img: this.url + g.url, 
+            alt: g.alternativeText || 'No alternative text'
           })) as Gallery[],
         }];
         if (this.services[0]?.gallery?.length > 0) {
