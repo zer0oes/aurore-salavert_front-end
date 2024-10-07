@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Service } from '@app/models/frontend/project';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { environment } from '@src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'services',
