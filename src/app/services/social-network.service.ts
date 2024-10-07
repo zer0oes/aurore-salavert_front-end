@@ -1,18 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '@src/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocialNetworkService {
-  private apiUrl = environment.url + 'api/social-networks?populate=*'; // URL de l'API
+  private url = environment.url + 'api/social-networks?populate=*';
 
-  constructor(private http: HttpClient) { } // Injection de HttpClient
+  constructor(private http: HttpClient) { }
 
-  // Méthode pour récupérer les réseaux sociaux
   getSocialNetworks(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+    return this.http.get<any>(this.url);
   }
 }

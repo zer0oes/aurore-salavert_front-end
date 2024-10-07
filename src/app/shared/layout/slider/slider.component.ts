@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { SliderItems } from '@app/models/frontend/project';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@src/environment';
 
 
 @Component({

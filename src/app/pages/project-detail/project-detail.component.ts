@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
-import { environment } from '../../../environments/environment';
+import { environment } from '@src/environment';
 
 
 @Component({
