@@ -15,7 +15,14 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     this.socialNetworkService.getSocialNetworks().subscribe((response: any) => {
-      this.socialNetworks = response.data;
+      if (response && response.data) {
+        this.socialNetworks = response.data.map((network: any) => ({
+          icon: network.icon,
+          url: network.url
+        }));
+      } else {
+        console.error('Erreur: Aucune donnée trouvée dans la réponse de l\'API');
+      }
     });
   }
 }

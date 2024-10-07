@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel } from '@angular/router';
+import { environment } from '@src/environment';
 
 @Component({
   selector: 'app-root',
@@ -19,5 +20,6 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       }
     });
+    console.log('API URL:', environment.url);
   }
 }

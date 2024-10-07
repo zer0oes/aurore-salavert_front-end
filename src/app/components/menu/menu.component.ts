@@ -2,34 +2,38 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { MenuService } from '@app/services/menu.service';
 
+interface MenuItem {
+  title: string;
+  slug: string;
+}
+
 @Component({
   selector: 'menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  constructor(private router: Router, private menuService: MenuService) {}
-  
   menuOpened = false;
-  menuItems: any[] = [];
+  menuItems: MenuItem[] = [];
 
-  toggleNavbar() {
+  constructor(private router: Router, private menuService: MenuService) {}
+
+  toggleNavbar(): void {
     this.menuOpened = !this.menuOpened;
-    this.menuService.toggleMenu();
+    this.menuService.toggleMenu(); // Gère l'état du menu dans le service
   }
 
-  navigateToSection(section: string) {
+  navigateToSection(section: string): void {
     const navigationExtras: NavigationExtras = {
       fragment: section
     };
 
-    // Fermer le menu après la sélection
+    // Ferme le menu après la sélection
     this.menuOpened = false;
-    this.menuService.setMenuOpened(false); // Optionnel, selon votre logique
+    this.menuService.setMenuOpened(false); // Si le service gère l'état du menu
 
     this.router.navigate(['/'], navigationExtras).then(() => {
-      // Ajout d'un décalage pour le header
-      const headerOffset = 80; // Ajustez selon la hauteur de votre header
+      const headerOffset = 80; // Ajuster en fonction de la hauteur du header
       const element = document.getElementById(section);
       if (element) {
         const elementPosition = element.getBoundingClientRect().top;
@@ -44,10 +48,13 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.menuService.getMenuItems().subscribe((items: any[]) => {
-      this.menuItems = items;
-    }, error => {
-      console.error('Erreur lors de la récupération des éléments du menu :', error);
+    this.menuService.getMenuItems().subscribe({
+      next: (items: MenuItem[]) => {
+        this.menuItems = items;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des éléments du menu :', error);
+      }
     });
   }
 }

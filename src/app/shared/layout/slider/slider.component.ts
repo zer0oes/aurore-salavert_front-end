@@ -3,15 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SliderItems } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 
-
 @Component({
   selector: 'slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
-
 })
 export class SliderComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   @Input() images: Array<SliderItems> = [];
   @Input() selectedIndex: number = 0;
@@ -24,15 +22,19 @@ export class SliderComponent implements OnInit {
   private url = environment.url;
 
   ngOnInit(): void {
-    this.http.get(`${this.url}api/slider-item?populate=*`).subscribe((sliderItem: any) => {
-      sliderItem.data.attributes.Gallery.data.forEach((item: any) => {
-        let newImages: SliderItems = {
-          imgSrc: this.url + item.attributes.url,
-          imgAlt: item.attributes.alternativeText
-        };
+    this.http.get(`${this.url}/api/slider-item?populate=*`).subscribe((sliderItem: any) => {
+      if (sliderItem && sliderItem.data && sliderItem.data.Gallery && sliderItem.data.Gallery.length > 0) {
+        sliderItem.data.Gallery.forEach((item: any) => {
+          let newImage: SliderItems = {
+            imgSrc: this.url + item.url,
+            imgAlt: item.alternativeText || 'No description available',
+          };
 
-        this.images.push(newImages);
-      });
+          this.images.push(newImage);
+        });
+      } else {
+        console.error("La galerie du slider est vide ou absente.");
+      }
     });
 
     if (this.autoSlide) {
@@ -67,12 +69,12 @@ export class SliderComponent implements OnInit {
   }
 
   autoSlideImages(): void {
-    setInterval(() => {
+    this.slideIntervalId = setInterval(() => {
       this.onNextClick();
     }, this.slideInterval);
   }
 
   pauseSlider(): void {
-    clearInterval(this.slideInterval);
+    clearInterval(this.slideIntervalId);
   }
 }

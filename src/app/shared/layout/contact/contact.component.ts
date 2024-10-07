@@ -16,7 +16,7 @@ export class ContactComponent  {
   @Input() contactInfos: Array<Contact> = [];
 
   ngOnInit(): void {
-    this.http.get(`${this.url}api/contact?populate=*`).subscribe((response: any) => {
+    this.http.get(`${this.url}/api/contact?populate=*`).subscribe((response: any) => {
       const contactData = response.data;
 
       const contact: Contact = {

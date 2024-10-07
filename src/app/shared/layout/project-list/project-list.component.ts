@@ -21,7 +21,7 @@ export class ProjectListComponent implements OnInit {
   private url = environment.url;
 
   ngOnInit(): void {
-    this.http.get(`${this.url}api/showcase?populate=*`).subscribe((response: any) => {
+    this.http.get(`${this.url}/api/showcase?populate=*`).subscribe((response: any) => {
       const showcaseData = response.data;
 
       const showcase: CreativeShowcase = {
@@ -33,7 +33,7 @@ export class ProjectListComponent implements OnInit {
       this.showcaseInfos.push(showcase);
     });
 
-    this.http.get(`${this.url}api/projects?populate=*`).subscribe((project: any) => {
+    this.http.get(`${this.url}/api/projects?populate=*`).subscribe((project: any) => {
       project.data.forEach((element: any) => {
         if (element.attributes) {
           let cat: Array<Category> = [];

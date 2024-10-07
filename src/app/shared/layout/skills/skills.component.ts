@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Competence, Skill } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 
-
 @Component({
   selector: 'skills',
   templateUrl: './skills.component.html',
@@ -18,28 +17,35 @@ export class SkillsComponent implements OnInit {
   private url = environment.url;
 
   ngOnInit(): void {
-    // Title
-    this.http.get(`${this.url}api/competence?populate=*`).subscribe((response: any) => {
-      const compData = response.data;
+    // Compétences
+    this.http.get(`${this.url}/api/competence?populate=*`).subscribe((response: any) => {
+      const competenceData = response?.data; // Assurer que response.data existe
 
-      const comp: Competence = {
-        slug: compData.attributes.slug,
-        title: compData.attributes.Title
-      };
+      if (competenceData && competenceData.Title) {
+        // Ajouter l'objet dans le tableau des compétences
+        let newCompetence: Competence = {
+          title: competenceData.Title,
+          slug: competenceData.slug || 'no-slug', // Fournir un slug si manquant
+        };
 
-      this.competence.push(comp);
+        this.competence.push(newCompetence);
+      } else {
+        console.error('Les données de compétence sont manquantes ou mal formées.');
+      }
     });
 
+
+
     // Skills
-    this.http.get(`${this.url}api/skills?populate=*`).subscribe((skill: any) => {
+    this.http.get(`${this.url}/api/skills?populate=*`).subscribe((skill: any) => {
       skill.data.forEach((element: any) => {
         let newSkills: Skill = {
           id: element.id,
-          title: element.attributes.title,
-          text: element.attributes.text,
-          createdAt: element.attributes.createdAt,
-          icon: this.url + element.attributes.icon.data.attributes.url
-        }
+          title: element.title,
+          text: element.text,
+          createdAt: element.createdAt,
+          icon: this.url + (element.icon?.url || '')
+        };
 
         this.skills.push(newSkills);
       });

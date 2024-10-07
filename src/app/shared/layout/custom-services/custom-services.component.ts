@@ -28,7 +28,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   }
 
   loadServices(): void {
-    this.http.get<{ data: any }>(`${this.url}api/service?populate=*`).subscribe(
+    this.http.get<{ data: any }>(`${this.url}/api/service?populate=*`).subscribe(
       (response) => {
         const item = response.data;
         this.services = [{

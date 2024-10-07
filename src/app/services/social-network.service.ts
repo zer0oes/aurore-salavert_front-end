@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SocialNetworkService {
-  private url = environment.url + 'api/social-networks?populate=*';
+  private url = environment.url + '/api/social-networks?populate=*';
 
   constructor(private http: HttpClient) { }
 
