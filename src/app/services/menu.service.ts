@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Input } from '@angular/core';
-import { Competence, Contact, CreativeShowcase, CustomService } from '@app/models/frontend/project';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
-  private showcaseUrl = 'http://localhost:1337/api/showcase?populate=*';
-  private skillUrl = 'http://localhost:1337/api/competence?populate=*';
-  private servicesUrl = 'http://localhost:1337/api/service?populate=*';
-  private contactUrl = 'http://localhost:1337/api/contact?populate=*';
+  private url = environment.url;
+  private showcaseUrl = environment.url + 'api/showcase?populate=*';
+  private skillUrl = environment.url + 'api/competence?populate=*';
+  private servicesUrl = environment.url + 'api/service?populate=*';
+  private contactUrl = environment.url + 'api/contact?populate=*';
 
   constructor(private http: HttpClient) { }
 
