@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
 import { environment } from '../../../../environments/environment';
 
+
 @Component({
   selector: 'project-list',
   templateUrl: './project-list.component.html',

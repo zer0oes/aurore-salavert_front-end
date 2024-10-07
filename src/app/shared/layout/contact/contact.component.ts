@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Contact } from '@app/models/frontend/project';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../environments/environment';
+
 
 @Component({
   selector: 'contact',

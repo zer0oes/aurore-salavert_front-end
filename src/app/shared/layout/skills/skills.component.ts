@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Competence, Skill } from '@app/models/frontend/project';
 import { environment } from '../../../../environments/environment';
 
+
 @Component({
   selector: 'skills',
   templateUrl: './skills.component.html',

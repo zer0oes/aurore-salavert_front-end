@@ -9,7 +9,7 @@
       ],
       "@src/*": [
         "*"
-      ]
+      ],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

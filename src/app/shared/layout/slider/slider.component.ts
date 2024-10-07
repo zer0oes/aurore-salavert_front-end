@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SliderItems } from '@app/models/frontend/project';
 import { environment } from '../../../../environments/environment';
 
+
 @Component({
   selector: 'slider',
   templateUrl: './slider.component.html',

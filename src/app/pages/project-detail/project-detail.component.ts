@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
 import { environment } from '../../../environments/environment';
 
+
 @Component({
   selector: 'project-detail',
   templateUrl: './project-detail.component.html',
