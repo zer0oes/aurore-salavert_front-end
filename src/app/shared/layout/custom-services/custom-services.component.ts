@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CustomService, Gallery } from '@app/models/frontend/project';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'custom-services',
@@ -12,6 +13,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   @Input() slideInterval: number = 10000;
   @Input() currentImageId: number | null = null;
   @Input() autoSlideTimer: any;
+  private url = environment.url;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +27,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   }
 
   loadServices(): void {
-    this.http.get<{ data: any }>('http://localhost:1337/api/service?populate=*').subscribe(
+    this.http.get<{ data: any }>(`${this.url}api/service?populate=*`).subscribe(
       (response) => {
         const item = response.data;
         this.services = [{
@@ -34,7 +36,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
           text: item.attributes.Text,
           gallery: item.attributes.Gallery.data.map((g: { id: number; attributes: { url: string; alternativeText: string } }) => ({
             id: g.id,
-            img: 'http://localhost:1337' + g.attributes.url,
+            img: this.url + g.attributes.url,
             alt: g.attributes.alternativeText
           })) as Gallery[],
         }];

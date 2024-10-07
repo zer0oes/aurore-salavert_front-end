@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Service } from '@app/models/frontend/project';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'services',
@@ -12,9 +13,10 @@ export class ServicesComponent {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   @Input() serviceContent: Array<Service> = [];
-
+  private url = environment.url;
+  
   ngOnInit(): void {
-    this.http.get('http://localhost:1337/api/service?populate=*').subscribe((response: any) => {
+    this.http.get(`${this.url}/api/service?populate=*`).subscribe((response: any) => {
       const serviceData = response.data;
       const processedText = this.processText(serviceData.attributes.Text);
 

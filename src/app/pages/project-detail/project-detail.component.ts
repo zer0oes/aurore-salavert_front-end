@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'project-detail',
@@ -21,6 +22,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   isLensVisible: boolean = false;
   titlePrev: string | '';
   titleNext: string | '';
+  public url = environment.url;
 
 
   constructor(
@@ -57,7 +59,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjects(): void {
-    this.http.get('http://localhost:1337/api/projects?populate=*')
+    this.http.get(`${this.url}api/projects?populate=*'`)
       .subscribe((response: any) => {
         if (response.data) {
           this.projects = response.data.map((item: any) => ({
@@ -75,7 +77,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjectData(slug: string): void {
-    this.http.get(`http://localhost:1337/api/projects?filters[slug][$eq]=${slug}&populate=*`)
+    this.http.get(`${this.url}api/projects?filters[slug][$eq]=${slug}&populate=*`)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
           const attributes = response.data[0].attributes;
@@ -133,7 +135,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   toggleImageSize(event: Event, item: any): void {
     event.stopPropagation();
-    this.expandedImageSrc = 'http://localhost:1337' + item.img;
+    this.expandedImageSrc = environment.url + item.img;
     this.isImageExpanded = !this.isImageExpanded;
   }
 

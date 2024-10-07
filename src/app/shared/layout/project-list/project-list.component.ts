@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'project-list',
@@ -16,9 +17,10 @@ export class ProjectListComponent implements OnInit {
   usedCategories: string[] = [];
   activeCategory: string = 'All';
   fadeOut: boolean = false;
+  private url = environment.url;
 
   ngOnInit(): void {
-    this.http.get('http://localhost:1337/api/showcase?populate=*').subscribe((response: any) => {
+    this.http.get(`${this.url}api/showcase?populate=*`).subscribe((response: any) => {
       const showcaseData = response.data;
 
       const showcase: CreativeShowcase = {
@@ -30,7 +32,7 @@ export class ProjectListComponent implements OnInit {
       this.showcaseInfos.push(showcase);
     });
 
-    this.http.get('http://localhost:1337/api/projects?populate=*').subscribe((project: any) => {
+    this.http.get(`${this.url}api/projects?populate=*`).subscribe((project: any) => {
       project.data.forEach((element: any) => {
         if (element.attributes) {
           let cat: Array<Category> = [];
@@ -51,7 +53,7 @@ export class ProjectListComponent implements OnInit {
             element.attributes.gallery.data.forEach((item: any) => {
               gal.push({
                 id: item.id,
-                img: 'http://localhost:1337' + item.attributes.url,
+                img: this.url + item.attributes.url,
                 alt: item.attributes.alternativeText || 'Image'
               });
             });
@@ -63,7 +65,7 @@ export class ProjectListComponent implements OnInit {
             title: element.attributes.title,
             description: element.attributes.description,
             createdAt: element.attributes.createdAt,
-            thumbnail: element.attributes.thumbnail?.data ? 'http://localhost:1337' + element.attributes.thumbnail.data.attributes.url : '',
+            thumbnail: element.attributes.thumbnail?.data ? this.url + element.attributes.thumbnail.data.attributes.url : '',
             categories: cat,
             layout: element.attributes.layout?.data ? element.attributes.layout.data.attributes.slug : '',
             gallery: gal
