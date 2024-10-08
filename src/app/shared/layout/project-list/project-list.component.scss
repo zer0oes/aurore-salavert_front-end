@@ -103,6 +103,8 @@
     }
 
     &__filters {
+      justify-content: flex-start;
+      padding: 0 2rem 2rem;
       width: calc(100vw - 4rem);
       padding-bottom: 1rem;
       overflow-x: scroll;
