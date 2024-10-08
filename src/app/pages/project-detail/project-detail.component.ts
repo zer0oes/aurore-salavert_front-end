@@ -44,7 +44,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       const slug = params['slug'];
       if (slug) {
-        // Appeler fetchProjects() puis fetchProjectData() une fois les projets chargés
         this.fetchProjects().then(() => {
           this.fetchProjectData(slug);
         });
@@ -91,7 +90,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&populate=*`)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
-          const projectData = response.data[0]; 
+          const projectData = response.data[0];
   
           this.project = {
             id: projectData.id,
@@ -99,23 +98,18 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             title: projectData.title || 'No Title',
             description: projectData.description || 'No Description',
             
-            // Gestion des catégories
             categories: projectData.categories?.map((category: any) => ({
               title: category.title || 'No Title',
               slug: category.slug || 'no-slug'
             })) || [],
   
-            // Gestion de la galerie
             gallery: projectData.gallery?.map((item: any) => ({
               id: item.id,
               img: this.url + (item.url || ''),
               alt: item.alternativeText || 'Image'
             })) || [],
   
-            // Gestion du thumbnail
             thumbnail: projectData.thumbnail ? this.url + projectData.thumbnail.url : '',
-  
-            // Ajout de createdAt et layout avec valeurs par défaut
             createdAt: projectData.createdAt || '',
             layout: projectData.layout ? projectData.layout.slug : ''
           };
@@ -167,10 +161,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   updateCurrentIndex(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
-    console.log('Recherche du projet avec le slug:', slug);
-    console.log('Projets disponibles:', this.projects);
-  
+    const slug = this.route.snapshot.paramMap.get('slug');  
     this.currentIndex = this.projects.findIndex(project => project.slug === slug);
     if (this.currentIndex === -1) {
       console.error('Index du projet actuel non trouvé pour le slug:', slug);
