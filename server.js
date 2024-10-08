@@ -2,9 +2,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Middleware pour forcer l'utilisation de www
 app.use((req, res, next) => {
-    if (req.headers.host === 'auroresalavert.fr') {
+    if (req.headers.host === 'aurore-salavert.fr') {
         return res.redirect(301, `https://www.aurore-salavert.fr${req.originalUrl}`);
     }
     next();
