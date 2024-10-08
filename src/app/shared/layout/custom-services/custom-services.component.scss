@@ -123,24 +123,36 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 600px) {
-    .custom-services {
-        flex-direction: column;
+@media only screen and (max-width: 930px) {
+    // PORTRAIT
+    @media only screen and (orientation: portrait) {
+        .custom-services {
+            flex-direction: column;
 
-        &__gallery,
-        &__wrap {
-            max-width: calc(100vw - 8rem);
-            width: calc(100vw - 8rem);
+            &__gallery,
+            &__wrap {
+                max-width: calc(100vw - 4rem);
+                width: calc(100vw - 4rem);
+            }
+
+            &__wrap {
+                margin: 4rem 0;
+            }
         }
+    }
 
-        &__wrap {
-            margin: 4rem 0;
+    // LANDSCAPE 
+    @media only screen and (orientation: landscape) {
+        .custom-services {
+            &__gallery {
+                height: calc(100vh - 4rem);
+            }
         }
     }
 }
 
 // TABLETS
-@media only screen and (min-width: 901px) and (max-width: 1200px) {
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
     .custom-services {
         &__gallery {
             height: 100%;

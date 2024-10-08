@@ -292,21 +292,22 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 930px) {
   .project {
     flex-direction: column;
     overflow: auto;
+    height: calc(100vh - 4rem);
 
     &__content,
     &__gallery {
       position: unset;
       height: auto;
-      width: calc(100vw - 8rem);
+      width: calc(100vw - 4rem);
     }
 
     &__content {
       order: 1;
-      gap: 4rem;
+      gap: 2rem;
       
       h1 {
         padding: 0;
@@ -316,7 +317,7 @@
       }
 
       &__description {
-        padding: 0 4rem;
+        padding: 0 2rem;
 
         &::before {
           margin-bottom: 2rem;
@@ -338,7 +339,7 @@
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
       align-items: center;
-      padding: 0 4rem;
+      padding: 0 2rem;
 
       .btn-nav {
         &:first-of-type {
@@ -357,7 +358,7 @@
 }
 
 // TABLETS
-@media only screen and (min-width: 901px) and (max-width: 1200px) {
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
   .project {
     &__content {
       padding: 14.5rem 0 4rem 0;

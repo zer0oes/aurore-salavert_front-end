@@ -93,7 +93,7 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 930px) {
   .projects-list {
     padding-top: 6rem;
 
@@ -103,7 +103,7 @@
     }
 
     &__filters {
-      width: calc(100vw - 8rem);
+      width: calc(100vw - 4rem);
       padding-bottom: 1rem;
       overflow-x: scroll;
       overflow-y: hidden;
@@ -119,27 +119,39 @@
       }
     }
 
-    &__grid {
-      grid-template-columns: repeat(1, 1fr);
-    }
-
-    &__item {
-      height: 25rem;
-
-      &.double-vertical {
-        height: 50rem;
+    // PORTRAIT 
+    @media only screen and (orientation: portrait) {
+      &__grid {
+        width: calc(100vw - 4rem);
+        grid-template-columns: repeat(1, 1fr);
       }
 
-      &.double-horizontal {
-        grid-row: span 1;
-        grid-column: span 1;
+      &__item {
+        height: 25rem;
+  
+        &.double-vertical {
+          height: 50rem;
+        }
+  
+        &.double-horizontal {
+          grid-row: span 1;
+          grid-column: span 1;
+        }
+      }
+    }
+
+    // LANDSCAPE 
+    @media only screen and (orientation: landscape) {
+      &__grid {
+        width: calc(100vw - 4rem);
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   }
 }
 
 // TABLETS
-@media only screen and (min-width: 901px) and (max-width: 1200px) {
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
   .projects-list {
     padding-top: 6rem;
 

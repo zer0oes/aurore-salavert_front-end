@@ -40,3 +40,27 @@ footer {
     letter-spacing: .02em;
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 930px) {
+  footer {
+    height: 2rem;
+    padding: 0 2rem;
+
+    .social-networks {
+      a {  
+        i {
+          font-size: 2rem;
+        }
+      }
+    }
+    .copyright {
+      font-size: 1rem;
+    }
+  }
+}
+
+// TABLETS
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
+
+}

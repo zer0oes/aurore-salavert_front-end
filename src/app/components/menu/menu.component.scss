@@ -140,12 +140,18 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 930px) {
   .menu {
+    &_icon {
+      top: 6rem;
+      right: 4rem;
+    }
     &_content {
-      padding: 0 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
       li {
-        margin: 4rem 0;
         a {
           font-size: 2rem;
           line-height: 1;
@@ -153,10 +159,24 @@
       }
     }
   }
+
+  // LANDSCAPE
+  @media only screen and (orientation: landscape) {
+    .menu {
+      &_content {
+        margin-top: 6rem;
+      }
+    }
+  }
+
+  .modal-backdrop {
+    block-size: calc(100% - 4rem);
+    inline-size: calc(100% - 4rem);
+  }
 }
 
 // TABLETS
-@media only screen and (min-width: 901px) and (max-width: 1200px) {
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
   .menu {
     &_content {
       display: flex;

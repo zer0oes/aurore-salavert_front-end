@@ -84,3 +84,12 @@
         fill: $secondary;
     }
 }
+
+
+// MOBILE
+@media only screen and (max-width: 930px) {
+    .loading {
+        width: calc(100vw - 4rem);
+        height: calc(100vh - 4rem);
+    }
+}

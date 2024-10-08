@@ -5,7 +5,6 @@
 @import "fonts";
 
 @import "layout";
-// @import "vendor";
 
 html,
 body {
@@ -25,4 +24,17 @@ html {
 body {
   padding: 4rem;
   font-size: $base-font-size;
+}
+
+// MOBILE
+@media only screen and (max-width: 930px) {
+  body {
+    padding: 2rem;
+    font-size: calc($base-font-size * .75);
+  }
+}
+
+// TABLETS
+@media only screen and (min-width: 931px) and (max-width: 1200px) {
+
 }

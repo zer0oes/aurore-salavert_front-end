@@ -67,20 +67,23 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 600px) {
-  .skills {
-    padding: 6rem 4rem;
-    flex-direction: column;
-    gap: 4rem;
+@media only screen and (max-width: 930px) {
+  // PORTRAIT
+  @media only screen and (orientation: portrait) {
+    .skills {
+      padding: 6rem 4rem;
+      flex-direction: column;
+      gap: 4rem;
 
-    &__title {
-      margin: 0;
-    }
+      &__title {
+        margin: 0;
+      }
 
-    &__grid {
-      margin: 0;
-      grid-gap: 2rem;
-      grid-template-columns: repeat(1, 1fr)
+      &__grid {
+        margin: 0;
+        grid-gap: 2rem;
+        grid-template-columns: repeat(1, 1fr)
+      }
     }
   }
 }
