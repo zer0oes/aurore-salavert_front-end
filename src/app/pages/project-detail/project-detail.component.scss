@@ -253,7 +253,6 @@
     }
   }
 
-  
   &.is-expanded {
     background-color: rgba($base-rev, .75);
     backdrop-filter: blur(4px);
@@ -354,6 +353,14 @@
         }
       }
     }
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    top: 2rem;
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
   }
 }
 
