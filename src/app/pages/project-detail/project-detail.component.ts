@@ -40,12 +40,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     if (header) {
       this.renderer.addClass(header, 'header-alt');
     }
-
+  
     this.route.params.subscribe(params => {
       const slug = params['slug'];
       if (slug) {
-        this.fetchProjects();
-        this.fetchProjectData(slug);
+        // Appeler fetchProjects() puis fetchProjectData() une fois les projets chargés
+        this.fetchProjects().then(() => {
+          this.fetchProjectData(slug);
+        });
       } else {
         console.error('Slug non fourni');
       }
@@ -59,29 +61,37 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private fetchProjects(): void {
-    this.http.get(`${this.url}/api/projects?populate=*`)
-      .subscribe((response: any) => {
-        if (response.data) {
-          this.projects = response.data.map((item: any) => ({
-            id: item.id,
-            ...item.attributes
-          }));
+  private fetchProjects(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.http.get(`${this.url}/api/projects?populate=*`)
+        .subscribe((response: any) => {
+          if (response.data) {
+            this.projects = response.data.map((item: any) => ({
+              id: item.id,
+              slug: item.slug || 'no-slug',
+              title: item.title || 'No Title',
+              description: item.description || 'No Description',
+              createdAt: item.createdAt || '',
+              ...item
+            }));
   
-          this.updateCurrentIndex();
-        } else {
-          console.error('Aucun projet trouvé');
-        }
-      }, error => {
-        console.error('Erreur lors de la récupération des projets:', error);
-      });
+            resolve();
+          } else {
+            console.error('Aucun projet trouvé');
+            reject('Aucun projet trouvé');
+          }
+        }, error => {
+          console.error('Erreur lors de la récupération des projets:', error);
+          reject(error);
+        });
+    });
   }
 
   private fetchProjectData(slug: string): void {
     this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&populate=*`)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
-          const projectData = response.data[0];  // Récupère directement les données du projet
+          const projectData = response.data[0]; 
   
           this.project = {
             id: projectData.id,
@@ -126,11 +136,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateCurrentIndex(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
-    this.currentIndex = this.projects.findIndex(project => project.slug === slug);
-  }
-
   private convertMarkdownToHtml(markdown: string): string {
     if (!markdown) return '';
 
@@ -161,17 +166,36 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }, 400);
   }
 
-  navigateToPreviousProject(): void {
-    if (this.currentIndex !== null && this.currentIndex > 0) {
-      const previousProject = this.projects[this.currentIndex - 1];
-      this.router.navigate(['/project', previousProject.slug]);
+  updateCurrentIndex(): void {
+    const slug = this.route.snapshot.paramMap.get('slug');
+    console.log('Recherche du projet avec le slug:', slug);
+    console.log('Projets disponibles:', this.projects);
+  
+    this.currentIndex = this.projects.findIndex(project => project.slug === slug);
+    if (this.currentIndex === -1) {
+      console.error('Index du projet actuel non trouvé pour le slug:', slug);
     }
   }
 
+  navigateToPreviousProject(): void {
+    if (this.currentIndex !== null && this.currentIndex > 0) {
+      const previousProject = this.projects[this.currentIndex - 1];
+      if (previousProject && previousProject.slug) {
+        this.router.navigate(['/project', previousProject.slug]);
+      } else {
+        console.error('Projet précédent non défini ou slug manquant');
+      }
+    }
+  }
+  
   navigateToNextProject(): void {
     if (this.currentIndex !== null && this.currentIndex < this.projects.length - 1) {
       const nextProject = this.projects[this.currentIndex + 1];
-      this.router.navigate(['/project', nextProject.slug]);
+      if (nextProject && nextProject.slug) {
+        this.router.navigate(['/project', nextProject.slug]);
+      } else {
+        console.error('Projet suivant non défini ou slug manquant');
+      }
     }
   }
 

@@ -20,6 +20,5 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       }
     });
-    console.log('API URL:', environment.url);
   }
 }
