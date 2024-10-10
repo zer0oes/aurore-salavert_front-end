@@ -74,7 +74,7 @@ export class ProjectListComponent implements OnInit {
               title: attributes.title || 'No Title',
               description: attributes.description || 'No Description',
               createdAt: attributes.createdAt || '',
-              thumbnail: attributes.thumbnail ? this.url + attributes.thumbnail.url : '',
+              thumbnail: attributes.thumbnail.url.startsWith('http') ? attributes.thumbnail.url : this.url + (attributes.thumbnail.url || ''),
               categories: cat,
               layout: attributes.layout ? attributes.layout.slug : '',
               gallery: gal
