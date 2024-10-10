@@ -41,7 +41,7 @@ export class SkillsComponent implements OnInit {
           title: element.title,
           text: element.text,
           createdAt: element.createdAt,
-          icon: this.url + (element.icon?.url || '')
+          icon: element.icon?.url?.startsWith('http') ? element.icon.url : this.url + (element.icon?.url || '')
         };
 
         this.skills.push(newSkills);

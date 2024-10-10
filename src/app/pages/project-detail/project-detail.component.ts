@@ -105,7 +105,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   
             gallery: projectData.gallery?.map((item: any) => ({
               id: item.id,
-              img: this.url + (item.url || ''),
+              img: item.url.startsWith('http') ? item.url : this.url + (item.url || ''),
               alt: item.alternativeText || 'Image'
             })) || [],
   

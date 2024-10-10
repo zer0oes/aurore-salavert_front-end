@@ -61,7 +61,7 @@ export class ProjectListComponent implements OnInit {
               attributes.gallery.forEach((item: any) => {
                 gal.push({
                   id: item.id,
-                  img: this.url + (item.url || ''),
+                  img: item.url.startsWith('http') ? item.url : this.url + (item.url || ''),
                   alt: item.alternativeText || 'Image'
                 });
               });

@@ -37,7 +37,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
           text: item.Text,
           gallery: item.Gallery.map((g: { id: number; name: string; alternativeText: string; url: string }) => ({
             id: g.id,
-            img: this.url + g.url, 
+            img: g.url.startsWith('http') ? g.url : this.url + g.url, 
             alt: g.alternativeText || 'No alternative text'
           })) as Gallery[],
         }];

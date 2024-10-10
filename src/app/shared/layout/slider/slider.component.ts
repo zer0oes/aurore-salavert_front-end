@@ -26,7 +26,7 @@ export class SliderComponent implements OnInit {
       if (sliderItem && sliderItem.data && sliderItem.data.Gallery && sliderItem.data.Gallery.length > 0) {
         sliderItem.data.Gallery.forEach((item: any) => {
           let newImage: SliderItems = {
-            imgSrc: this.url + item.url,
+            imgSrc: item.url.startsWith('http') ? item.url : this.url + item.url,
             imgAlt: item.alternativeText || 'No description available',
           };
 
