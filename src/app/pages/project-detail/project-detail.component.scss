@@ -282,7 +282,7 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 930px) {
+@media only screen and (max-width: 935px) {
   .project {
     flex-direction: column;
     overflow: auto;
@@ -298,7 +298,8 @@
     &__content {
       order: 1;
       gap: 2rem;
-      
+      padding: 14.5rem 0 4rem;
+
       h1 {
         padding: 0;
         order: 0;
@@ -314,6 +315,13 @@
         }
         &::after {
           margin-top: 2rem;
+        }
+      }
+
+      &__categories {
+        .category {
+          padding: 0 2rem;
+          flex-wrap: wrap;
         }
       }
     }
@@ -356,7 +364,7 @@
 }
 
 // TABLETS
-@media only screen and (min-width: 931px) and (max-width: 1200px) {
+@media only screen and (min-width: 936px) and (max-width: 1200px) {
   .project {
     &__content {
       padding: 14.5rem 0 4rem 0;

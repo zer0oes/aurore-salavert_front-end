@@ -27,7 +27,7 @@ body {
 }
 
 // MOBILE
-@media only screen and (max-width: 930px) {
+@media only screen and (max-width: 935px) {
   body {
     padding: 2rem;
     font-size: calc($base-font-size * .75);
@@ -35,6 +35,6 @@ body {
 }
 
 // TABLETS
-@media only screen and (min-width: 931px) and (max-width: 1200px) {
+@media only screen and (min-width: 936px) and (max-width: 1200px) {
 
 }
