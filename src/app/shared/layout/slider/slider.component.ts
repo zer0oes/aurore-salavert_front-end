@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { SliderItems } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 
@@ -20,6 +20,9 @@ export class SliderComponent implements OnInit {
   @Input() slideIntervalId: any;
 
   private url = environment.url;
+  private touchStartX: number = 0;
+  private touchEndX: number = 0;
+  private swipeThreshold: number = 50;
 
   ngOnInit(): void {
     this.http.get(`${this.url}/api/slider-item?populate=*`).subscribe((sliderItem: any) => {
@@ -78,5 +81,25 @@ export class SliderComponent implements OnInit {
 
   pauseSlider(): void {
     clearInterval(this.slideIntervalId);
+  }
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent): void {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.handleSwipe();
+  }
+
+  handleSwipe(): void {
+    const swipeDistance = this.touchStartX - this.touchEndX;
+    if (swipeDistance > this.swipeThreshold) {
+      this.onNextClick();
+    } else if (swipeDistance < -this.swipeThreshold) {
+      this.onPrevClick();
+    }
   }
 }
