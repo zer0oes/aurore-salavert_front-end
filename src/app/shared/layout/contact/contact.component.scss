@@ -24,6 +24,21 @@
 
         span { color: $primary; }
     }
+
+    &__picture {
+        width: 25rem;
+        height: 25rem;
+        border-radius: 50%;
+        object-fit: cover;
+        overflow: hidden;
+        display: block;
+        margin: 0 auto;
+    }
+
+    &__desc { text-align: center; }
+
+    &__sign { width: 25rem; }
+
     .material-symbols-outlined {
         color: $primary;
         font-variation-settings:

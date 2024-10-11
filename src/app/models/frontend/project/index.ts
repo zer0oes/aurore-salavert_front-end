@@ -62,7 +62,10 @@ export interface CustomService {
 export interface Contact {
   slug: string;
   title: string;
+  picture: string;
+  desc: string;
   email: string;
+  signature: string;
 }
 
 export interface Service {

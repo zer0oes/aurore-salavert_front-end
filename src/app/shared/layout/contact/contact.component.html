@@ -1,7 +1,15 @@
 <div class="contact" *ngIf="contactInfos && contactInfos.length > 0">
     <div class="contact__wrap" *ngFor="let contact of contactInfos">
         <h2 class="contact__title" *ngIf="contact.title">{{ contact.title }}<span>!</span></h2>
+
+        <img *ngIf="contact.picture" [src]="contact.picture" alt="Aurore Salaavert" class="contact__picture">
+        
+        <div *ngIf="contact.desc" class="contact__desc" [innerHTML]="contact.desc"></div>
+        
         <span class="material-symbols-outlined">send</span>
+        
         <a class="contact__email" *ngIf="contact.email" href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+        
+        <img *ngIf="contact.signature" [src]="contact.signature" alt="Signature" class="contact__sign">
     </div>
 </div>
