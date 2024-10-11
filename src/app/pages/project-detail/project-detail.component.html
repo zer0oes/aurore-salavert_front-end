@@ -45,12 +45,11 @@
 
   <div class="modal-backdrop" [ngClass]="{'is-expanded': isImageExpanded}">
     <img [ngClass]="{'is-visible': isImageExpanded}" 
-       [src]="expandedImageSrc" 
-       (mousemove)="moveLens($event)" 
-       (mouseleave)="hideLens()" 
+       [src]="expandedImageSrc"
        alt="Expanded Image" 
        class="expanded-image" 
-       (click)="closeImage()">
+       (click)="zoomImage($event)"
+       (mousemove)="moveLens($event)">
 
     <div class="zoom-lens" id="lens" *ngIf="isImageExpanded"></div>
   

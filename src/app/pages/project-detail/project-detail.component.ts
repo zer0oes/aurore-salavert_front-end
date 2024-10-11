@@ -23,6 +23,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   isLensVisible: boolean = false;
   titlePrev: string | '';
   titleNext: string | '';
+  zoomedIn: boolean = false;
   public url = environment.url;
 
 
@@ -51,6 +52,37 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         console.error('Slug non fourni');
       }
     });
+    this.renderer.listen('window', 'keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        this.handleEscape();
+      }
+    });
+
+    window.addEventListener('popstate', this.handleBackButton.bind(this));
+  }
+
+  handleEscape(): void {
+    if (this.zoomedIn) {
+      const zoomedImage = document.querySelector('.expanded-image.zoomed') as HTMLImageElement;
+  
+      if (zoomedImage) {
+        zoomedImage.classList.remove('zoomed');
+      }
+  
+      this.zoomedIn = false;
+    } else if (this.isImageExpanded) {
+      this.closeImage();
+    }
+  }
+
+  handleBackButton(): void {
+    if (this.zoomedIn) {
+      this.zoomedIn = false;
+      history.pushState(null, '', window.location.href);
+    } else if (this.isImageExpanded) {
+      this.closeImage();
+      history.pushState(null, '', window.location.href);
+    }
   }
 
   ngOnDestroy(): void {
@@ -58,6 +90,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     if (header) {
       this.renderer.removeClass(header, 'header-alt');
     }
+
+    window.removeEventListener('popstate', this.handleBackButton.bind(this));
   }
 
   private fetchProjects(): Promise<void> {
@@ -147,6 +181,35 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     return html;
   }
 
+  zoomImage(event: MouseEvent): void {
+    const img = event.target as HTMLImageElement;
+  
+    if (this.zoomedIn) {
+      img.classList.remove('zoomed');
+      this.zoomedIn = false;
+    } else {
+      this.zoomedIn = true;
+    }
+  }
+
+  moveLens(event: MouseEvent): void {
+    if (!this.zoomedIn) {
+      return;
+    }
+  
+    const img = event.target as HTMLImageElement;
+    const rect = img.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const xPercent = (x / rect.width) * 100;
+    const yPercent = (y / rect.height) * 100;
+
+    img.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+    img.classList.add('zoomed');
+  }
+
   toggleImageSize(event: Event, item: any): void {
     event.stopPropagation();
     this.expandedImageSrc = item.img;
@@ -155,9 +218,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   closeImage(): void {
     this.isImageExpanded = false;
-    setTimeout(() => {
-      this.expandedImageSrc = null;
-    }, 400);
+    this.zoomedIn = false;
   }
 
   updateCurrentIndex(): void {
@@ -188,46 +249,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         console.error('Projet suivant non défini ou slug manquant');
       }
     }
-  }
-
-  moveLens(event: MouseEvent): void {
-    const img = event.target as HTMLImageElement;
-    const lens = document.querySelector('.zoom-lens') as HTMLElement;
-
-    if (!lens) {
-      return;
-    }
-
-    this.isLensVisible = true;
-
-    const pos = this.getCursorPos(event, img);
-    const zoom = 2;
-    let x = pos.x - lens.offsetWidth / 2 + 300;
-    let y = pos.y - lens.offsetHeight / 2;
-
-    if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
-    if (x < 0) { x = 0; }
-    if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
-    if (y < 0) { y = 0; }
-
-    lens.style.left = `${x}px`;
-    lens.style.top = `${y}px`;
-
-    lens.style.backgroundImage = `url('${img.src}')`;
-    lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
-    lens.style.backgroundPosition = `-${(pos.x * zoom) - (lens.offsetWidth / 2)}px -${(pos.y * zoom) - (lens.offsetHeight / 2)}px`;
-
-    lens.style.opacity = '1';
-  }
-  
-  hideLens(): void {
-    const lens = document.getElementById('lens') as HTMLElement;
-  
-    if (lens) {
-      lens.style.opacity = '0';
-    }
-  
-    this.isLensVisible = false;
   }
 
   getCursorPos(event: MouseEvent, img: HTMLImageElement): { x: number, y: number } {
