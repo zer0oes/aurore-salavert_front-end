@@ -16,7 +16,7 @@ export class SliderComponent implements OnInit {
   @Input() dots: boolean = true;
   @Input() arrows: boolean = true;
   @Input() autoSlide: boolean = true;
-  @Input() slideInterval: number = 30000;
+  @Input() slideInterval: number = 25000;
   @Input() slideIntervalId: any;
 
   private url = environment.url;
@@ -59,18 +59,22 @@ export class SliderComponent implements OnInit {
     this.pauseSlider();
   }
 
-  onNextClick(): void {
+  onNextClick(fromAutoSlide: boolean = false): void {
+    console.log('Current index:', this.selectedIndex);  // Ajoute ce log
     if (this.selectedIndex === this.images.length - 1) {
       this.selectedIndex = 0;
     } else {
       this.selectedIndex++;
     }
-    this.pauseSlider();
-  }
+    console.log('Next index:', this.selectedIndex);  // Ajoute ce log
+    if (!fromAutoSlide) {
+      this.pauseSlider();
+    }
+  } 
 
   autoSlideImages(): void {
     this.slideIntervalId = setInterval(() => {
-      this.onNextClick();
+      this.onNextClick(true);  // Indique que le changement vient de l'autoslide
     }, this.slideInterval);
   }
 
