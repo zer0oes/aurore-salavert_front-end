@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CustomService, Gallery } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
-
 
 @Component({
   selector: 'custom-services',
@@ -15,6 +14,10 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   @Input() currentImageId: number | null = null;
   @Input() autoSlideTimer: any;
   private url = environment.url;
+
+  private touchStartX: number = 0;
+  private touchEndX: number = 0;
+  private swipeThreshold: number = 50;
 
   constructor(private http: HttpClient) {}
 
@@ -65,7 +68,17 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
     this.pauseSlider();
     this.autoSlideImages();
   }
-  
+
+  onPrevClick(service: CustomService): void {
+    const currentImageIndex = service.gallery.findIndex(img => img.id === this.currentImageId);
+    if (currentImageIndex === 0) {
+      this.currentImageId = service.gallery[service.gallery.length - 1].id;
+    } else {
+      this.currentImageId = service.gallery[currentImageIndex - 1].id;
+    }
+    this.pauseSlider();
+    this.autoSlideImages();
+  }
 
   autoSlideImages(): void {
     this.autoSlideTimer = setInterval(() => {
@@ -77,5 +90,27 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
 
   pauseSlider(): void {
     clearInterval(this.autoSlideTimer);
+  }
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent): void {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.handleSwipe();
+  }
+
+  handleSwipe(): void {
+    const swipeDistance = this.touchStartX - this.touchEndX;
+    if (this.services.length > 0) {
+      if (swipeDistance > this.swipeThreshold) {
+        this.onNextClick(this.services[0]);
+      } else if (swipeDistance < -this.swipeThreshold) {
+        this.onPrevClick(this.services[0]);
+      }
+    }
   }
 }
