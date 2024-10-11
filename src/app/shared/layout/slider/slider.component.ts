@@ -60,13 +60,11 @@ export class SliderComponent implements OnInit {
   }
 
   onNextClick(fromAutoSlide: boolean = false): void {
-    console.log('Current index:', this.selectedIndex);  // Ajoute ce log
     if (this.selectedIndex === this.images.length - 1) {
       this.selectedIndex = 0;
     } else {
       this.selectedIndex++;
     }
-    console.log('Next index:', this.selectedIndex);  // Ajoute ce log
     if (!fromAutoSlide) {
       this.pauseSlider();
     }
@@ -74,7 +72,7 @@ export class SliderComponent implements OnInit {
 
   autoSlideImages(): void {
     this.slideIntervalId = setInterval(() => {
-      this.onNextClick(true);  // Indique que le changement vient de l'autoslide
+      this.onNextClick(true);
     }, this.slideInterval);
   }
 
