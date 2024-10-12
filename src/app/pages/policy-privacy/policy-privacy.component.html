@@ -1,0 +1,27 @@
+<div class="privacy-policy" *ngIf="groupedContent.length > 0">
+    <h1>{{ policyData.title }}<span>:</span></h1>
+
+    <div *ngFor="let group of groupedContent" class="privacy-policy__content">
+        <ng-container *ngFor="let section of group">
+            
+            <!-- Render headings -->
+            <h2 *ngIf="section.type === 'heading' && section.level === 2">
+              {{ section.children[0].text }}
+            </h2>
+
+            <!-- Render paragraphs -->
+            <p *ngIf="section.type === 'paragraph'">
+              {{ section.children[0].text }}
+            </p>
+
+            <!-- Render unordered lists -->
+            <ng-container *ngIf="section.type === 'list' && section.format === 'unordered'">
+                <ul>
+                    <li *ngFor="let item of section.children">
+                        {{ item.children[0].text }}
+                    </li>
+                </ul>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

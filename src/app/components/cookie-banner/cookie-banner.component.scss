@@ -1,0 +1,57 @@
+@import 'styles/fonts';
+@import 'styles/colors';
+
+.cookie-banner {
+    position: fixed;
+    bottom: 4rem;
+    left: 4rem;
+    right: 4rem;
+    width: calc(100vw - 8rem);
+    background-color: $base;
+    color: $on-base;
+    padding: 4rem;
+    text-align: center;
+    z-index: 15;
+
+    p {
+        color: $on-base;
+        margin-bottom: 2rem;
+    }
+
+    &__buttons {
+        display: flex;
+        gap: 2rem;
+        justify-content: flex-end;
+
+        .btn {
+            font-family: $base-font-family;
+            text-transform: uppercase;
+            border: 1px solid;
+            border-radius: 1rem;
+            letter-spacing: .02rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: transparent;
+            padding: 1.5rem 4rem;
+            transition: color .2s ease-in-out, background .4s ease-in-out, border-color .4s ease-in-out;
+
+            &-cookie {
+                border-color: $primary;
+                color: $primary;
+                background: $base;
+
+                &:hover {
+                    border-color: $secondary;
+                    color: $on-secondary;
+                    background: $secondary;
+                }
+            }
+        }
+}
+}
+
+// MOBILE
+@media only screen and (max-width: 935px) {}
+  
+// TABLETS
+@media only screen and (min-width: 936px) and (max-width: 1200px) {}

@@ -9,6 +9,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './components/loading/loading.component';
+import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     FooterComponent,
     MenuComponent,
     LoadingComponent,
+    CookieBannerComponent,
   ],
   imports: [
     BrowserModule,
