@@ -20,10 +20,10 @@ async function generateSitemap() {
 
     projects.forEach((project) => {
       sitemap.write({
-        url: `/project/${project.attributes.slug}`,
+        url: `/project/${project.slug}`,
         changefreq: 'monthly',
         priority: 0.8,
-        lastmod: project.attributes.updatedAt
+        lastmod: project.updatedAt
       });
     });
 
