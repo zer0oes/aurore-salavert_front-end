@@ -31,10 +31,11 @@ p, .p {
 
   a {
     position: relative;
+    z-index: 0;
 
     &::after {
       content: '';
-      height: .3rem;
+      height: .4rem;
       position: absolute;
       bottom: 0;
       left: 0;

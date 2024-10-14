@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectDetailComponent } from './project-detail.component';
 
 const routes: Routes = [
-  { path: '', component: ProjectDetailComponent } // Route par défaut pour le module de détails
+  { path: '', component: ProjectDetailComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,9 @@
+<div class="cookie-banner" *ngIf="!cookiesAccepted">
+    <div class="cookie-banner__content">
+        <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of <a routerLink="/privacy-policy">cookies</a>.</p>
+        <div class="cookie-banner__buttons">
+            <button class="btn btn-cookie" (click)="rejectCookies()">Close and reject</button>
+            <button class="btn btn-cookie" (click)="acceptCookies()">Accept</button>
+        </div>
+    </div>
+</div>
