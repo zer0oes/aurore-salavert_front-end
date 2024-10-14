@@ -11,17 +11,18 @@
 
             <!-- Render paragraphs -->
             <p *ngIf="section.type === 'paragraph'">
-              {{ section.children[0].text }}
+                <ng-container *ngFor="let child of section.children">
+                    <a *ngIf="child.type === 'link'" [href]="child.url" target="_blank">{{ child.children[0].text }}</a>
+                    <ng-container *ngIf="child.type !== 'link'">{{ child.text }}</ng-container>
+                </ng-container>
             </p>
 
             <!-- Render unordered lists -->
-            <ng-container *ngIf="section.type === 'list' && section.format === 'unordered'">
-                <ul>
-                    <li *ngFor="let item of section.children">
-                        {{ item.children[0].text }}
-                    </li>
-                </ul>
-            </ng-container>
+            <ul *ngIf="section.type === 'list' && section.format === 'unordered'">
+                <li *ngFor="let item of section.children">
+                    {{ item.children[0].text }}
+                </li>
+            </ul>
         </ng-container>
     </div>
 </div>

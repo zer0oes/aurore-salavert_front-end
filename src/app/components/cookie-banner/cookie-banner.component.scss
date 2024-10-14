@@ -3,21 +3,33 @@
 
 .cookie-banner {
     position: fixed;
-    bottom: 4rem;
+    top: 4rem;
     left: 4rem;
     right: 4rem;
-    width: calc(100vw - 8rem);
-    background-color: $base;
-    color: $on-base;
-    padding: 4rem;
-    text-align: center;
+    bottom: 4rem;
+    background-color: rgba($on-base, .8);
+    block-size: calc(100% - 8rem);
+    inline-size: calc(100% - 8rem);
+    backdrop-filter: blur(4px);
+    pointer-events: none;
     z-index: 15;
+    transition: background-color .5s ease-in-out, backdrop-filter .5s ease-in-out;
 
-    p {
+    &__content {
+        width: calc(100vw - 8rem);
+        background-color: $base;
         color: $on-base;
-        margin-bottom: 2rem;
-    }
+        padding: 4rem;
+        text-align: center;
+        pointer-events: auto;
+        bottom: 0;
+        z-index: 20;
 
+        p {
+            color: $on-base;
+            margin-bottom: 2rem;
+        }
+    }
     &__buttons {
         display: flex;
         gap: 2rem;
@@ -47,7 +59,7 @@
                 }
             }
         }
-}
+    }
 }
 
 // MOBILE
