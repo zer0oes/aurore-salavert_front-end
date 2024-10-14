@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build --configuration production",
+    "postbuild": "node generate-sitemap.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -19,8 +20,10 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "axios": "^1.7.7",
     "express": "^4.21.0",
     "rxjs": "~7.5.0",
+    "sitemap": "^8.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

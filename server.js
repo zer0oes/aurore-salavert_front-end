@@ -9,14 +9,16 @@ app.use((req, res, next) => {
     next();
 });
 
-// Serve only the static files from the dist directory
 app.use(express.static(path.join(__dirname, '/dist/aurore-salavert_front-end')));
+
+app.get('/robots.txt', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/aurore-salavert_front-end/robots.txt'));
+});
 
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '/dist/aurore-salavert_front-end/index.html'));
 });
 
-// Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080, () => {
     console.log(`Server is running on port ${process.env.PORT || 8080}`);
 });
