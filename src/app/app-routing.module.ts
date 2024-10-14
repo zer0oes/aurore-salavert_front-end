@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PrivacyPolicyResolver } from './resolvers/privacy-policy.resolver';
+
 
 const routes: Routes = [
   {
@@ -15,7 +17,8 @@ const routes: Routes = [
       },
       {
         path: 'privacy-policy',
-        loadChildren: () => import('./pages/policy-privacy/policy-privacy.module').then(m => m.PolicyPrivacyModule)
+        loadChildren: () => import('./pages/policy-privacy/policy-privacy.module').then(m => m.PolicyPrivacyModule),
+        resolve: { policyData: PrivacyPolicyResolver }
       },
     ]
   }

@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
       }, 600);
     }
 
-    // SEO Optimization
     this.titleService.setTitle(this.title);
     this.metaService.addTags([
       { name: 'description', content: 'Discover the unique creations of Aurore Salavert, graphic and web designer in Paris. Front-end development services, UX/UI design, and personalized branding.' },

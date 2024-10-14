@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { environment } from '@src/environment';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-policy-privacy',
@@ -13,7 +15,7 @@ export class PolicyPrivacyComponent implements OnInit {
   listItems: string[] = [];
   groupedContent: any[] = [];
 
-  constructor(private renderer: Renderer2, private http: HttpClient) {}
+  constructor(private renderer: Renderer2, private http: HttpClient, private metaService: Meta, private titleService: Title, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const header = document.querySelector('header');
@@ -22,12 +24,19 @@ export class PolicyPrivacyComponent implements OnInit {
     }
 
     this.getPrivacyPolicy();
+
+    this.route.data.subscribe((data) => {
+      this.policyData = data['policyData'].data;
+      this.updateTitleWithPolicyData();
+      this.groupContentByHeading();
+    });
   }
 
   getPrivacyPolicy(): void {
     this.http.get(`${this.url}/api/privacy-policy?populate=*`).subscribe(
       (response: any) => {
         this.policyData = response.data;
+        this.updateTitleWithPolicyData();
         this.groupContentByHeading();
       },
       (error) => {
@@ -36,23 +45,35 @@ export class PolicyPrivacyComponent implements OnInit {
     );
   }
 
+  updateTitleWithPolicyData(): void {
+    if (this.policyData && this.policyData && this.policyData.title) {
+      const policyTitle = this.policyData.title || 'Privacy Policy';
+      this.titleService.setTitle(`${policyTitle} - Aurore Salavert - Enthusiastic Graphic & Web developer - Paris, France`);
+      this.metaService.updateTag({ name: 'description', content: 'Learn more about the privacy policy of Aurore Salavert, graphic and web developer based in Paris, France. Understand how your data is collected, used, and protected.' });
+      this.metaService.updateTag({ name: 'keywords', content: 'Privacy Policy, Data Protection, Aurore Salavert, Graphic Designer, Web Developer, Paris' });
+      this.metaService.updateTag({ property: 'og:title', content: `${policyTitle} - Aurore Salavert - Enthusiastic Graphic & Web developer - Paris, France` });
+      this.metaService.updateTag({ property: 'og:description', content: 'Learn more about the privacy policy of Aurore Salavert, graphic and web developer based in Paris, France.' });
+      this.metaService.updateTag({ property: 'og:url', content: 'https://aurore-salavert.fr/privacy-policy' });
+      this.metaService.updateTag({ name: 'twitter:card', content: 'summary' });
+      this.metaService.updateTag({ name: 'twitter:title', content: `${policyTitle} - Aurore Salavert - Enthusiastic Graphic & Web developer - Paris, France` });
+      this.metaService.updateTag({ name: 'twitter:description', content: 'Learn more about the privacy policy of Aurore Salavert, graphic and web developer based in Paris, France.' });
+    }
+  }
+
   groupContentByHeading(): void {
     let currentGroup: any[] = [];
 
     this.policyData.text.forEach((section: any) => {
       if (section.type === 'heading' && section.level === 2) {
-        // Si nous rencontrons un nouveau h2, démarrons un nouveau groupe
         if (currentGroup.length) {
           this.groupedContent.push(currentGroup);
         }
-        currentGroup = [section];  // Commence un nouveau groupe avec le nouveau h2
+        currentGroup = [section];
       } else {
-        // Ajouter les paragraphes ou autres types dans le groupe actuel
         currentGroup.push(section);
       }
     });
 
-    // Ajouter le dernier groupe après la boucle
     if (currentGroup.length) {
       this.groupedContent.push(currentGroup);
     }

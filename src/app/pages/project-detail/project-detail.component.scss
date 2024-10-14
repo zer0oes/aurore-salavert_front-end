@@ -182,7 +182,11 @@
         background: rgba($primary, 15%);
       }
 
-      &:disabled { 
+      &:disabled {
+        cursor: default;
+        &:hover {
+          background: rgba($primary, 0);
+        }
         i { color: transparent; }
       }
     }
