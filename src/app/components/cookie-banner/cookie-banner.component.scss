@@ -63,7 +63,22 @@
 }
 
 // MOBILE
-@media only screen and (max-width: 935px) {}
-  
-// TABLETS
-@media only screen and (min-width: 936px) and (max-width: 1200px) {}
+@media only screen and (max-width: 935px) {
+    .cookie-banner {
+        top: 2rem;
+        left: 2rem;
+        right: 2rem;
+        bottom: 2rem;
+        block-size: calc(100% - 4rem);
+        inline-size: calc(100% - 4rem);
+    
+        &__content {
+            width: calc(100vw - 4rem);
+            padding: 2rem;
+    
+            p {
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}
