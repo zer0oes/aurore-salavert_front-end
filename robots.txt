@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /api/
+Disallow: /private/
+Disallow: /node_modules/
+Disallow: /admin/
+Allow: /
+
+Sitemap: https://www.aurore-salavert.fr/sitemap.xml
