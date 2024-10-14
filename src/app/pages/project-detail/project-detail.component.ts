@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
-
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'project-detail',
@@ -26,12 +26,13 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   zoomedIn: boolean = false;
   public url = environment.url;
 
-
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private titleService: Title,
+    private metaService: Meta
   ) { 
     this.fetchProjects();
   }
@@ -104,9 +105,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
               slug: item.slug || 'no-slug',
               title: item.title || 'No Title',
               description: item.description || 'No Description',
-              createdAt: item.createdAt || '',
+              createdAt: new Date(item.createdAt),
               ...item
-            }));
+            })).sort((a: Project, b: Project) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
   
             resolve();
           } else {
@@ -156,6 +157,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           this.nextProject = this.currentIndex < this.projects.length - 1 ? this.projects[this.currentIndex + 1] : null;
           this.titlePrev = this.previousProject ? this.previousProject.title : '';
           this.titleNext = this.nextProject ? this.nextProject.title : '';
+
+          this.titleService.setTitle(`${this.project.title} - Aurore Salavert - Enthusiastic Graphic & Web developer - Paris, France`);
+          const plainDescription = this.project.description.replace(/\*\*|\_|\<u\>|\<\/u\>/g, '');
+          this.metaService.updateTag({ name: 'description', content: plainDescription });
         } else {
           console.error('Projet non trouvé');
         }
