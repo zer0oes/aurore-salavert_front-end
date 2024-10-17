@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
+import { LocaleService } from '@app/services/locale.service';
 import { environment } from '@src/environment';
 
 
@@ -10,7 +11,7 @@ import { environment } from '@src/environment';
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localeService: LocaleService) { }
 
   @Input() showcaseInfos: Array<CreativeShowcase> = [];
   @Input() projects: Array<Project> = [];
@@ -21,7 +22,8 @@ export class ProjectListComponent implements OnInit {
   private url = environment.url;
 
   ngOnInit(): void {
-    this.http.get(`${this.url}/api/showcase?populate=*`).subscribe((response: any) => {
+    const locale = this.localeService.getLocale();
+    this.http.get(`${this.url}/api/showcase?populate=*&locale=${locale}`).subscribe((response: any) => {
       const showcaseData = response.data;
 
       const showcase: CreativeShowcase = {
@@ -33,7 +35,7 @@ export class ProjectListComponent implements OnInit {
       this.showcaseInfos.push(showcase);
     });
 
-    this.http.get(`${this.url}/api/projects?populate=*`).subscribe((response: any) => {
+    this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}`).subscribe((response: any) => {
       const projectData = response?.data;
     
       if (Array.isArray(projectData)) {

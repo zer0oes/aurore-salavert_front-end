@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Contact } from '@app/models/frontend/project';
+import { LocaleService } from '@app/services/locale.service';
 import { environment } from '@src/environment';
 
 @Component({
@@ -12,12 +13,13 @@ export class ContactComponent {
   private url = environment.url;
   contactDescriptionHtml: string = '';
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localeService: LocaleService) { }
 
   @Input() contactInfos: Array<Contact> = [];
 
   ngOnInit(): void {
-    this.http.get(`${this.url}/api/contact?populate=*`).subscribe(
+    const locale = this.localeService.getLocale();
+    this.http.get(`${this.url}/api/contact?populate=*&locale=${locale}`).subscribe(
       (response: any) => {
         const contactData = response.data;
   
