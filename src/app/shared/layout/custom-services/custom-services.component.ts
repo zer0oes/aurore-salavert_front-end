@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { CustomService, Gallery } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
+import { LocaleService } from '@app/services/locale.service';
 
 @Component({
   selector: 'custom-services',
@@ -19,7 +20,7 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   private touchEndX: number = 0;
   private swipeThreshold: number = 50;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localeService: LocaleService) {}
 
   ngOnInit(): void {
     this.loadServices();
@@ -31,7 +32,8 @@ export class CustomServicesComponent implements OnInit, OnDestroy {
   }
 
   loadServices(): void {
-    this.http.get<{ data: any }>(`${this.url}/api/service?populate=*`).subscribe(
+    const locale = this.localeService.getLocale();
+    this.http.get<{ data: any }>(`${this.url}/api/service?populate=*&locale=${locale}`).subscribe(
       (response) => {
         const item = response.data;
         this.services = [{

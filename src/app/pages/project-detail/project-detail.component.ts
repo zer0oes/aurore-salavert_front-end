@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 import { Meta, Title } from '@angular/platform-browser';
+import { LocaleService } from '@app/services/locale.service';
 
 @Component({
   selector: 'project-detail',
@@ -32,7 +33,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private localeService: LocaleService
   ) { 
     this.fetchProjects();
   }
@@ -96,8 +98,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjects(): Promise<void> {
+    const locale = this.localeService.getLocale();
     return new Promise((resolve, reject) => {
-      this.http.get(`${this.url}/api/projects?populate=*`)
+      this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}`)
         .subscribe((response: any) => {
           if (response.data) {
             this.projects = response.data.map((item: any) => ({
@@ -122,7 +125,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   private fetchProjectData(slug: string): void {
-    this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&populate=*`)
+    const locale = this.localeService.getLocale();
+    this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
           const projectData = response.data[0];

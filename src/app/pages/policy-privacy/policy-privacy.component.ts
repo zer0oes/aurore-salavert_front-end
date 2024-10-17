@@ -3,6 +3,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { environment } from '@src/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { LocaleService } from '@app/services/locale.service';
 
 @Component({
   selector: 'app-policy-privacy',
@@ -15,7 +16,14 @@ export class PolicyPrivacyComponent implements OnInit {
   listItems: string[] = [];
   groupedContent: any[] = [];
 
-  constructor(private renderer: Renderer2, private http: HttpClient, private metaService: Meta, private titleService: Title, private route: ActivatedRoute) {}
+  constructor(
+    private renderer: Renderer2,
+    private http: HttpClient,
+    private metaService: Meta,
+    private titleService: Title,
+    private route: ActivatedRoute,
+    private localeService: LocaleService
+  ) { }
 
   ngOnInit(): void {
     const header = document.querySelector('header');
@@ -33,7 +41,8 @@ export class PolicyPrivacyComponent implements OnInit {
   }
 
   getPrivacyPolicy(): void {
-    this.http.get(`${this.url}/api/privacy-policy?populate=*`).subscribe(
+    const locale = this.localeService.getLocale();
+    this.http.get(`${this.url}/api/privacy-policy?populate=*&locale=${locale}`).subscribe(
       (response: any) => {
         this.policyData = response.data;
         this.updateTitleWithPolicyData();

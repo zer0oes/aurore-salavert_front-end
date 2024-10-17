@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Competence, Skill } from '@app/models/frontend/project';
+import { LocaleService } from '@app/services/locale.service';
 import { environment } from '@src/environment';
 
 @Component({
@@ -9,7 +10,7 @@ import { environment } from '@src/environment';
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localeService: LocaleService) { }
 
   @Input() skills: Array<Skill> = [];
   @Input() competence: Array<Competence> = [];
@@ -17,8 +18,9 @@ export class SkillsComponent implements OnInit {
   private url = environment.url;
 
   ngOnInit(): void {
+    const locale = this.localeService.getLocale();
     // Compétences
-    this.http.get(`${this.url}/api/competence?populate=*`).subscribe((response: any) => {
+    this.http.get(`${this.url}/api/competence?populate=*&locale=${locale}`).subscribe((response: any) => {
       const competenceData = response?.data;
 
       if (competenceData && competenceData.Title) {
@@ -34,7 +36,7 @@ export class SkillsComponent implements OnInit {
     });
 
     // Skills
-    this.http.get(`${this.url}/api/skills?populate=*`).subscribe((skill: any) => {
+    this.http.get(`${this.url}/api/skills?populate=*&locale=${locale}`).subscribe((skill: any) => {
       skill.data.forEach((element: any) => {
         let newSkills: Skill = {
           id: element.id,
