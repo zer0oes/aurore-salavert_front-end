@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialNetworkService } from '@app/services/social-network.service';
 import { PrivacyPolicyService } from '@app/services/privacy-policy.service';
+import { LocaleService } from '@app/services/locale.service';
 
 @Component({
   selector: 'app-footer',
@@ -15,11 +16,11 @@ export class FooterComponent implements OnInit {
 
   constructor(
     private socialNetworkService: SocialNetworkService,
-    private privacyPolicyService: PrivacyPolicyService
+    private privacyPolicyService: PrivacyPolicyService,
+    private localeService: LocaleService
   ) { }
 
   ngOnInit(): void {
-    // Récupérer les réseaux sociaux
     this.socialNetworkService.getSocialNetworks().subscribe((response: any) => {
       if (response && response.data) {
         this.socialNetworks = response.data.map((network: any) => ({
@@ -31,10 +32,10 @@ export class FooterComponent implements OnInit {
       }
     });
 
-    // Récupérer la Privacy Policy
-    this.privacyPolicyService.getPrivacyPolicy().subscribe((response: any) => {
+    const locale = this.localeService.getLocale();
+    this.privacyPolicyService.getPrivacyPolicy(locale).subscribe((response: any) => {
       if (response && response.data) {
-        this.privacyPolicyLink = `/privacy-policy/${response.data.slug}`;
+        this.privacyPolicyLink = '/privacy-policy';
         this.privacyPolicyTitle = response.data.title;
       } else {
         console.error('Erreur: Aucune donnée trouvée dans la réponse de l\'API');

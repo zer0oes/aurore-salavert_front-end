@@ -11,7 +11,7 @@ export class PrivacyPolicyService {
 
   constructor(private http: HttpClient) {}
 
-  getPrivacyPolicy(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getPrivacyPolicy(locale: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}?locale=${locale}`);
   }
 }
