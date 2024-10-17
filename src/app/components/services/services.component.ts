@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Service } from '@app/models/frontend/project';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
+import { LocaleService } from '@app/services/locale.service';
 
 @Component({
   selector: 'services',
@@ -10,13 +11,18 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(
+    private http: HttpClient,
+    private sanitizer: DomSanitizer,
+    private localeService: LocaleService) { }
 
   @Input() serviceContent: Array<Service> = [];
   private url = environment.url;
   
   ngOnInit(): void {
-    this.http.get(`${this.url}/api/service?populate=*`).subscribe((response: any) => {
+    const locale = this.localeService.getLocale();
+
+    this.http.get(`${this.url}/api/service?populate=*&locale=${locale}`).subscribe((response: any) => {
       const serviceData = response.data;
       const processedText = this.processText(serviceData.attributes.Text);
 
