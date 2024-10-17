@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { environment } from '@src/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '@src/environment';
 import { LocaleService } from '@app/services/locale.service';
 
 @Component({
@@ -13,16 +13,13 @@ import { LocaleService } from '@app/services/locale.service';
 export class PolicyPrivacyComponent implements OnInit {
   public url = environment.url;
   policyData: any;
-  listItems: string[] = [];
   groupedContent: any[] = [];
 
   constructor(
     private renderer: Renderer2,
-    private http: HttpClient,
     private metaService: Meta,
     private titleService: Title,
-    private route: ActivatedRoute,
-    private localeService: LocaleService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -31,8 +28,6 @@ export class PolicyPrivacyComponent implements OnInit {
       this.renderer.addClass(header, 'header-alt');
     }
 
-    this.getPrivacyPolicy();
-
     this.route.data.subscribe((data) => {
       this.policyData = data['policyData'].data;
       this.updateTitleWithPolicyData();
@@ -40,22 +35,8 @@ export class PolicyPrivacyComponent implements OnInit {
     });
   }
 
-  getPrivacyPolicy(): void {
-    const locale = this.localeService.getLocale();
-    this.http.get(`${this.url}/api/privacy-policy?populate=*&locale=${locale}`).subscribe(
-      (response: any) => {
-        this.policyData = response.data;
-        this.updateTitleWithPolicyData();
-        this.groupContentByHeading();
-      },
-      (error) => {
-        console.error('Error fetching privacy policy data:', error);
-      }
-    );
-  }
-
   updateTitleWithPolicyData(): void {
-    if (this.policyData && this.policyData && this.policyData.title) {
+    if (this.policyData && this.policyData.title) {
       const policyTitle = this.policyData.title || 'Privacy Policy';
       this.titleService.setTitle(`${policyTitle} - Aurore Salavert - Enthusiastic Graphic & Web developer - Paris, France`);
       this.metaService.updateTag({ name: 'description', content: 'Learn more about the privacy policy of Aurore Salavert, graphic and web developer based in Paris, France. Understand how your data is collected, used, and protected.' });

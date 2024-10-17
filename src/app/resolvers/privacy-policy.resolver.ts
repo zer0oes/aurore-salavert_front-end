@@ -11,6 +11,6 @@ export class PrivacyPolicyResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const locale = this.localeService.getLocale();
-    return this.http.get(`${environment.url}/api/privacy-policy?populate=*?populate=*&locale=${locale}`);
+    return this.http.get(`${environment.url}/api/privacy-policy?populate=*&locale=${locale}`);
   }
 }
