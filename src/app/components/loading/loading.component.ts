@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
@@ -7,21 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
 
+  @Input() isLoading: boolean = false;
+
   constructor() { }
 
-  ngOnInit(): void {
-    const loader = document.querySelector('.loading') as HTMLElement;
+  ngOnInit(): void { }
 
-    const minimumDelay = 3000; 
-    const animationDuration = 300;
-    const totalDelay = minimumDelay + animationDuration;
-
-    setTimeout(() => {
-      loader.classList.add('ng-leave');
-
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, animationDuration);
-    }, minimumDelay);
-  }
 }
