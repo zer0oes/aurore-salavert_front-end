@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, NavigationCancel } from '@angular/router';
-import { environment } from '@src/environment';
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +15,10 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.isLoading = true;
-      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel) {
-        this.isLoading = false;
+      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 500);
       }
     });
   }

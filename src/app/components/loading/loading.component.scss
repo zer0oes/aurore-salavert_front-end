@@ -13,8 +13,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 1;
-    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__spinner {
+        background: transparent;
+        border-top: 4px solid $base-light;
+        border-right: 4px solid transparent;
+        border-radius: 50%;
+        animation: 1.5s spin linear infinite;
+        height: 300px;
+        width: 300px;
+        position: absolute;
+    }
     
     &__logo {
         width: 15rem;
@@ -27,14 +44,6 @@
         }
         .secondary-color {
           fill: $secondary;
-        }
-    }
-
-    &.ng-leave {
-        opacity: 0;
-
-        .loading__logo {
-            opacity: 0;
         }
     }
 
@@ -83,6 +92,11 @@
     to {
         fill: $secondary;
     }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 
