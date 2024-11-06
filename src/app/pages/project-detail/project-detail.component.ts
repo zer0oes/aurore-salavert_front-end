@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '@app/models/frontend/project';
@@ -11,7 +11,9 @@ import { LocaleService } from '@app/services/locale.service';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss']
 })
-export class ProjectDetailComponent implements OnInit, OnDestroy {
+export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChildren('galleryImage') galleryImages!: QueryList<ElementRef>;
+
   project: Project | null = null;
   projectDescriptionHtml: string = '';
   projects: Project[] = [];
@@ -62,6 +64,41 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     });
 
     window.addEventListener('popstate', this.handleBackButton.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    // Observer les changements sur galleryImages pour être sûr que les éléments sont prêts
+    this.galleryImages.changes.subscribe(() => {
+      if (this.galleryImages.length > 0) {
+        console.log(`Found ${this.galleryImages.length} gallery images. Initializing observer...`);
+        this.initGalleryObserver();
+      } else {
+        console.error('No gallery images found to observe.');
+      }
+    });
+  }
+
+  private initGalleryObserver(): void {
+    const observerOptions = {
+      rootMargin: '0px 0px 200px 0px', // Déclenche l'effet légèrement avant l'entrée dans le viewport
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fade-in');
+          }, index * 400); // Intervalle de 400 ms entre chaque image
+
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    this.galleryImages.forEach((image) => {
+      observer.observe(image.nativeElement);
+    });
   }
 
   handleEscape(): void {

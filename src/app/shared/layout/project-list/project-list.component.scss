@@ -40,10 +40,14 @@
   &__item {
     grid-row: span 1;
     grid-column: span 1;
-    transition: opacity .4s ease-in-out;
+    opacity: 0;
+    transform: translateY(4rem);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 
-    &.fade-out { opacity: 0; }
-    &.fade-in { opacity: 1; }
+    &.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     &.double-vertical {
       grid-row: span 2;

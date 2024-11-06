@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
 import { LocaleService } from '@app/services/locale.service';
 import { environment } from '@src/environment';
-
 
 @Component({
   selector: 'project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-export class ProjectListComponent implements OnInit {
-  constructor(private http: HttpClient, private localeService: LocaleService) { }
+export class ProjectListComponent implements OnInit, AfterViewInit {
+  @ViewChildren('projectElement', { read: ElementRef }) projectElements!: QueryList<ElementRef>;
+
+  constructor(private http: HttpClient, private localeService: LocaleService) {}
 
   @Input() showcaseInfos: Array<CreativeShowcase> = [];
   @Input() projects: Array<Project> = [];
@@ -23,27 +24,23 @@ export class ProjectListComponent implements OnInit {
 
   ngOnInit(): void {
     const locale = this.localeService.getLocale();
+
     this.http.get(`${this.url}/api/showcase?populate=*&locale=${locale}`).subscribe((response: any) => {
       const showcaseData = response.data;
-
       const showcase: CreativeShowcase = {
         title: showcaseData.Title,
         descritpion: showcaseData.Description,
         slug: showcaseData.slug
       };
-
       this.showcaseInfos.push(showcase);
     });
 
     this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}`).subscribe((response: any) => {
       const projectData = response?.data;
-    
       if (Array.isArray(projectData)) {
         projectData.forEach((element: any) => {
           if (element) {
             const attributes = element;
-    
-            // Récupération des catégories
             let cat: Array<Category> = [];
             if (attributes.categories && Array.isArray(attributes.categories)) {
               attributes.categories.forEach((category: any) => {
@@ -56,8 +53,6 @@ export class ProjectListComponent implements OnInit {
                 }
               });
             }
-    
-            // Récupération de la galerie
             let gal: Array<Gallery> = [];
             if (attributes.gallery && Array.isArray(attributes.gallery)) {
               attributes.gallery.forEach((item: any) => {
@@ -68,8 +63,6 @@ export class ProjectListComponent implements OnInit {
                 });
               });
             }
-    
-            // Création du nouvel objet projet
             const newProject: Project = {
               id: attributes.id,
               slug: attributes.slug || 'no-slug',
@@ -81,11 +74,9 @@ export class ProjectListComponent implements OnInit {
               layout: attributes.layout ? attributes.layout.slug : '',
               gallery: gal
             };
-    
             this.originalProjects.push(newProject);
           }
         });
-    
         this.originalProjects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
         this.projects = [...this.originalProjects];
       } else {
@@ -94,14 +85,37 @@ export class ProjectListComponent implements OnInit {
     }, (error) => {
       console.error('Erreur lors du chargement des projets:', error);
     });
-  };
-
-  getProjectClasses(project: Project): string {
-    const layoutClass = typeof project.layout === 'string' ? project.layout : '';
-    const categoryClasses = project.categories.map(cat => cat.slug).join(' ');
-    return [layoutClass, categoryClasses].filter(cls => cls).join(' ');
   }
+
+  ngAfterViewInit(): void {
+    this.projectElements.changes.subscribe(() => {
+      setTimeout(() => {
+        this.initIntersectionObserver();
+      }, 100);
+    });
+  }
+
+  initIntersectionObserver(): void {
+    const observerOptions = {
+      threshold: 0.3,
+    };
   
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fade-in');
+          }, index * 400);
+  
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+  
+    this.projectElements.forEach((projectElement) => {
+      observer.observe(projectElement.nativeElement);
+    });
+  }
 
   filterProjectsByCategory(category: string): void {
     this.fadeOut = true;
@@ -119,7 +133,9 @@ export class ProjectListComponent implements OnInit {
     }, 400);
   }
 
-  getAnimationClass(project: Project): string {
-    return this.fadeOut ? 'fade-out' : 'fade-in';
+  getProjectClasses(project: Project): string {
+    const layoutClass = typeof project.layout === 'string' ? project.layout : '';
+    const categoryClasses = project.categories.map(cat => cat.slug).join(' ');
+    return [layoutClass, categoryClasses].filter(cls => cls).join(' ');
   }
 }
