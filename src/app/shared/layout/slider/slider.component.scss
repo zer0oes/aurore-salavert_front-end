@@ -121,3 +121,18 @@
   }
 }
 
+// MOBILE
+@media only screen and (max-width: 935px) {
+  .slider {
+    &_controls {
+      &-arrows { padding: 0 2rem; }
+  
+      &-dots { bottom: 2rem; }
+    }
+  }
+}
+
+// TABLETS
+@media only screen and (min-width: 936px) and (max-width: 1200px) {
+
+}
