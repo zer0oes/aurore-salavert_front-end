@@ -52,17 +52,17 @@ footer {
   footer {
     height: 2rem;
     padding: 0 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
     .social-networks {
       a {  
-        i {
-          font-size: 2rem;
-        }
+        i { font-size: 2rem; }
       }
     }
-    .copyright {
-      font-size: 1rem;
-    }
+    .copyright { font-size: .87rem; }
   }
 }
 

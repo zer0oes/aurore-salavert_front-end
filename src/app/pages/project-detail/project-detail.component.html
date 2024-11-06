@@ -34,9 +34,9 @@
   </div>
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
-    <div class="gallery-item" *ngFor="let item of project.gallery" style="position: relative;">
-      <img [src]="item.img" [alt]="item.alt" class="gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
-
+    <div class="gallery-item" *ngFor="let item of project.gallery">
+      <img #galleryImage [src]="item.img" [alt]="item.alt" class="gallery-image" loading="lazy" (click)="toggleImageSize($event, item)">
+  
       <button class="gallery-item__expand-button" (click)="toggleImageSize($event, item)">
         <span class="material-symbols-outlined">expand_content</span>
       </button>
