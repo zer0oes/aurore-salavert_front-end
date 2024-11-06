@@ -103,8 +103,14 @@
 // MOBILE
 @media only screen and (max-width: 935px) {
     .loading {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        right: 2rem;
+        bottom: 2rem;
         width: calc(100vw - 4rem);
         height: calc(100vh - 4rem);
+        transform: translate(0, 0);
 
         &__spinner {
             height: 25rem;
