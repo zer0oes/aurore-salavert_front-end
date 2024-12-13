@@ -9,6 +9,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static(path.join(__dirname, '/dist/aurore-salavert_front-end')));
+
 app.get('/robots.txt', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/aurore-salavert_front-end/robots.txt'));
 });
