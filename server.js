@@ -3,8 +3,8 @@ const path = require('path');
 const app = express();
 
 app.use((req, res, next) => {
-    if (req.headers.host === 'aurore-salavert.fr') {
-        return res.redirect(301, `https://www.aurore-salavert.fr${req.originalUrl}`);
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
     }
     next();
 });
@@ -19,6 +19,7 @@ app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '/dist/aurore-salavert_front-end/index.html'));
 });
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log(`Server is running on port ${process.env.PORT || 8080}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

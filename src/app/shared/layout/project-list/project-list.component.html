@@ -15,7 +15,9 @@
   </div>
 
   <div class="projects-list__grid" *ngIf="projects.length > 0">
-    <project #projectElement class="projects-list__item" *ngFor="let project of projects; let i = index"
+    <project class="projects-list__item"
+      *ngFor="let project of projects; let i = index"
+      #projectElement
       [project]="project"
       [ngClass]="getProjectClasses(project)"
       [ngStyle]="{'order': i + 1}">
