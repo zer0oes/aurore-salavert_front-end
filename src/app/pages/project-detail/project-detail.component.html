@@ -40,15 +40,18 @@
           #videoWrapper
           class="gallery-video-wrapper"
           [class.is-playing]="isVideoPlaying(item.id)"
+          [attr.data-video-wrapper-id]="item.id"
         >
           <video
             #projectVideo
             class="gallery-media gallery-video"
+            muted
             playsinline
             preload="metadata"
             [src]="item.img"
+            [attr.data-media-id]="item.id"
             [attr.aria-label]="item.alt"
-            (click)="toggleVideoPlayback($event, projectVideo)"
+            (click)="toggleVideoPlayback($event, projectVideo, item.id)"
             (loadedmetadata)="onVideoMetadataLoaded(item.id, projectVideo)"
             (timeupdate)="onVideoTimeUpdate(item.id, projectVideo)"
             (play)="setVideoPlaying(item.id, true)"
@@ -63,9 +66,9 @@
             class="gallery-video-play-button"
             type="button"
             [attr.aria-label]="'Lire ' + item.alt"
-            (click)="playVideo($event, projectVideo)"
+            (click)="playVideo($event, projectVideo, item.id)"
           >
-            <span class="material-symbols-outlined">play_arrow</span>
+            <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
           </button>
 
           <div class="gallery-video-controls" role="group" [attr.aria-label]="'Contrôles pour ' + item.alt">
@@ -73,9 +76,9 @@
               class="video-control-button"
               type="button"
               [attr.aria-label]="isVideoPlaying(item.id) ? 'Mettre en pause' : 'Lire la vidéo'"
-              (click)="toggleVideoPlayback($event, projectVideo)"
+              (click)="toggleVideoPlayback($event, projectVideo, item.id)"
             >
-              <span class="material-symbols-outlined">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
+              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
             </button>
 
             <span class="gallery-video-time">{{ formatVideoTime(videoCurrentTimeState[item.id]) }}</span>
@@ -100,16 +103,16 @@
               [attr.aria-label]="isVideoMuted(item.id) ? 'Activer le son' : 'Couper le son'"
               (click)="toggleVideoMute($event, projectVideo, item.id)"
             >
-              <span class="material-symbols-outlined">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
+              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
             </button>
 
             <button
               class="video-control-button"
               type="button"
-              aria-label="Afficher la vidéo en plein écran"
-              (click)="toggleVideoFullscreen($event, videoWrapper, projectVideo)"
+              [attr.aria-label]="isVideoFullscreen(item.id) ? 'Quitter le plein écran' : 'Afficher la vidéo en plein écran'"
+              (click)="toggleVideoFullscreen($event, videoWrapper, projectVideo, item.id)"
             >
-              <span class="material-symbols-outlined">fullscreen</span>
+              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoFullscreen(item.id) ? 'fullscreen_exit' : 'fullscreen' }}</span>
             </button>
           </div>
         </div>

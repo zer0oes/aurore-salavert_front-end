@@ -13,6 +13,7 @@ import { LocaleService } from '@app/services/locale.service';
 })
 export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('galleryImage') galleryImages!: QueryList<ElementRef>;
+  @ViewChildren('projectVideo') projectVideos!: QueryList<ElementRef<HTMLVideoElement>>;
 
   project: Project | null = null;
   projectDescriptionHtml: string = '';
@@ -31,7 +32,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   videoCurrentTimeState: Record<number, number> = {};
   videoDurationState: Record<number, number> = {};
   videoMutedState: Record<number, boolean> = {};
+  videoUserPausedState: Record<number, boolean> = {};
+  videoFullscreenState: Record<number, boolean> = {};
   public url = environment.url;
+  private videoObserver?: IntersectionObserver;
+  private removeFullscreenListener?: () => void;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +72,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     });
 
+    this.removeFullscreenListener = this.renderer.listen('document', 'fullscreenchange', () => {
+      this.syncFullscreenState();
+    });
+
     window.addEventListener('popstate', this.handleBackButton.bind(this));
   }
 
@@ -80,6 +89,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
         console.error('No gallery images found to observe.');
       }
     });
+
+    this.projectVideos.changes.subscribe(() => {
+      this.initVideoObserver();
+    });
+
+    this.initVideoObserver();
   }
 
   private initGalleryObserver(): void {
@@ -102,6 +117,46 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.galleryImages.forEach((image) => {
       observer.observe(image.nativeElement);
+    });
+  }
+
+  private initVideoObserver(): void {
+    this.videoObserver?.disconnect();
+
+    if (
+      typeof IntersectionObserver === 'undefined' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
+
+    this.videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target as HTMLVideoElement;
+        const mediaId = Number(video.dataset['mediaId']);
+
+        if (!Number.isFinite(mediaId)) {
+          return;
+        }
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          if (!this.videoUserPausedState[mediaId]) {
+            video.muted = this.videoMutedState[mediaId] ?? true;
+            this.startVideo(video);
+          }
+          return;
+        }
+
+        if (!video.paused) {
+          video.pause();
+        }
+      });
+    }, {
+      threshold: [0, 0.5, 1]
+    });
+
+    this.projectVideos.forEach((videoElement) => {
+      this.videoObserver?.observe(videoElement.nativeElement);
     });
   }
 
@@ -135,6 +190,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.renderer.removeClass(header, 'header-alt');
     }
 
+    this.videoObserver?.disconnect();
+    this.removeFullscreenListener?.();
     window.removeEventListener('popstate', this.handleBackButton.bind(this));
   }
 
@@ -277,32 +334,46 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     return url.startsWith('http') ? url : this.url + url;
   }
 
-  playVideo(event: Event, video: HTMLVideoElement): void {
-    event.stopPropagation();
+  private startVideo(video: HTMLVideoElement): void {
     video.play().catch((error) => {
       console.error('Impossible de lancer la vidéo :', error);
     });
   }
 
-  toggleVideoPlayback(event: Event, video: HTMLVideoElement): void {
+  playVideo(event: Event, video: HTMLVideoElement, mediaId: number): void {
+    event.stopPropagation();
+    this.videoUserPausedState = {
+      ...this.videoUserPausedState,
+      [mediaId]: false
+    };
+    this.startVideo(video);
+  }
+
+  toggleVideoPlayback(event: Event, video: HTMLVideoElement, mediaId: number): void {
     event.stopPropagation();
 
     if (video.paused || video.ended) {
-      this.playVideo(event, video);
+      this.playVideo(event, video, mediaId);
       return;
     }
 
+    this.videoUserPausedState = {
+      ...this.videoUserPausedState,
+      [mediaId]: true
+    };
     video.pause();
   }
 
   onVideoMetadataLoaded(mediaId: number, video: HTMLVideoElement): void {
+    const isMuted = this.videoMutedState[mediaId] ?? true;
+    video.muted = isMuted;
     this.videoDurationState = {
       ...this.videoDurationState,
       [mediaId]: Number.isFinite(video.duration) ? video.duration : 0
     };
     this.videoMutedState = {
       ...this.videoMutedState,
-      [mediaId]: video.muted
+      [mediaId]: isMuted
     };
   }
 
@@ -336,7 +407,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   isVideoMuted(mediaId: number): boolean {
-    return Boolean(this.videoMutedState[mediaId]);
+    return this.videoMutedState[mediaId] ?? true;
   }
 
   formatVideoTime(time: number | undefined): string {
@@ -350,23 +421,42 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     return `${minutes}:${seconds}`;
   }
 
-  toggleVideoFullscreen(event: Event, wrapper: HTMLElement, video: HTMLVideoElement): void {
+  toggleVideoFullscreen(event: Event, wrapper: HTMLElement, video: HTMLVideoElement, mediaId: number): void {
     event.stopPropagation();
 
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => undefined);
+      document.exitFullscreen()
+        .then(() => this.setVideoFullscreen(mediaId, false))
+        .catch(() => undefined);
       return;
     }
 
     if (wrapper.requestFullscreen) {
-      wrapper.requestFullscreen().catch((error) => {
-        console.error('Impossible d’afficher la vidéo en plein écran :', error);
-      });
+      wrapper.requestFullscreen()
+        .then(() => this.setVideoFullscreen(mediaId, true))
+        .catch((error) => {
+          console.error('Impossible d’afficher la vidéo en plein écran :', error);
+        });
       return;
     }
 
     const videoWithWebkitFullscreen = video as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
     videoWithWebkitFullscreen.webkitEnterFullscreen?.();
+  }
+
+  isVideoFullscreen(mediaId: number): boolean {
+    return Boolean(this.videoFullscreenState[mediaId]);
+  }
+
+  private setVideoFullscreen(mediaId: number, isFullscreen: boolean): void {
+    this.videoFullscreenState = isFullscreen ? { [mediaId]: true } : {};
+  }
+
+  private syncFullscreenState(): void {
+    const fullscreenMediaId = Number(document.fullscreenElement?.getAttribute('data-video-wrapper-id'));
+    this.videoFullscreenState = Number.isFinite(fullscreenMediaId)
+      ? { [fullscreenMediaId]: true }
+      : {};
   }
 
   setVideoPlaying(mediaId: number, isPlaying: boolean): void {
