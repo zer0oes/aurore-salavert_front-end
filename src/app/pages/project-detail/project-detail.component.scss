@@ -136,6 +136,33 @@
       background: $secondary;
     }
 
+    .gallery-video-wrapper {
+      position: relative;
+    }
+
+    .gallery-video-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      display: flex;
+      width: 6rem;
+      height: 6rem;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 50%;
+      background: rgba($primary, .9);
+      color: $on-primary;
+      cursor: pointer;
+      filter: drop-shadow(0 2px 4px rgba($secondary, .5));
+      transform: translate(-50%, -50%);
+
+      .material-symbols-outlined {
+        font-size: 3.5rem;
+      }
+    }
+
     .gallery-image {
       width: 100%;
       height: auto;

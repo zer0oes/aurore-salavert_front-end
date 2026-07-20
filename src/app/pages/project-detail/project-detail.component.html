@@ -35,17 +35,34 @@
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
     <div class="gallery-item" *ngFor="let item of project.gallery">
-      <video
-        *ngIf="item.mediaType === 'video'; else galleryImageTemplate"
-        class="gallery-media gallery-video"
-        controls
-        playsinline
-        preload="metadata"
-        [attr.aria-label]="item.alt"
-      >
-        <source [src]="item.img" [attr.type]="item.mime || null">
-        Votre navigateur ne prend pas en charge la lecture de cette vidéo.
-      </video>
+      <ng-container *ngIf="item.mediaType === 'video'; else galleryImageTemplate">
+        <div class="gallery-video-wrapper">
+          <video
+            #projectVideo
+            class="gallery-media gallery-video"
+            controls
+            playsinline
+            preload="metadata"
+            [src]="item.img"
+            [attr.aria-label]="item.alt"
+            (play)="setVideoPlaying(item.id, true)"
+            (pause)="setVideoPlaying(item.id, false)"
+            (ended)="setVideoPlaying(item.id, false)"
+          >
+            Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+          </video>
+
+          <button
+            *ngIf="!isVideoPlaying(item.id)"
+            class="gallery-video-play-button"
+            type="button"
+            [attr.aria-label]="'Lire ' + item.alt"
+            (click)="playVideo($event, projectVideo)"
+          >
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+        </div>
+      </ng-container>
 
       <ng-template #galleryImageTemplate>
         <img #galleryImage [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">

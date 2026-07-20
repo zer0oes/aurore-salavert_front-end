@@ -27,6 +27,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   titlePrev: string | '';
   titleNext: string | '';
   zoomedIn: boolean = false;
+  videoPlayingState: Record<number, boolean> = {};
   public url = environment.url;
 
   constructor(
@@ -271,6 +272,24 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   private getMediaUrl(url: string): string {
     return url.startsWith('http') ? url : this.url + url;
+  }
+
+  playVideo(event: Event, video: HTMLVideoElement): void {
+    event.stopPropagation();
+    video.play().catch((error) => {
+      console.error('Impossible de lancer la vidéo :', error);
+    });
+  }
+
+  setVideoPlaying(mediaId: number, isPlaying: boolean): void {
+    this.videoPlayingState = {
+      ...this.videoPlayingState,
+      [mediaId]: isPlaying
+    };
+  }
+
+  isVideoPlaying(mediaId: number): boolean {
+    return Boolean(this.videoPlayingState[mediaId]);
   }
 
   zoomImage(event: MouseEvent): void {
