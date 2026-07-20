@@ -34,12 +34,26 @@
   </div>
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
-    <div class="gallery-item" *ngFor="let item of project.gallery" style="position: relative;">
-      <img [src]="item.img" [alt]="item.alt" class="gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
+    <div class="gallery-item" *ngFor="let item of project.gallery">
+      <video
+        *ngIf="item.mediaType === 'video'; else galleryImage"
+        class="gallery-media gallery-video"
+        controls
+        playsinline
+        preload="metadata"
+        [attr.aria-label]="item.alt"
+      >
+        <source [src]="item.img" [attr.type]="item.mime || null">
+        Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+      </video>
 
-      <button class="gallery-item__expand-button" (click)="toggleImageSize($event, item)">
-        <span class="material-symbols-outlined">expand_content</span>
-      </button>
+      <ng-template #galleryImage>
+        <img [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
+
+        <button class="gallery-item__expand-button" type="button" aria-label="Agrandir l'image" (click)="toggleImageSize($event, item)">
+          <span class="material-symbols-outlined">expand_content</span>
+        </button>
+      </ng-template>
     </div>
   </div>
 
@@ -53,7 +67,7 @@
 
     <div class="zoom-lens" id="lens" *ngIf="isImageExpanded"></div>
   
-    <button class="gallery-item__close-expand-button" (click)="closeImage()">
+    <button class="gallery-item__close-expand-button" type="button" aria-label="Fermer l'image agrandie" (click)="closeImage()">
       <span class="material-symbols-outlined">collapse_content</span>
     </button>
   </div>

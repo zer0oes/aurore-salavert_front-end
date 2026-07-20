@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@src/environment';
-import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, of } from 'rxjs';
 import { LocaleService } from './locale.service';
 
 interface MenuItem {
@@ -38,10 +38,10 @@ export class MenuService {
     const contactUrl = `${this.url}/api/contact?locale=${locale}&populate=*`;
 
     return forkJoin([
-      this.http.get<any>(showcaseUrl),
-      this.http.get<any>(skillUrl),
-      this.http.get<any>(servicesUrl),
-      this.http.get<any>(contactUrl)
+      this.getOptionalContent(showcaseUrl),
+      this.getOptionalContent(skillUrl),
+      this.getOptionalContent(servicesUrl),
+      this.getOptionalContent(contactUrl)
     ]).pipe(
       map((responses: any[]) => {
         return responses.flatMap(response => {
@@ -56,6 +56,12 @@ export class MenuService {
           }
         });
       })
+    );
+  }
+
+  private getOptionalContent(url: string): Observable<any> {
+    return this.http.get<any>(url).pipe(
+      catchError(() => of({ data: null }))
     );
   }
 

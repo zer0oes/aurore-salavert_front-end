@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Project } from '@app/models/frontend/project';
+import { Gallery, Project } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { LocaleService } from '@app/services/locale.service';
@@ -142,11 +142,23 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
               slug: category.slug || 'no-slug'
             })) || [],
   
-            gallery: projectData.gallery?.map((item: any) => ({
-              id: item.id,
-              img: item.url.startsWith('http') ? item.url : this.url + (item.url || ''),
-              alt: item.alternativeText || 'Image'
-            })) || [],
+            gallery: projectData.gallery?.reduce((gallery: Gallery[], item: any) => {
+              const mediaType = this.getMediaType(item);
+
+              if (!mediaType || !item.url) {
+                return gallery;
+              }
+
+              gallery.push({
+                id: item.id,
+                img: this.getMediaUrl(item.url),
+                alt: item.alternativeText || item.caption || item.name || (mediaType === 'video' ? 'Vidéo du projet' : 'Image du projet'),
+                mediaType,
+                mime: item.mime || ''
+              });
+
+              return gallery;
+            }, []) || [],
   
             thumbnail: projectData.thumbnail ? this.url + projectData.thumbnail.url : '',
             createdAt: projectData.createdAt || '',
@@ -188,6 +200,40 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
   
     return html;
+  }
+
+  private getMediaType(item: any): Gallery['mediaType'] | null {
+    const mime = (item.mime || '').toLowerCase();
+
+    if (mime.startsWith('image/')) {
+      return 'image';
+    }
+
+    if (mime.startsWith('video/')) {
+      return 'video';
+    }
+
+    if (mime) {
+      return null;
+    }
+
+    const extension = (item.ext || item.url?.split('?')[0].match(/\.[^.\/]+$/)?.[0] || '').toLowerCase();
+    const videoExtensions = ['.mp4', '.webm', '.ogv', '.ogg', '.mov', '.m4v'];
+    const imageExtensions = ['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp'];
+
+    if (videoExtensions.includes(extension)) {
+      return 'video';
+    }
+
+    if (imageExtensions.includes(extension)) {
+      return 'image';
+    }
+
+    return null;
+  }
+
+  private getMediaUrl(url: string): string {
+    return url.startsWith('http') ? url : this.url + url;
   }
 
   zoomImage(event: MouseEvent): void {

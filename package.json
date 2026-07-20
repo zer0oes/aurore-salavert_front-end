@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "start:local": "ng serve --configuration development --host 127.0.0.1 --port 4200",
     "build": "ng build --configuration production && node generate-sitemap.js && npm run postbuild",
     "postbuild": "cp robots.txt dist/aurore-salavert_front-end/",
     "watch": "ng build --watch --configuration development",

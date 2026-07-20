@@ -124,10 +124,15 @@
       background: $primary;
     }
 
-    img {
+    .gallery-media {
       width: 100%;
       height: auto;
       display: block;
+    }
+
+    .gallery-video {
+      max-height: calc(100vh - 8rem);
+      background: $secondary;
     }
 
     .gallery-image {

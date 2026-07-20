@@ -21,6 +21,8 @@ export interface Gallery {
   id: number;
   img: string;
   alt: string;
+  mediaType?: 'image' | 'video';
+  mime?: string;
 }
 
 export interface Competence {
