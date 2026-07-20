@@ -28,6 +28,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   titleNext: string | '';
   zoomedIn: boolean = false;
   videoPlayingState: Record<number, boolean> = {};
+  videoCurrentTimeState: Record<number, number> = {};
+  videoDurationState: Record<number, number> = {};
+  videoMutedState: Record<number, boolean> = {};
   public url = environment.url;
 
   constructor(
@@ -279,6 +282,91 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     video.play().catch((error) => {
       console.error('Impossible de lancer la vidéo :', error);
     });
+  }
+
+  toggleVideoPlayback(event: Event, video: HTMLVideoElement): void {
+    event.stopPropagation();
+
+    if (video.paused || video.ended) {
+      this.playVideo(event, video);
+      return;
+    }
+
+    video.pause();
+  }
+
+  onVideoMetadataLoaded(mediaId: number, video: HTMLVideoElement): void {
+    this.videoDurationState = {
+      ...this.videoDurationState,
+      [mediaId]: Number.isFinite(video.duration) ? video.duration : 0
+    };
+    this.videoMutedState = {
+      ...this.videoMutedState,
+      [mediaId]: video.muted
+    };
+  }
+
+  onVideoTimeUpdate(mediaId: number, video: HTMLVideoElement): void {
+    this.videoCurrentTimeState = {
+      ...this.videoCurrentTimeState,
+      [mediaId]: video.currentTime
+    };
+  }
+
+  seekVideo(event: Event, video: HTMLVideoElement, mediaId: number): void {
+    event.stopPropagation();
+    const input = event.target as HTMLInputElement;
+    const requestedTime = Number(input.value);
+
+    if (!Number.isFinite(requestedTime)) {
+      return;
+    }
+
+    video.currentTime = requestedTime;
+    this.onVideoTimeUpdate(mediaId, video);
+  }
+
+  toggleVideoMute(event: Event, video: HTMLVideoElement, mediaId: number): void {
+    event.stopPropagation();
+    video.muted = !video.muted;
+    this.videoMutedState = {
+      ...this.videoMutedState,
+      [mediaId]: video.muted
+    };
+  }
+
+  isVideoMuted(mediaId: number): boolean {
+    return Boolean(this.videoMutedState[mediaId]);
+  }
+
+  formatVideoTime(time: number | undefined): string {
+    if (!Number.isFinite(time)) {
+      return '0:00';
+    }
+
+    const totalSeconds = Math.max(0, Math.floor(time || 0));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  }
+
+  toggleVideoFullscreen(event: Event, wrapper: HTMLElement, video: HTMLVideoElement): void {
+    event.stopPropagation();
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => undefined);
+      return;
+    }
+
+    if (wrapper.requestFullscreen) {
+      wrapper.requestFullscreen().catch((error) => {
+        console.error('Impossible d’afficher la vidéo en plein écran :', error);
+      });
+      return;
+    }
+
+    const videoWithWebkitFullscreen = video as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+    videoWithWebkitFullscreen.webkitEnterFullscreen?.();
   }
 
   setVideoPlaying(mediaId: number, isPlaying: boolean): void {

@@ -36,15 +36,21 @@
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
     <div class="gallery-item" *ngFor="let item of project.gallery">
       <ng-container *ngIf="item.mediaType === 'video'; else galleryImageTemplate">
-        <div class="gallery-video-wrapper">
+        <div
+          #videoWrapper
+          class="gallery-video-wrapper"
+          [class.is-playing]="isVideoPlaying(item.id)"
+        >
           <video
             #projectVideo
             class="gallery-media gallery-video"
-            controls
             playsinline
             preload="metadata"
             [src]="item.img"
             [attr.aria-label]="item.alt"
+            (click)="toggleVideoPlayback($event, projectVideo)"
+            (loadedmetadata)="onVideoMetadataLoaded(item.id, projectVideo)"
+            (timeupdate)="onVideoTimeUpdate(item.id, projectVideo)"
             (play)="setVideoPlaying(item.id, true)"
             (pause)="setVideoPlaying(item.id, false)"
             (ended)="setVideoPlaying(item.id, false)"
@@ -61,6 +67,51 @@
           >
             <span class="material-symbols-outlined">play_arrow</span>
           </button>
+
+          <div class="gallery-video-controls" role="group" [attr.aria-label]="'Contrôles pour ' + item.alt">
+            <button
+              class="video-control-button"
+              type="button"
+              [attr.aria-label]="isVideoPlaying(item.id) ? 'Mettre en pause' : 'Lire la vidéo'"
+              (click)="toggleVideoPlayback($event, projectVideo)"
+            >
+              <span class="material-symbols-outlined">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
+            </button>
+
+            <span class="gallery-video-time">{{ formatVideoTime(videoCurrentTimeState[item.id]) }}</span>
+
+            <input
+              class="gallery-video-progress"
+              type="range"
+              min="0"
+              step="0.01"
+              [max]="videoDurationState[item.id] || 0"
+              [value]="videoCurrentTimeState[item.id] || 0"
+              [attr.aria-label]="'Position dans ' + item.alt"
+              [attr.aria-valuetext]="formatVideoTime(videoCurrentTimeState[item.id])"
+              (input)="seekVideo($event, projectVideo, item.id)"
+            >
+
+            <span class="gallery-video-time">{{ formatVideoTime(videoDurationState[item.id]) }}</span>
+
+            <button
+              class="video-control-button"
+              type="button"
+              [attr.aria-label]="isVideoMuted(item.id) ? 'Activer le son' : 'Couper le son'"
+              (click)="toggleVideoMute($event, projectVideo, item.id)"
+            >
+              <span class="material-symbols-outlined">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
+            </button>
+
+            <button
+              class="video-control-button"
+              type="button"
+              aria-label="Afficher la vidéo en plein écran"
+              (click)="toggleVideoFullscreen($event, videoWrapper, projectVideo)"
+            >
+              <span class="material-symbols-outlined">fullscreen</span>
+            </button>
+          </div>
         </div>
       </ng-container>
 
