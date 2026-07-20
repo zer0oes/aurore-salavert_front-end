@@ -29,8 +29,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   titleNext: string | '';
   zoomedIn: boolean = false;
   videoPlayingState: Record<number, boolean> = {};
-  videoCurrentTimeState: Record<number, number> = {};
-  videoDurationState: Record<number, number> = {};
   videoMutedState: Record<number, boolean> = {};
   videoUserPausedState: Record<number, boolean> = {};
   videoFullscreenState: Record<number, boolean> = {};
@@ -367,34 +365,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   onVideoMetadataLoaded(mediaId: number, video: HTMLVideoElement): void {
     const isMuted = this.videoMutedState[mediaId] ?? true;
     video.muted = isMuted;
-    this.videoDurationState = {
-      ...this.videoDurationState,
-      [mediaId]: Number.isFinite(video.duration) ? video.duration : 0
-    };
     this.videoMutedState = {
       ...this.videoMutedState,
       [mediaId]: isMuted
     };
-  }
-
-  onVideoTimeUpdate(mediaId: number, video: HTMLVideoElement): void {
-    this.videoCurrentTimeState = {
-      ...this.videoCurrentTimeState,
-      [mediaId]: video.currentTime
-    };
-  }
-
-  seekVideo(event: Event, video: HTMLVideoElement, mediaId: number): void {
-    event.stopPropagation();
-    const input = event.target as HTMLInputElement;
-    const requestedTime = Number(input.value);
-
-    if (!Number.isFinite(requestedTime)) {
-      return;
-    }
-
-    video.currentTime = requestedTime;
-    this.onVideoTimeUpdate(mediaId, video);
   }
 
   toggleVideoMute(event: Event, video: HTMLVideoElement, mediaId: number): void {
@@ -408,17 +382,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   isVideoMuted(mediaId: number): boolean {
     return this.videoMutedState[mediaId] ?? true;
-  }
-
-  formatVideoTime(time: number | undefined): string {
-    if (!Number.isFinite(time)) {
-      return '0:00';
-    }
-
-    const totalSeconds = Math.max(0, Math.floor(time || 0));
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
-    return `${minutes}:${seconds}`;
   }
 
   toggleVideoFullscreen(event: Event, wrapper: HTMLElement, video: HTMLVideoElement, mediaId: number): void {

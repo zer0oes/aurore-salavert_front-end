@@ -54,7 +54,6 @@
             [attr.aria-label]="item.alt"
             (click)="toggleVideoPlayback($event, projectVideo, item.id)"
             (loadedmetadata)="onVideoMetadataLoaded(item.id, projectVideo)"
-            (timeupdate)="onVideoTimeUpdate(item.id, projectVideo)"
             (play)="setVideoPlaying(item.id, true)"
             (pause)="setVideoPlaying(item.id, false)"
             (ended)="setVideoPlaying(item.id, false)"
@@ -62,50 +61,26 @@
             Votre navigateur ne prend pas en charge la lecture de cette vidéo.
           </video>
 
-          <button
-            *ngIf="!isVideoPlaying(item.id)"
-            class="gallery-video-play-button"
-            type="button"
-            [attr.aria-label]="'Lire ' + item.alt"
-            (click)="playVideo($event, projectVideo, item.id)"
-          >
-            <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
-          </button>
-
           <div class="gallery-video-controls" role="group" [attr.aria-label]="'Contrôles pour ' + item.alt">
-            <button
-              class="video-control-button"
-              type="button"
-              [attr.aria-label]="isVideoPlaying(item.id) ? 'Mettre en pause' : 'Lire la vidéo'"
-              (click)="toggleVideoPlayback($event, projectVideo, item.id)"
-            >
-              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
-            </button>
+            <div class="gallery-video-controls-left">
+              <button
+                class="video-control-button"
+                type="button"
+                [attr.aria-label]="isVideoPlaying(item.id) ? 'Mettre en pause' : 'Lire la vidéo'"
+                (click)="toggleVideoPlayback($event, projectVideo, item.id)"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
+              </button>
 
-            <span class="gallery-video-time">{{ formatVideoTime(videoCurrentTimeState[item.id]) }}</span>
-
-            <input
-              class="gallery-video-progress"
-              type="range"
-              min="0"
-              step="0.01"
-              [max]="videoDurationState[item.id] || 0"
-              [value]="videoCurrentTimeState[item.id] || 0"
-              [attr.aria-label]="'Position dans ' + item.alt"
-              [attr.aria-valuetext]="formatVideoTime(videoCurrentTimeState[item.id])"
-              (input)="seekVideo($event, projectVideo, item.id)"
-            >
-
-            <span class="gallery-video-time">{{ formatVideoTime(videoDurationState[item.id]) }}</span>
-
-            <button
-              class="video-control-button"
-              type="button"
-              [attr.aria-label]="isVideoMuted(item.id) ? 'Activer le son' : 'Couper le son'"
-              (click)="toggleVideoMute($event, projectVideo, item.id)"
-            >
-              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
-            </button>
+              <button
+                class="video-control-button"
+                type="button"
+                [attr.aria-label]="isVideoMuted(item.id) ? 'Activer le son' : 'Couper le son'"
+                (click)="toggleVideoMute($event, projectVideo, item.id)"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
+              </button>
+            </div>
 
             <button
               class="video-control-button"
