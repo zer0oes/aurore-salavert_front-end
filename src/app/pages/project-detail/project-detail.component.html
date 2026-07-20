@@ -36,7 +36,7 @@
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
     <div class="gallery-item" *ngFor="let item of project.gallery">
       <video
-        *ngIf="item.mediaType === 'video'; else galleryImage"
+        *ngIf="item.mediaType === 'video'; else galleryImageTemplate"
         class="gallery-media gallery-video"
         controls
         playsinline
@@ -47,8 +47,8 @@
         Votre navigateur ne prend pas en charge la lecture de cette vidéo.
       </video>
 
-      <ng-template #galleryImage>
-        <img [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
+      <ng-template #galleryImageTemplate>
+        <img #galleryImage [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
 
         <button class="gallery-item__expand-button" type="button" aria-label="Agrandir l'image" (click)="toggleImageSize($event, item)">
           <span class="material-symbols-outlined">expand_content</span>
