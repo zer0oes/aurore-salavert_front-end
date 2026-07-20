@@ -27,6 +27,11 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
     this.http.get(`${this.url}/api/showcase?populate=*&locale=${locale}`).subscribe((response: any) => {
       const showcaseData = response.data;
+
+      if (!showcaseData) {
+        return;
+      }
+
       const showcase: CreativeShowcase = {
         title: showcaseData.Title,
         descritpion: showcaseData.Description,
@@ -53,6 +58,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
                 }
               });
             }
+
             let gal: Array<Gallery> = [];
             if (attributes.gallery && Array.isArray(attributes.gallery)) {
               attributes.gallery.forEach((item: any) => {
@@ -63,6 +69,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
                 });
               });
             }
+
             const newProject: Project = {
               id: attributes.id,
               slug: attributes.slug || 'no-slug',
@@ -77,6 +84,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
             this.originalProjects.push(newProject);
           }
         });
+
         this.originalProjects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
         this.projects = [...this.originalProjects];
       } else {
@@ -88,33 +96,47 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.projectElements.changes.subscribe(() => {
-      setTimeout(() => {
+    this.projectElements.changes.subscribe((queryList) => {
+      if (queryList.length > 0) {
         this.initIntersectionObserver();
-      }, 100);
+      }
     });
+
+    setTimeout(() => {
+      if (this.projectElements.length > 0) {
+        this.initIntersectionObserver();
+      }
+    }, 1000);
   }
 
   initIntersectionObserver(): void {
+    if (this.projectElements.length === 0) {
+      return;
+    }
+
     const observerOptions = {
-      threshold: 0.3,
+      threshold: 0.05
     };
-  
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
+
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('fade-in');
-          }, index * 400);
-  
-          observer.unobserve(entry.target);
+          entry.target.classList.add('fade-in');
+          observerInstance.unobserve(entry.target);
         }
       });
     }, observerOptions);
-  
+
     this.projectElements.forEach((projectElement) => {
       observer.observe(projectElement.nativeElement);
     });
+
+    setTimeout(() => {
+      this.projectElements.forEach((projectElement) => {
+        projectElement.nativeElement.classList.add('fade-in');
+        observer.unobserve(projectElement.nativeElement);
+      });
+    }, 1000);
   }
 
   filterProjectsByCategory(category: string): void {
@@ -130,6 +152,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
       }
       this.projects.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
       this.fadeOut = false;
+
+      setTimeout(() => {
+        this.initIntersectionObserver();
+      }, 100);
     }, 400);
   }
 
