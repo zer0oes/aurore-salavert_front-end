@@ -1,27 +1,78 @@
-# Aurore Salavert Front-End
+# Aurore Salavert — Front-end
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
+Application Angular 16 du site Aurore Salavert.
 
-## Development server
+## Prérequis
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js 18.x (version recommandée : 18.20.8) et npm
+- le back-end local démarré sur <http://127.0.0.1:1338>
 
-## Code scaffolding
+Angular 16 n'est pas compatible avec Node.js 24 ou 26. Installer une fois la version déclarée dans `.nvmrc`, puis installer les dépendances :
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+nvm install 18.20.8
+npm ci
+```
 
-## Build
+La commande `start:local` détecte ensuite automatiquement un Node 18 installé par nvm ou nvm-windows et lance Angular avec ce runtime. Il n'est pas nécessaire d'exécuter `nvm use` avant chaque démarrage.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Si Node 18 est installé dans un autre emplacement, indiquer son exécutable avec la variable `LOCAL_FRONTEND_NODE_BINARY`.
 
-## Running unit tests
+Exemple PowerShell :
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```powershell
+$env:LOCAL_FRONTEND_NODE_BINARY = 'C:\chemin\vers\node.exe'
+npm run start:local
+```
 
-## Running end-to-end tests
+## Démarrer et développer localement
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+npm run start:local
+```
 
-## Further help
+Le serveur de développement est disponible sur <http://127.0.0.1:4200>. Il utilise la configuration Angular `development`, appelle l'API locale et recharge automatiquement la page après une modification du code source.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Pour travailler sur le back-end et le front-end en même temps, utiliser deux terminaux depuis la racine du dépôt :
+
+Attention : le back-end requiert Node.js 24.x tandis que ce front-end Angular 16 requiert Node.js 18.x. Les deux commandes `start:local` sélectionnent elles-mêmes un runtime compatible lorsqu'il est installé.
+
+```bash
+# Terminal 1
+cd aurore-salavert_back-end
+npm run start:local
+```
+
+```bash
+# Terminal 2
+cd aurore-salavert_front-end
+npm run start:local
+```
+
+## Construire localement
+
+### Build de production
+
+```bash
+npm run build
+```
+
+Cette commande crée le build optimisé dans `dist/aurore-salavert_front-end`, génère le sitemap et copie `robots.txt`. Le build utilise l'API de production configurée dans `src/environments/environment.prod.ts`.
+
+### Build de développement en continu
+
+```bash
+npm run watch
+```
+
+Cette commande reconstruit l'application avec la configuration locale à chaque modification, sans démarrer de serveur web.
+
+## À propos de `npm start`
+
+```bash
+npm start
+```
+
+Cette commande sert le build déjà présent dans `dist/` avec Express et force une redirection HTTPS. Elle est prévue pour l'hébergement, pas pour le développement local. Utiliser `npm run start:local` sur un poste de développement.
+
+Pour une vue d'ensemble des environnements, consulter [ENVIRONMENTS.md](../ENVIRONMENTS.md).

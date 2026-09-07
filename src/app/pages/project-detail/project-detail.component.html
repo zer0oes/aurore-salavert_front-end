@@ -35,20 +35,67 @@
 
   <div *ngIf="project.gallery.length > 0" class="project__gallery">
     <div class="gallery-item" *ngFor="let item of project.gallery">
-      <video
-        *ngIf="item.mediaType === 'video'; else galleryImage"
-        class="gallery-media gallery-video"
-        controls
-        playsinline
-        preload="metadata"
-        [attr.aria-label]="item.alt"
-      >
-        <source [src]="item.img" [attr.type]="item.mime || null">
-        Votre navigateur ne prend pas en charge la lecture de cette vidéo.
-      </video>
+      <ng-container *ngIf="item.mediaType === 'video'; else galleryImageTemplate">
+        <div
+          #videoWrapper
+          class="gallery-video-wrapper"
+          [class.is-playing]="isVideoPlaying(item.id)"
+          [attr.data-video-wrapper-id]="item.id"
+        >
+          <video
+            #projectVideo
+            class="gallery-media gallery-video"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            [src]="item.img"
+            [attr.data-media-id]="item.id"
+            [attr.aria-label]="item.alt"
+            (click)="toggleVideoPlayback($event, projectVideo, item.id)"
+            (loadedmetadata)="onVideoMetadataLoaded(item.id, projectVideo)"
+            (play)="setVideoPlaying(item.id, true)"
+            (pause)="setVideoPlaying(item.id, false)"
+            (ended)="setVideoPlaying(item.id, false)"
+          >
+            Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+          </video>
 
-      <ng-template #galleryImage>
-        <img [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
+          <div class="gallery-video-controls" role="group" [attr.aria-label]="'Contrôles pour ' + item.alt">
+            <div class="gallery-video-controls-left">
+              <button
+                class="video-control-button"
+                type="button"
+                [attr.aria-label]="isVideoPlaying(item.id) ? 'Mettre en pause' : 'Lire la vidéo'"
+                (click)="toggleVideoPlayback($event, projectVideo, item.id)"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoPlaying(item.id) ? 'pause' : 'play_arrow' }}</span>
+              </button>
+
+              <button
+                class="video-control-button"
+                type="button"
+                [attr.aria-label]="isVideoMuted(item.id) ? 'Activer le son' : 'Couper le son'"
+                (click)="toggleVideoMute($event, projectVideo, item.id)"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoMuted(item.id) ? 'volume_off' : 'volume_up' }}</span>
+              </button>
+            </div>
+
+            <button
+              class="video-control-button"
+              type="button"
+              [attr.aria-label]="isVideoFullscreen(item.id) ? 'Quitter le plein écran' : 'Afficher la vidéo en plein écran'"
+              (click)="toggleVideoFullscreen($event, videoWrapper, projectVideo, item.id)"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">{{ isVideoFullscreen(item.id) ? 'fullscreen_exit' : 'fullscreen' }}</span>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #galleryImageTemplate>
+        <img #galleryImage [src]="item.img" [alt]="item.alt" class="gallery-media gallery-image" (click)="toggleImageSize($event, item)" loading="lazy">
 
         <button class="gallery-item__expand-button" type="button" aria-label="Agrandir l'image" (click)="toggleImageSize($event, item)">
           <span class="material-symbols-outlined">expand_content</span>
