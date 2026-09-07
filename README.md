@@ -4,19 +4,19 @@ Application Angular 16 du site Aurore Salavert.
 
 ## Prérequis
 
-- Node.js 18.x (version recommandée : 18.20.8) et npm
+- Node.js 22.x (version recommandée : 22.23.2) et npm
 - le back-end local démarré sur <http://127.0.0.1:1338>
 
-Angular 16 n'est pas compatible avec Node.js 24 ou 26. Installer une fois la version déclarée dans `.nvmrc`, puis installer les dépendances :
+Installer une fois la version déclarée dans `.nvmrc`, puis installer les dépendances :
 
 ```bash
-nvm install 18.20.8
+nvm install 22.23.2
 npm ci
 ```
 
-La commande `start:local` détecte ensuite automatiquement un Node 18 installé par nvm ou nvm-windows et lance Angular avec ce runtime. Il n'est pas nécessaire d'exécuter `nvm use` avant chaque démarrage.
+La commande `start:local` détecte ensuite automatiquement un Node 22 installé par nvm ou nvm-windows et lance Angular avec ce runtime. Il n'est pas nécessaire d'exécuter `nvm use` avant chaque démarrage.
 
-Si Node 18 est installé dans un autre emplacement, indiquer son exécutable avec la variable `LOCAL_FRONTEND_NODE_BINARY`.
+Si Node 22 est installé dans un autre emplacement, indiquer son exécutable avec la variable `LOCAL_FRONTEND_NODE_BINARY`.
 
 Exemple PowerShell :
 
@@ -35,7 +35,7 @@ Le serveur de développement est disponible sur <http://127.0.0.1:4200>. Il util
 
 Pour travailler sur le back-end et le front-end en même temps, utiliser deux terminaux depuis la racine du dépôt :
 
-Attention : le back-end requiert Node.js 24.x tandis que ce front-end Angular 16 requiert Node.js 18.x. Les deux commandes `start:local` sélectionnent elles-mêmes un runtime compatible lorsqu'il est installé.
+Le back-end requiert Node.js 24.x tandis que ce front-end requiert Node.js 22.x. Les deux commandes `start:local` sélectionnent elles-mêmes un runtime compatible lorsqu'il est installé.
 
 ```bash
 # Terminal 1
