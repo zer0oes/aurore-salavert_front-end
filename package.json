@@ -4,11 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "start:local": "ng serve --configuration development --host 127.0.0.1 --port 4200",
+    "start:local": "node scripts/local-node-runner.js",
+    "prebuild": "node scripts/check-node-version.js",
     "build": "ng build --configuration production && node generate-sitemap.js && npm run postbuild",
     "postbuild": "cp robots.txt dist/aurore-salavert_front-end/",
+    "prewatch": "node scripts/check-node-version.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "private": true,
   "dependencies": {
