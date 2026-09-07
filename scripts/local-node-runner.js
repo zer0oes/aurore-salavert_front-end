@@ -6,8 +6,8 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const appDir = path.resolve(__dirname, '..');
-const requiredMajor = 18;
-const preferredVersion = '18.20.8';
+const requiredMajor = 22;
+const preferredVersion = '22.23.2';
 
 const candidateDirectories = [
   process.env.NVM_HOME,
@@ -25,7 +25,7 @@ const versionDirectories = candidateDirectories.flatMap((directory) => {
 
   return fs
     .readdirSync(directory, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^v?18\./.test(entry.name))
+    .filter((entry) => entry.isDirectory() && /^v?22\./.test(entry.name))
     .sort((left, right) => right.name.localeCompare(left.name, undefined, { numeric: true }))
     .map((entry) => path.join(directory, entry.name));
 });
@@ -52,10 +52,10 @@ const compatibleRuntime = candidates
   .find((candidate) => candidate.version);
 
 if (!compatibleRuntime) {
-  console.error('[FRONT-END] Aucun runtime Node.js 18 compatible avec Angular 16 n’a été trouvé.');
+  console.error('[FRONT-END] Aucun runtime Node.js 22 n’a été trouvé.');
   console.error(`[FRONT-END] Installez-le avec nvm : nvm install ${preferredVersion}`);
   console.error(
-    '[FRONT-END] Si Node 18 est installé ailleurs, définissez LOCAL_FRONTEND_NODE_BINARY.'
+    '[FRONT-END] Si Node 22 est installé ailleurs, définissez LOCAL_FRONTEND_NODE_BINARY.'
   );
   process.exit(1);
 }
