@@ -10,6 +10,6 @@
       </div>
     </div>
 
-    <img [src]="project.thumbnail" class="project__img" [alt]="project.title" loading="lazy">
+    <img *ngIf="project.thumbnail" [src]="project.thumbnail" class="project__img" [alt]="project.title" loading="lazy">
   </div>
 </div>

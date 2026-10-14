@@ -40,7 +40,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
       this.showcaseInfos.push(showcase);
     });
 
-    this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}`).subscribe((response: any) => {
+    this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}&status=published`).subscribe((response: any) => {
       const projectData = response?.data;
       if (Array.isArray(projectData)) {
         projectData.forEach((element: any) => {
@@ -62,6 +62,9 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
             let gal: Array<Gallery> = [];
             if (attributes.gallery && Array.isArray(attributes.gallery)) {
               attributes.gallery.forEach((item: any) => {
+                if (!item?.url) {
+                  return;
+                }
                 gal.push({
                   id: item.id,
                   img: item.url.startsWith('http') ? item.url : this.url + (item.url || ''),
@@ -70,13 +73,14 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
               });
             }
 
+            const thumbnailUrl = attributes.thumbnail?.url || attributes.gallery?.find((item: any) => item?.url)?.url || '';
             const newProject: Project = {
               id: attributes.id,
               slug: attributes.slug || 'no-slug',
               title: attributes.title || 'No Title',
               description: attributes.description || 'No Description',
               createdAt: attributes.createdAt || '',
-              thumbnail: attributes.thumbnail.url.startsWith('http') ? attributes.thumbnail.url : this.url + (attributes.thumbnail.url || ''),
+              thumbnail: thumbnailUrl ? (thumbnailUrl.startsWith('http') ? thumbnailUrl : this.url + thumbnailUrl) : '',
               categories: cat,
               layout: attributes.layout ? attributes.layout.slug : '',
               gallery: gal

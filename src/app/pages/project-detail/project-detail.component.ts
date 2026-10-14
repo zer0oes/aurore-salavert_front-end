@@ -215,7 +215,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   private fetchProjects(): Promise<void> {
     const locale = this.localeService.getLocale();
     return new Promise((resolve, reject) => {
-      this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}`)
+      this.http.get(`${this.url}/api/projects?populate=*&locale=${locale}&status=published`)
         .subscribe((response: any) => {
           if (response.data) {
             this.projects = response.data.map((item: any) => ({
@@ -243,7 +243,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     const locale = this.localeService.getLocale();
     const endpoint = this.previewToken
       ? `${this.url}/api/project-preview?token=${encodeURIComponent(this.previewToken)}`
-      : `${this.url}/api/projects?filters[slug][$eq]=${encodeURIComponent(slug)}&locale=${locale}&populate=*`;
+      : `${this.url}/api/projects?filters[slug][$eq]=${encodeURIComponent(slug)}&locale=${locale}&populate=*&status=published`;
     this.http.get(endpoint)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
