@@ -5,6 +5,7 @@ import { Gallery, Project } from '@app/models/frontend/project';
 import { environment } from '@src/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { LocaleService } from '@app/services/locale.service';
+import { combineLatest, Subscription } from 'rxjs';
 
 @Component({
   selector: 'project-detail',
@@ -16,6 +17,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChildren('projectVideo') projectVideos!: QueryList<ElementRef<HTMLVideoElement>>;
 
   project: Project | null = null;
+  previewToken = '';
+  previewError = '';
   projectDescriptionHtml: string = '';
   projects: Project[] = [];
   currentIndex: number | null = null;
@@ -35,6 +38,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   public url = environment.url;
   private videoObserver?: IntersectionObserver;
   private removeFullscreenListener?: () => void;
+  private routeSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +49,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
     private metaService: Meta,
     private localeService: LocaleService
   ) { 
-    this.fetchProjects();
   }
 
   ngOnInit(): void {
@@ -54,7 +57,18 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       this.renderer.addClass(header, 'header-alt');
     }
   
-    this.route.params.subscribe(params => {
+    this.routeSubscription = combineLatest([this.route.params, this.route.queryParams]).subscribe(([params, query]) => {
+      this.previewToken = query['preview'] || '';
+      this.previewError = '';
+      if (this.previewToken) {
+        this.metaService.updateTag({ name: 'robots', content: 'noindex, nofollow' });
+        this.metaService.updateTag({ name: 'referrer', content: 'no-referrer' });
+        this.fetchProjectData(params['slug'] || '');
+        return;
+      } else {
+        this.metaService.removeTag('name="robots"');
+        this.metaService.removeTag('name="referrer"');
+      }
       const slug = params['slug'];
       if (slug) {
         this.fetchProjects().then(() => {
@@ -183,6 +197,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngOnDestroy(): void {
+    this.routeSubscription?.unsubscribe();
+    if (this.previewToken) {
+      this.metaService.removeTag('name="robots"');
+      this.metaService.removeTag('name="referrer"');
+    }
     const header = document.querySelector('header');
     if (header) {
       this.renderer.removeClass(header, 'header-alt');
@@ -222,7 +241,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
 
   private fetchProjectData(slug: string): void {
     const locale = this.localeService.getLocale();
-    this.http.get(`${this.url}/api/projects?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`)
+    const endpoint = this.previewToken
+      ? `${this.url}/api/project-preview?token=${encodeURIComponent(this.previewToken)}`
+      : `${this.url}/api/projects?filters[slug][$eq]=${encodeURIComponent(slug)}&locale=${locale}&populate=*`;
+    this.http.get(endpoint)
       .subscribe((response: any) => {
         if (response.data && response.data.length > 0) {
           const projectData = response.data[0];
@@ -256,14 +278,16 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
               return gallery;
             }, []) || [],
   
-            thumbnail: projectData.thumbnail ? this.url + projectData.thumbnail.url : '',
+            thumbnail: projectData.thumbnail ? this.getMediaUrl(projectData.thumbnail.url) : '',
             createdAt: projectData.createdAt || '',
             layout: projectData.layout ? projectData.layout.slug : ''
           };
   
           this.projectDescriptionHtml = this.convertMarkdownToHtml(projectData.description);
   
+          if (this.previewToken) this.projects = [this.project];
           this.updateCurrentIndex();
+          if (this.previewToken) this.currentIndex = 0;
           this.isHeaderAlt = this.currentIndex !== null && this.currentIndex > 0;
           this.previousProject = this.currentIndex > 0 ? this.projects[this.currentIndex - 1] : null;
           this.nextProject = this.currentIndex < this.projects.length - 1 ? this.projects[this.currentIndex + 1] : null;
@@ -275,9 +299,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           this.metaService.updateTag({ name: 'description', content: plainDescription });
         } else {
           console.error('Projet non trouvé');
+          if (this.previewToken) this.previewError = 'Projet introuvable pour cette prévisualisation.';
         }
       }, error => {
         console.error('Erreur lors de la récupération du projet:', error);
+        if (this.previewToken) {
+          this.project = null;
+          this.previewError = 'Prévisualisation indisponible. Rouvrez le lien depuis Strapi après avoir enregistré le projet.';
+        }
       });
   }
 

@@ -1,4 +1,6 @@
+<p *ngIf="previewError" role="alert">{{ previewError }}</p>
 <div *ngIf="project" class="project">
+  <p *ngIf="previewToken" role="status">Prévisualisation — version enregistrée dans Strapi</p>
   <div class="project__content">
     <div class="project__navigation">
       <button 
