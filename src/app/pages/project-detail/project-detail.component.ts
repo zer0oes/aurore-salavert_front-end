@@ -322,7 +322,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\_(.*?)\_/g, '<em>$1</em>')
       .replace(/\<u\>(.*?)\<\/u\>/g, '<u>$1</u>')
-      .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/<p>\s*(?:[→↗]\s*)?(<a\b[^>]*>.*?<\/a>)\s*<\/p>/g, '<p class="project-description-link">$1</p>');
   
     return html;
   }

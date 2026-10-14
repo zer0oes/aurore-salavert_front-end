@@ -9,3 +9,68 @@ a, .link {
     transition: color .4s ease-in-out;
   }
 }
+
+// Global selectors also reach the description HTML injected by Angular.
+.project__content__description {
+  p {
+    width: 100%;
+    text-align: center;
+  }
+
+  a:focus-visible {
+    outline: 2px solid $secondary-dark;
+    outline-offset: 6px;
+  }
+
+  .project-description-link a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 1.5rem 2rem;
+    border: 1px solid $primary;
+    border-radius: 1rem;
+    background: transparent;
+    color: $primary;
+    font-size: inherit;
+    font-weight: bold;
+    text-transform: none;
+    letter-spacing: .02rem;
+    line-height: inherit;
+    text-decoration: none;
+    transition: color .2s ease-in-out, background .4s ease-in-out, border-color .4s ease-in-out;
+    overflow-wrap: anywhere;
+
+    &::after {
+      content: '↗';
+      position: static;
+      width: auto;
+      height: auto;
+      background: none;
+      z-index: auto;
+      flex-shrink: 0;
+      font-size: 1.1em;
+      transition: transform .2s ease;
+    }
+
+    &:hover {
+      color: $on-primary;
+      background: $primary;
+
+      &::after {
+        height: auto;
+        background: none;
+        transform: translate(2px, -2px);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project__content__description .project-description-link a::after {
+    transition: none;
+    transform: none;
+  }
+}
