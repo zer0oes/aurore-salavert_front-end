@@ -1,5 +1,9 @@
 <main class="not-found" aria-labelledby="not-found-title" [attr.lang]="isFrench ? 'fr' : 'en'">
-  <p class="not-found__code" aria-hidden="true">404<span>.</span></p>
+  <div class="not-found__code" aria-hidden="true">
+    <span class="not-found__digit">4</span><span class="not-found__zero">0<span class="not-found__eyes"><i></i><i></i></span></span><span class="not-found__digit">4</span><span class="not-found__dot">.</span>
+    <span class="not-found__spark not-found__spark--one">✳</span>
+    <span class="not-found__spark not-found__spark--two">✦</span>
+  </div>
   <h1 id="not-found-title">{{ isFrench ? 'Page introuvable' : 'Page not found' }}</h1>
   <p class="not-found__description">
     {{ isFrench ? 'Cette page n’existe pas ou n’est plus disponible.' : 'This page does not exist or is no longer available.' }}

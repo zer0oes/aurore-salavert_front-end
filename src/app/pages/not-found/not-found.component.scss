@@ -12,21 +12,65 @@
   justify-content: center;
   gap: 2.4rem;
   background: linear-gradient(145deg, $primary-light 0%, $primary 38%, $secondary 100%);
-  color: $base-dark-rev;
+  color: $base-light;
   text-align: center;
 
   &__code {
+    position: relative;
+    display: flex;
+    align-items: baseline;
     margin: 0;
     font-size: clamp(10rem, 18vw, 22rem);
     font-weight: 700;
     line-height: 1;
     letter-spacing: -.06em;
     color: $base-light;
-    span { color: $secondary-dark; }
+  }
+
+  &__digit { display: inline-block; animation: lost-digit 5s ease-in-out infinite; }
+  &__digit:nth-of-type(3) { animation-delay: -2.5s; }
+  &__zero { position: relative; display: inline-block; }
+  &__dot { color: $secondary-dark; animation: lost-dot 3s ease-in-out infinite; }
+
+  &__eyes {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    display: flex;
+    gap: .025em;
+    transform: translateX(-50%);
+    i {
+      position: relative;
+      width: .085em;
+      height: .12em;
+      border-radius: 50%;
+      background: $base-light;
+      animation: blink 6s infinite;
+      &::after {
+        content: '';
+        position: absolute;
+        width: 45%;
+        height: 45%;
+        top: 35%;
+        left: 40%;
+        border-radius: 50%;
+        background: $secondary-dark;
+      }
+    }
+  }
+
+  &__spark {
+    position: absolute;
+    font-size: .18em;
+    font-weight: 400;
+    color: $base-light;
+    animation: lost-digit 6s ease-in-out infinite;
+    &--one { left: -.7em; top: .1em; }
+    &--two { right: -.9em; bottom: .5em; font-size: .12em; animation-delay: -3s; }
   }
 
   h1 {
-    color: $base-dark-rev;
+    color: $base-light;
     margin: 0;
     font-size: clamp(2.8rem, 4vw, 4.5rem);
     line-height: 1.2;
@@ -34,27 +78,51 @@
     &::after { display: none; }
   }
 
-  &__description { max-width: 48rem; margin: 0; line-height: 1.7; }
+  &__description { color: $base-light; max-width: 48rem; margin: 0; line-height: 1.7; }
 
   &__link {
     display: inline-flex;
     align-items: center;
     gap: 1.6rem;
     margin-top: 1.2rem;
-    padding: 1.6rem 2.4rem;
+    padding: 1.5rem 4rem;
     border: 1px solid $base-light;
-    border-radius: .4rem;
-    color: $secondary-dark;
-    background: $base-light;
-    font-size: 1.6rem;
+    border-radius: 1rem;
+    color: $base-light;
+    background: transparent;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .02rem;
     line-height: 1.5;
     text-decoration: none;
-    &:hover { background: $secondary-dark; border-color: $secondary-dark; color: $on-secondary; }
-    &:focus-visible { outline: 3px solid $base-dark-rev; outline-offset: 5px; }
+    transition: color .2s ease-in-out, background .4s ease-in-out, border-color .4s ease-in-out;
+    &:hover { background: $base-light; color: $secondary; }
+    &:focus-visible { outline: 3px solid $base-light; outline-offset: 5px; }
   }
 
   @media (max-width: 935px) {
     min-height: calc(100dvh - 4rem);
     padding: 16rem 2rem 6rem;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__digit, &__dot, &__spark, &__eyes i { animation: none; }
+    &__link { transition: none; }
+  }
+}
+
+@keyframes lost-digit {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-.035em) rotate(4deg); }
+}
+
+@keyframes lost-dot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-.12em); }
+}
+
+@keyframes blink {
+  0%, 42%, 46%, 100% { transform: scaleY(1); }
+  44% { transform: scaleY(.1); }
 }
