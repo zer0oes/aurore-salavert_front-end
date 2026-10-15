@@ -16,7 +16,8 @@ app.get('/robots.txt', (req, res) => {
 });
 
 app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '/dist/aurore-salavert_front-end/index.html'));
+    const isKnownPage = req.path === '/' || /^\/privacy-policy\/?$/.test(req.path) || /^\/project\/[^/]+\/?$/.test(req.path);
+    res.status(isKnownPage ? 200 : 404).sendFile(path.join(__dirname, '/dist/aurore-salavert_front-end/index.html'));
 });
 
 const port = process.env.PORT || 3000;

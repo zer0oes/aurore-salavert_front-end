@@ -16,9 +16,17 @@ const routes: Routes = [
         loadChildren: () => import('./pages/project-detail/project-detail.module').then(m => m.ProjectDetailModule)
       },
       {
+        path: '404',
+        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
+      },
+      {
         path: 'privacy-policy',
         loadChildren: () => import('./pages/policy-privacy/policy-privacy.module').then(m => m.PolicyPrivacyModule),
         resolve: { policyData: PrivacyPolicyResolver }
+      },
+      {
+        path: '**',
+        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
       },
     ]
   }

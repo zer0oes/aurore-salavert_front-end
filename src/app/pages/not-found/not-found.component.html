@@ -1,0 +1,10 @@
+<main class="not-found" aria-labelledby="not-found-title" [attr.lang]="isFrench ? 'fr' : 'en'">
+  <p class="not-found__code" aria-hidden="true">404<span>.</span></p>
+  <h1 id="not-found-title">{{ isFrench ? 'Page introuvable' : 'Page not found' }}</h1>
+  <p class="not-found__description">
+    {{ isFrench ? 'Cette page n’existe pas ou n’est plus disponible.' : 'This page does not exist or is no longer available.' }}
+  </p>
+  <a class="not-found__link" routerLink="/">
+    {{ isFrench ? 'Retour à l’accueil' : 'Back to home' }} <span aria-hidden="true">↗</span>
+  </a>
+</main>

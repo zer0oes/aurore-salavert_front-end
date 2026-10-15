@@ -320,13 +320,19 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
           this.metaService.updateTag({ name: 'description', content: plainDescription });
         } else {
           console.error('Projet non trouvé');
-          if (this.previewToken) this.previewError = 'Projet introuvable pour cette prévisualisation.';
+          if (this.previewToken) {
+            this.previewError = 'Projet introuvable pour cette prévisualisation.';
+          } else {
+            this.router.navigate(['/404'], { replaceUrl: true });
+          }
         }
       }, error => {
         console.error('Erreur lors de la récupération du projet:', error);
         if (this.previewToken) {
           this.project = null;
           this.previewError = 'Prévisualisation indisponible. Rouvrez le lien depuis Strapi après avoir enregistré le projet.';
+        } else if (error.status === 404) {
+          this.router.navigate(['/404'], { replaceUrl: true });
         }
       });
   }
