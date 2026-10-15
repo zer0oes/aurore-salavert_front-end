@@ -141,6 +141,7 @@
       &::after {
         content: "";
         display: block;
+        flex-shrink: 0;
         height: .2rem;
         width: 6rem;
         background: $on-base;
@@ -462,6 +463,19 @@
         opacity: 1;
         transition: opacity .4s ease-in-out .1s, background .4s ease-in-out;
       }
+    }
+  }
+}
+
+// Keep long descriptions in the column without compressing the controls or separators.
+@media only screen and (min-width: 936px) {
+  .project__content {
+    box-sizing: border-box;
+    gap: 4rem;
+    overflow-y: auto;
+
+    > * {
+      flex-shrink: 0;
     }
   }
 }
