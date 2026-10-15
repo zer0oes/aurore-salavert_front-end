@@ -46,6 +46,11 @@ export interface Layout {
 export interface SliderItems {
   imgSrc: string;
   imgAlt: string;
+  projectSlug?: string;
+  projectTitle?: string;
+  accroche?: string;
+  position?: string;
+  theme?: 'light' | 'dark';
 }
 
 export interface CreativeShowcase {
