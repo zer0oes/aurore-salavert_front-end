@@ -35,6 +35,7 @@ body {
   body {
     margin: 2rem;
     height: calc(100% - 4rem);
+    height: calc(100dvh - 4rem);
     font-size: calc($base-font-size * .75);
   }
 }

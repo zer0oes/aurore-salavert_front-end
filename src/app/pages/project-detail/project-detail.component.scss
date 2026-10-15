@@ -472,6 +472,7 @@
     flex-direction: column;
     overflow: auto;
     height: calc(100vh - 4rem);
+    height: calc(100dvh - 4rem);
 
     &__content,
     &__gallery {
