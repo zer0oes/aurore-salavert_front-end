@@ -114,15 +114,7 @@
       overflow-x: scroll;
       overflow-y: hidden;
 
-      &::-webkit-scrollbar {
-        height: .5rem;
-        background: $base;
-      }
   
-      &::-webkit-scrollbar-thumb {
-        border-radius: .5rem;
-        background: $primary;
-      }
     }
 
     // PORTRAIT 
@@ -172,15 +164,7 @@
       overflow-x: scroll;
       overflow-y: hidden;
 
-      &::-webkit-scrollbar {
-        height: .5rem;
-        background: $base;
-      }
   
-      &::-webkit-scrollbar-thumb {
-        border-radius: .5rem;
-        background: $primary;
-      }
     }
   }
 }

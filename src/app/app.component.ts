@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { installOverlayScrollbars } from './overlay-scrollbars';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 @Component({
@@ -6,8 +7,18 @@ import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationErr
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = false;
+
+  private scrollbarCleanup?: () => void;
+
+  ngAfterViewInit(): void {
+    this.scrollbarCleanup = installOverlayScrollbars();
+  }
+
+  ngOnDestroy(): void {
+    this.scrollbarCleanup?.();
+  }
 
   constructor(private router: Router) {}
 

@@ -198,15 +198,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
 
-    &::-webkit-scrollbar {
-      width: .5rem;
-      background: $base;
-    }
 
-    &::-webkit-scrollbar-thumb {
-      border-radius: .5rem;
-      background: $primary;
-    }
 
     .gallery-media {
       width: 100%;

@@ -20,9 +20,9 @@ export class HeaderComponent implements OnInit {
     });
   }
   
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('body:scroll', ['$event'])
 onWindowScroll(event: Event) {
-    const scrollPosition = window.scrollY;
+    const scrollPosition = document.body.scrollTop;
     const triggerHeight = window.innerHeight * 0.75;
 
     this.scrolled = scrollPosition > triggerHeight;
