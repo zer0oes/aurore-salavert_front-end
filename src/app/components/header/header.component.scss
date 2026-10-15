@@ -86,7 +86,7 @@ header {
         a {
           svg {
             width: 10.5rem;
-            filter: drop-shadow(1px 1px 0 rgba($base, 1));
+            filter: none;
             transition: width .3s ease-in-out, filter .4s ease-in-out;
 
             .primary-color {
@@ -112,37 +112,68 @@ header {
     left: 2rem;
     right: 2rem;
     padding: 2rem 0;
-    height: auto;
-    
+    height: 8rem;
+    box-sizing: border-box;
+
     &::before {
       top: -2rem;
       height: 2rem;
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0 0 -4rem;
+      z-index: -1;
+      background: transparent;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 8rem, rgba(0, 0, 0, .85) 8.8rem, rgba(0, 0, 0, .5) 10rem, rgba(0, 0, 0, .15) 11.2rem, transparent 12rem);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 8rem, rgba(0, 0, 0, .85) 8.8rem, rgba(0, 0, 0, .5) 10rem, rgba(0, 0, 0, .15) 11.2rem, transparent 12rem);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s ease-in-out;
+    }
+
+    &.scrolled:has(.logo-container:not(.has-menu-opened))::after,
+    &.header-alt:has(.logo-container:not(.has-menu-opened))::after {
+      opacity: 1;
+    }
+
     .logo-container {
+      width: calc(100% - 4rem);
+
       a {
+        width: 7.5rem;
+        transform: translateX(calc((100vw - 8rem - 7.5rem) / 2));
+        transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+
         svg {
-          width: 10.5rem;
+          display: block;
+          width: 7.5rem;
+          transform: scale(1);
+          transform-origin: left center;
+          transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease-in-out;
         }
       }
 
-      &.has-menu-opened {
-        a {
-          svg {
-            width: 10.5rem;
-          }
-        }
+      &.has-menu-opened a svg {
+        width: 7.5rem;
       }
     }
 
     &.scrolled,
     &.header-alt {
-      .logo-container {
-        &:not(.has-menu-opened) {
-          a {
-            svg {
-              width: 8.5rem;
-            }
+      .logo-container:not(.has-menu-opened) {
+        width: calc(100% - 4rem);
+
+        a {
+          transform: translateX(0);
+
+          svg {
+            width: 7.5rem;
+            transform: scale(.8666667);
+            transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease-in-out;
           }
         }
       }
@@ -150,6 +181,15 @@ header {
   }
 }
 
+@media only screen and (max-width: 935px) and (prefers-reduced-motion: reduce) {
+  header::after,
+  header .logo-container a,
+  header .logo-container a svg,
+  header.scrolled .logo-container:not(.has-menu-opened) a svg,
+  header.header-alt .logo-container:not(.has-menu-opened) a svg {
+    transition: none;
+  }
+}
 // TABLETS
 @media only screen and (min-width: 936px) and (max-width: 1200px) {
   header {
