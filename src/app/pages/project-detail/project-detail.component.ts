@@ -55,7 +55,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
       if (navigated) {
         const portfolio = document.getElementById('creative-showcase');
         if (portfolio) {
-          window.scrollTo({ top: portfolio.getBoundingClientRect().top + window.scrollY - 80 });
+          document.body.scrollTo({ top: portfolio.getBoundingClientRect().top - document.body.getBoundingClientRect().top + document.body.scrollTop - 80 });
         }
       }
     });

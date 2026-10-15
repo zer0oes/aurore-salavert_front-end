@@ -3,6 +3,7 @@
 @import "colors";
 @import "mixins";
 @import "fonts";
+@import "scrollbars";
 
 @import "layout";
 
@@ -19,17 +20,21 @@ body {
   box-sizing: border-box;
 }
 html {
-  scroll-behavior: smooth;
+  overflow: hidden;
 }
 body {
-  padding: 4rem;
+  margin: 4rem;
+  height: calc(100% - 8rem);
+  overflow: auto;
+  scroll-behavior: smooth;
   font-size: $base-font-size;
 }
 
 // MOBILE
 @media only screen and (max-width: 935px) {
   body {
-    padding: 2rem;
+    margin: 2rem;
+    height: calc(100% - 4rem);
     font-size: calc($base-font-size * .75);
   }
 }

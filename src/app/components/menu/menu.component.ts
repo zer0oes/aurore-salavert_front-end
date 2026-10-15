@@ -37,9 +37,9 @@ export class MenuComponent implements OnInit {
       const element = document.getElementById(section);
       if (element) {
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        const offsetPosition = elementPosition - document.body.getBoundingClientRect().top + document.body.scrollTop - headerOffset;
 
-        window.scrollTo({
+        document.body.scrollTo({
           top: offsetPosition,
           behavior: 'smooth'
         });
