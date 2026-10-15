@@ -25,7 +25,7 @@ export class SliderComponent implements OnInit {
   private async measureContrast(): Promise<void> {
     const slide = this.element.nativeElement.querySelector<HTMLElement>('.slide-active');
     if (!slide || this.destroyed) return;
-    const targets = Array.from(slide.querySelectorAll<HTMLElement>('.slide-secondary'));
+    const targets = Array.from(slide.querySelectorAll<HTMLElement>('.slide-project-title, .slide-secondary'));
     const hook = slide.querySelector<HTMLElement>('.slide-hook');
     hook?.classList.remove('auto-contrast');
     hook?.style.removeProperty('background-image');

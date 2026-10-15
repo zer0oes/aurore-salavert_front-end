@@ -30,7 +30,8 @@
 .slide-backward { --slide-enter-x: -100%; --slide-leave-x: 100%; }
 @keyframes slide-enter { from { transform: translateX(var(--slide-enter-x, 100%)); } to { transform: translateX(0); } }
 @keyframes slide-leave { from { transform: translateX(0); } to { transform: translateX(var(--slide-leave-x, -100%)); } }
-.slide-hook, .slide-actions { opacity: 0; transition: opacity .18s ease; }
+.slide-project-title, .slide-hook, .slide-actions { opacity: 0; transition: opacity .18s ease; }
+.slide-active .slide-project-title { opacity: 1; transition: opacity .6s ease .06s; }
 .slide-active .slide-hook { opacity: 1; transition: opacity .6s ease .12s; }
 .slide-active .slide-actions { opacity: 1; transition: opacity .6s ease .22s; }
 .slide-image-link { display: block; height: 100%; width: 100%; }
@@ -45,6 +46,17 @@
   &.dark { color: $on-base; }
 }
 .slide-copy { position: relative; max-width: 60rem; padding: 2rem 0; }
+.slide-project-title {
+  margin: 0 0 1.6rem;
+  font-family: $base-font-family;
+  font-size: 1.5rem;
+  font-weight: $bold;
+  line-height: 1.25;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: inherit;
+  &::after { display: none; }
+}
 .slide-hook { font-size: clamp(2.4rem, 2vw, 3rem); font-weight: 600; line-height: 1.2; text-wrap: balance; }
 :host ::ng-deep .slide-hook {
   p { margin: 0 0 1.8rem; font-size: inherit; line-height: inherit; color: inherit; }
@@ -73,7 +85,7 @@
   .slide-overlay { padding: 11rem 2rem 9rem; }
   .slide-overlay[data-position] { align-items: flex-end; justify-content: center; text-align: center; }
   .slide-copy { display: grid; grid-template-columns: minmax(0, max-content); max-width: 100%; padding: 1rem 0; }
-  .slide-hook { width: 0; min-width: 100%; }
+  .slide-project-title, .slide-hook { width: 0; min-width: 100%; }
   .slide-hook { font-size: clamp(2rem, 6vw, 2.8rem); }
   .slide-actions { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: clamp(.8rem, 3vw, 2rem); }
   .slide-overlay[data-position] .slide-actions { justify-content: center; }
@@ -90,7 +102,7 @@
 @media (prefers-reduced-motion: reduce) {
   .slide { animation: none; }
   .slide-outgoing { visibility: hidden; opacity: 0; }
-  .slide, .slide-hook, .slide-actions, .slide-active .slide-hook, .slide-active .slide-actions, .slide-actions a { transition: none; }
+  .slide, .slide-project-title, .slide-active .slide-project-title, .slide-hook, .slide-actions, .slide-active .slide-hook, .slide-active .slide-actions, .slide-actions a { transition: none; }
 }
 
 .slider {

@@ -12,6 +12,7 @@
       <ng-template #unlinkedImage><img class="slider_content-img" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false"></ng-template>
       <div *ngIf="image.position" class="slide-overlay" [attr.data-position]="image.position" [class.dark]="image.theme === 'dark'">
         <div class="slide-copy">
+          <h2 class="slide-project-title" *ngIf="image.projectTitle">{{ image.projectTitle }}</h2>
           <div class="slide-hook" *ngIf="image.accroche" [innerHTML]="image.accroche"></div>
           <div class="slide-actions">
             <a class="slide-primary" href="#creative-showcase" (click)="scrollToSection($event, 'creative-showcase')">{{ english ? 'Explore the portfolio' : 'Découvrir le portfolio' }}</a>
