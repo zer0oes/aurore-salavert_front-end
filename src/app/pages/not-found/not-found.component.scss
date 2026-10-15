@@ -15,6 +15,16 @@
   color: $base-light;
   text-align: center;
 
+  &__oops {
+    margin: 0;
+    color: $base-light;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(2.8rem, 4vw, 4.5rem);
+    line-height: 1.2;
+    transform: rotate(-8deg);
+  }
+
   &__code {
     position: relative;
     display: flex;
