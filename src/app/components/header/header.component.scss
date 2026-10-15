@@ -223,3 +223,66 @@ header {
     }
   }
 }
+// Keep the layout stable while the desktop logo moves and shrinks.
+@media only screen and (min-width: 936px) {
+  header {
+    --logo-width: 12.5rem;
+    --logo-scale: .84;
+    height: calc(8rem + var(--logo-width) * .7488);
+    box-sizing: border-box;
+
+    .logo-container {
+      width: calc(100% - 8rem);
+
+      a {
+        width: var(--logo-width);
+        transform: translateX(calc((100vw - 16rem - var(--logo-width)) / 2));
+        transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+
+        svg {
+          display: block;
+          width: var(--logo-width);
+          transform: scale(1);
+          transform-origin: left center;
+          transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease-in-out;
+        }
+      }
+
+      &.has-menu-opened a svg {
+        width: var(--logo-width);
+      }
+    }
+
+    &.scrolled,
+    &.header-alt {
+      .logo-container:not(.has-menu-opened) a {
+        transform: translateX(0);
+
+        svg {
+          width: var(--logo-width);
+          transform: scale(var(--logo-scale));
+          transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 936px) and (max-width: 1200px) {
+  header {
+    --logo-width: 10.5rem;
+    --logo-scale: .8095238;
+  }
+}
+
+@media only screen and (min-width: 936px) and (prefers-reduced-motion: reduce) {
+  header .logo-container,
+  header .logo-container a,
+  header .logo-container a svg,
+  header.scrolled .logo-container:not(.has-menu-opened),
+  header.header-alt .logo-container:not(.has-menu-opened),
+  header.scrolled .logo-container:not(.has-menu-opened) a svg,
+  header.header-alt .logo-container:not(.has-menu-opened) a svg {
+    transition: none;
+  }
+}
