@@ -1,41 +1,35 @@
-<div class="slider" *ngIf="images && images.length > 0">
-
-    <!-- ARROWS CONTROLS -->
-    <div class="slider_controls-arrows" *ngIf="arrows">
-      <button class="btn-prev"
-        (click)="onPrevClick()"
-        (mouseenter)="pauseSlider()"
-      >
-        <i class="material-symbols-outlined">arrow_back</i>
-      </button>
-      <button class="btn-next"
-        (click)="onNextClick()"
-        (mouseenter)="pauseSlider()">
-          <i class="material-symbols-outlined">arrow_forward</i>
-        </button>
-    </div>
-
-    <!-- DOTS CONTROLS -->
-    <div class="slider_controls-dots" *ngIf="dots">
-      <span class="controls_dot"
-        *ngFor="let dot of images; let i = index"
-        [ngClass]="{'dot-active': selectedIndex === i}"
-        (click)="selectImage(i)"
-        (mouseenter)="pauseSlider()"
-      ></span>
-    </div>
-
-
-  <!-- SLIDER IMAGES -->
+<div class="slider" *ngIf="images.length" [class.theme-dark]="images[selectedIndex].theme === 'dark'" [class.slide-backward]="slideDirection === 'previous'"
+  (mouseenter)="pauseSlider()" (focusin)="pauseSlider()" role="region" aria-roledescription="carousel"
+  [attr.aria-label]="english ? 'Selected projects' : 'Projets à découvrir'">
   <div class="slider_content">
-    <img class="slider_content-img" *ngFor="let image of images; let i = index"
-      [src]="image.imgSrc"
-      [ngClass]="{'img-active': selectedIndex === i}"
-      [alt]="image.imgAlt"
-    >
+    <section *ngFor="let image of images; let i = index" class="slide"
+      [class.slide-active]="selectedIndex === i" [class.slide-outgoing]="previousIndex === i" [attr.inert]="selectedIndex !== i ? '' : null"
+      [attr.aria-hidden]="selectedIndex !== i" [attr.aria-label]="(i + 1) + ' / ' + images.length">
+      <a *ngIf="image.projectSlug; else unlinkedImage" class="slide-image-link" [routerLink]="['/project', image.projectSlug]"
+        [attr.aria-label]="(english ? 'Discover ' : 'Découvrir ') + image.projectTitle" draggable="false">
+        <img class="slider_content-img" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'">
+      </a>
+      <ng-template #unlinkedImage><img class="slider_content-img" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false"></ng-template>
+      <div *ngIf="image.position" class="slide-overlay" [attr.data-position]="image.position" [class.dark]="image.theme === 'dark'">
+        <div class="slide-copy">
+          <div class="slide-hook" *ngIf="image.accroche" [innerHTML]="image.accroche"></div>
+          <div class="slide-actions">
+            <a class="slide-primary" href="#creative-showcase" (click)="scrollToSection($event, 'creative-showcase')">{{ english ? 'Explore the portfolio' : 'Découvrir le portfolio' }}</a>
+            <a class="slide-secondary" href="#lets-work-together" (click)="scrollToSection($event, 'lets-work-together')">{{ english ? 'Let’s talk about your project' : 'Parlons de votre projet' }}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="slider_controls-arrows" *ngIf="arrows && images.length > 1">
+    <button type="button" class="btn-prev" (click)="onPrevClick()" [attr.aria-label]="english ? 'Previous slide' : 'Slide précédente'"><i class="material-symbols-outlined" aria-hidden="true">arrow_back</i></button>
+    <button type="button" class="btn-next" (click)="onNextClick()" [attr.aria-label]="english ? 'Next slide' : 'Slide suivante'"><i class="material-symbols-outlined" aria-hidden="true">arrow_forward</i></button>
+  </div>
+  <div class="slider_controls-dots" *ngIf="dots && images.length > 1">
+    <button type="button" class="controls_dot" *ngFor="let dot of images; let i = index" [class.dot-active]="selectedIndex === i"
+      (click)="selectImage(i)" [attr.aria-label]="(english ? 'Show slide ' : 'Afficher la slide ') + (i + 1)" [attr.aria-current]="selectedIndex === i ? 'true' : null"></button>
   </div>
 </div>
-
 <div class="slider" *ngIf="images.length == 0">
   <svg class="slider_presentation" id="LETTERING" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="612" height="317.3" viewBox="0 0 612 317.3">
     <defs>

@@ -1,44 +1,99 @@
 @import 'styles/colors';
 @import 'styles/fonts';
 
+:host { display: block; height: calc(100svh - 8rem); min-height: 48rem; }
 .slider {
   position: relative;
-  display: flex;
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
-  background: $secondary;
-  background: linear-gradient(180deg, rgba($secondary, 1) 0%, rgba($primary, 1) 100%);
-
-  &_content {
-    display: flex;
-    height: 100%;
-    width: 100%;
-
-    &-img {
-      display: block;
-      object-fit: cover;
-      opacity: 0;
-      min-width: 100%;
-      height: 100%;
-      order: 2;
-      z-index: 1;
-      transition: opacity 1s ease-out;
-
-      &.img-active {
-        opacity: 1;
-        flex: 1;
-        order: 1;
-        transition: opacity .6s ease-in;
-      }
-    }
+  overflow: hidden;
+  background: linear-gradient(180deg, $secondary, $primary);
+  &_content { position: relative; width: 100%; height: 100%; }
+  &_content-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  &_presentation { display: block; margin: 0 auto; max-width: 90%; height: 100%; }
+  a:focus-visible, button:focus-visible { outline: 3px solid $primary; outline-offset: 5px; }
+}
+.slide {
+  isolation: isolate;
+  position: absolute; inset: 0; opacity: 0; visibility: hidden; pointer-events: none;
+  z-index: 0;
+  &-active {
+    z-index: 1;
+    opacity: 1; visibility: visible; pointer-events: auto;
+    animation: slide-enter .7s cubic-bezier(.65, 0, .35, 1) both;
   }
-
-  &_presentation {
-    margin: 0 auto;
-    align-self: center;
+  &-outgoing {
+    opacity: 1; visibility: visible;
+    animation: slide-leave .7s cubic-bezier(.65, 0, .35, 1) forwards;
   }
+}
+.slide-backward { --slide-enter-x: -100%; --slide-leave-x: 100%; }
+@keyframes slide-enter { from { transform: translateX(var(--slide-enter-x, 100%)); } to { transform: translateX(0); } }
+@keyframes slide-leave { from { transform: translateX(0); } to { transform: translateX(var(--slide-leave-x, -100%)); } }
+.slide-hook, .slide-actions { opacity: 0; transition: opacity .18s ease; }
+.slide-active .slide-hook { opacity: 1; transition: opacity .6s ease .12s; }
+.slide-active .slide-actions { opacity: 1; transition: opacity .6s ease .22s; }
+.slide-image-link { display: block; height: 100%; width: 100%; }
+.slide-overlay {
+  position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: flex-start;
+  padding: clamp(11rem, 19vh, 17rem) clamp(6rem, 8vw, 12rem) 8rem;
+  pointer-events: none; color: $base;
+  &[data-position^='top-'] { align-items: flex-start; }
+  &[data-position^='center'] { align-items: center; }
+  &[data-position$='-center'], &[data-position='center'] { justify-content: center; text-align: center; }
+  &[data-position$='-right'] { justify-content: flex-end; text-align: right; }
+  &.dark { color: $on-base; }
+}
+.slide-copy { position: relative; max-width: 60rem; padding: 2rem 0; }
+.slide-hook { font-size: clamp(2.4rem, 2vw, 3rem); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+:host ::ng-deep .slide-hook {
+  p { margin: 0 0 1.8rem; font-size: inherit; line-height: inherit; color: inherit; }
+  ul, ol { padding-inline-start: 1.2em; }
+}
+.slide-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1.6rem 2.4rem; }
+[data-position$='-center'] .slide-actions, [data-position='center'] .slide-actions { justify-content: center; }
+[data-position$='-right'] .slide-actions { justify-content: flex-end; }
+.slide-actions a {
+  pointer-events: auto; font-size: 1.4rem; line-height: 1.4; font-weight: 600; transition: background .2s, color .2s;
+  min-height: 4.4rem; display: inline-flex; align-items: center; justify-content: center;
+}
+.slide-primary { background: $secondary; color: $base-light; padding: 1.3rem 2rem; border-radius: .8rem; text-decoration: none; &:hover { background: $secondary-dark; } }
+.slide-secondary { color: inherit; text-decoration: underline; text-underline-offset: .5rem; &:hover { color: $primary-light; } }
+.dark .slide-secondary:hover { color: $secondary-dark; }
+@media (max-width: 600px) {
+  .slide-hook.auto-contrast {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  :host { height: calc(100svh - 4rem); min-height: 54rem; }
+  .slide-overlay { padding: 11rem 2rem 9rem; }
+  .slide-overlay[data-position] { align-items: flex-end; justify-content: center; text-align: center; }
+  .slide-copy { display: grid; grid-template-columns: minmax(0, max-content); max-width: 100%; padding: 1rem 0; }
+  .slide-hook { width: 0; min-width: 100%; }
+  .slide-hook { font-size: clamp(2rem, 6vw, 2.8rem); }
+  .slide-actions { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: clamp(.8rem, 3vw, 2rem); }
+  .slide-overlay[data-position] .slide-actions { justify-content: center; }
+  .slide-actions a { font-size: clamp(.85rem, 2.6vw, 1.2rem); font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+  .slide-primary {
+    padding: 1.5rem clamp(1.2rem, 4vw, 2rem);
+    border: 1px solid $secondary;
+    border-radius: 1rem;
+    background: $secondary;
+    letter-spacing: .02rem;
+    &:hover { background: $secondary-dark; border-color: $secondary-dark; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide { animation: none; }
+  .slide-outgoing { visibility: hidden; opacity: 0; }
+  .slide, .slide-hook, .slide-actions, .slide-active .slide-hook, .slide-active .slide-actions, .slide-actions a { transition: none; }
+}
 
+.slider {
   &_controls {
 
     &-arrows,
