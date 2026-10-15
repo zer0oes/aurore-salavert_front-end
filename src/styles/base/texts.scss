@@ -57,18 +57,12 @@ p, .p {
 
 b, strong {
   font-weight: $medium;
-  position: relative;
-
-  &::after {
-    content: '';
-    height: 40%;
-    position: absolute;
-    bottom: 5%;
-    left: 0;
-    right: 0;
-    background: rgba($primary, 25%);
-    z-index: -1;
-  }
+  background-image: linear-gradient(rgba($primary, .25), rgba($primary, .25));
+  background-repeat: no-repeat;
+  background-position: left 95%;
+  background-size: 100% 40%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 i, em {

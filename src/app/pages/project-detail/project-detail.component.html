@@ -2,26 +2,45 @@
 <div *ngIf="project" class="project">
   <p *ngIf="previewToken" role="status">Prévisualisation — version enregistrée dans Strapi</p>
   <div class="project__content">
+    <div class="project__controls">
     <div class="project__navigation">
       <button 
         (click)="navigateToPreviousProject()" 
         [disabled]="currentIndex === 0" 
-        [title]="titlePrev"
+        [attr.aria-label]="titlePrev"
+        [attr.aria-describedby]="titlePrev ? 'previous-project-tooltip' : null"
         class="btn-nav"
+        type="button"
+        [class.tooltip-dismissed]="navTooltipDismissed"
+        (mouseenter)="navTooltipDismissed = false"
+        (focus)="navTooltipDismissed = false"
+        (keydown.escape)="navTooltipDismissed = true"
       >
-        <i class="material-symbols-outlined">arrow_back</i>
+        <i class="material-symbols-outlined" aria-hidden="true">arrow_back</i>
+        <span *ngIf="titlePrev" id="previous-project-tooltip" class="project__nav-tooltip" role="tooltip">{{ titlePrev }}</span>
       </button>
       <h1>{{ project.title }}<span>:</span></h1>
       <button 
         (click)="navigateToNextProject()" 
         [disabled]="currentIndex === projects.length - 1" 
-        [title]="titleNext"
+        [attr.aria-label]="titleNext"
+        [attr.aria-describedby]="titleNext ? 'next-project-tooltip' : null"
         class="btn-nav"
+        type="button"
+        [class.tooltip-dismissed]="navTooltipDismissed"
+        (mouseenter)="navTooltipDismissed = false"
+        (focus)="navTooltipDismissed = false"
+        (keydown.escape)="navTooltipDismissed = true"
       >
-        <i class="material-symbols-outlined">arrow_forward</i>
+        <i class="material-symbols-outlined" aria-hidden="true">arrow_forward</i>
+        <span *ngIf="titleNext" id="next-project-tooltip" class="project__nav-tooltip" role="tooltip">{{ titleNext }}</span>
       </button>
     </div>
-
+    <a class="project__back-home" href="/#creative-showcase" (click)="returnToPortfolio($event)">
+      <span class="material-symbols-outlined" aria-hidden="true">keyboard_return</span>
+      {{ backHomeLabel }}
+    </a>
+    </div>
 
     <div class="project__content__description" [innerHTML]="projectDescriptionHtml"></div>
 

@@ -3,6 +3,89 @@
 @import 'styles/colors';
 
 .project {
+  &__nav-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    width: max-content;
+    max-width: min(24rem, 60vw);
+    padding: .5rem 1.5rem;
+    border-radius: .5rem;
+    background: $primary;
+    color: $on-primary;
+    font-family: $base-font-family;
+    font-size: 1.2rem;
+    font-weight: $medium;
+    line-height: 1;
+    text-shadow: 0px 1px 1px $secondary;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-align: center;
+    overflow-wrap: anywhere;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+  }
+
+  .btn-nav:last-of-type .project__nav-tooltip {
+    left: auto;
+    right: 0;
+  }
+
+  .btn-nav:not(:disabled):not(.tooltip-dismissed) {
+    &:hover, &:focus-visible {
+      .project__nav-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  .btn-nav:focus-visible {
+    outline: 2px solid $secondary;
+    outline-offset: 3px;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  &__back-home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .8rem 1.4rem;
+    border: 1px solid $secondary;
+    border-radius: 1rem;
+    color: $secondary;
+    font-family: $base-font-family;
+    font-size: 1.2rem;
+    font-weight: $bold;
+    line-height: 1.5;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+
+    .material-symbols-outlined {
+      font-size: 1.8rem;
+    }
+
+    &:hover {
+      background: $secondary;
+      color: $on-secondary;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $secondary;
+      outline-offset: 4px;
+    }
+  }
+
   display: flex;
   flex-direction: row;
   height: calc(100vh - 8rem);
@@ -255,6 +338,8 @@
   }
   
   &__navigation {
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;

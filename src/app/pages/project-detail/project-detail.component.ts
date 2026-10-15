@@ -28,6 +28,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   isImageExpanded: boolean = false;
   expandedImageSrc: string | null = null;
   isLensVisible: boolean = false;
+  navTooltipDismissed = false;
   titlePrev: string | '';
   titleNext: string | '';
   zoomedIn: boolean = false;
@@ -39,6 +40,26 @@ export class ProjectDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   private videoObserver?: IntersectionObserver;
   private removeFullscreenListener?: () => void;
   private routeSubscription?: Subscription;
+
+  get backHomeLabel(): string {
+    return this.localeService.getLocale() === 'fr' ? 'Retour à l’accueil' : 'Back to home';
+  }
+
+  returnToPortfolio(event: MouseEvent): void {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+    this.router.navigate(['/'], { fragment: 'creative-showcase' }).then((navigated) => {
+      if (navigated) {
+        const portfolio = document.getElementById('creative-showcase');
+        if (portfolio) {
+          window.scrollTo({ top: portfolio.getBoundingClientRect().top + window.scrollY - 80 });
+        }
+      }
+    });
+  }
 
   constructor(
     private route: ActivatedRoute,

@@ -26,32 +26,41 @@ a, .link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .8rem;
+    gap: 1rem;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     border: 1px solid $primary;
     border-radius: 1rem;
     background: transparent;
     color: $primary;
-    font-size: inherit;
-    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: $base-font-family;
+    font-weight: $bold;
     text-transform: none;
-    letter-spacing: .02rem;
-    line-height: inherit;
+    letter-spacing: .02em;
+    line-height: 1.5;
     text-decoration: none;
     transition: color .2s ease-in-out, background .4s ease-in-out, border-color .4s ease-in-out;
     overflow-wrap: anywhere;
 
     &::after {
-      content: '↗';
+      content: 'arrow_outward';
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      text-transform: none;
+      letter-spacing: normal;
+      line-height: 1;
+      font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
       position: static;
       width: auto;
       height: auto;
       background: none;
       z-index: auto;
       flex-shrink: 0;
-      font-size: 1.1em;
+      font-size: 1.8rem;
       transition: transform .2s ease;
     }
 
