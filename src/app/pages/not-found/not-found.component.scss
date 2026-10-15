@@ -11,7 +11,8 @@
   align-items: center;
   justify-content: center;
   gap: 2.4rem;
-  background: $base;
+  background: linear-gradient(145deg, $primary-light 0%, $primary 38%, $secondary 100%);
+  color: $base-dark-rev;
   text-align: center;
 
   &__code {
@@ -20,10 +21,12 @@
     font-weight: 700;
     line-height: 1;
     letter-spacing: -.06em;
-    span { color: $secondary; }
+    color: $base-light;
+    span { color: $secondary-dark; }
   }
 
   h1 {
+    color: $base-dark-rev;
     margin: 0;
     font-size: clamp(2.8rem, 4vw, 4.5rem);
     line-height: 1.2;
@@ -39,14 +42,15 @@
     gap: 1.6rem;
     margin-top: 1.2rem;
     padding: 1.6rem 2.4rem;
-    border: 1px solid $secondary;
+    border: 1px solid $base-light;
     border-radius: .4rem;
     color: $secondary-dark;
+    background: $base-light;
     font-size: 1.6rem;
     line-height: 1.5;
     text-decoration: none;
-    &:hover { background: $secondary; color: $on-secondary; }
-    &:focus-visible { outline: 3px solid $secondary; outline-offset: 5px; }
+    &:hover { background: $secondary-dark; border-color: $secondary-dark; color: $on-secondary; }
+    &:focus-visible { outline: 3px solid $base-dark-rev; outline-offset: 5px; }
   }
 
   @media (max-width: 935px) {
