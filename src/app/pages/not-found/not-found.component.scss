@@ -117,6 +117,17 @@
     padding: 16rem 2rem 6rem;
   }
 
+  @media (max-width: 600px) {
+    padding: 12rem 2.4rem 8rem;
+    gap: 1.8rem;
+
+    &__oops { font-size: 3.2rem; }
+    &__code { font-size: clamp(10rem, 32vw, 16rem); }
+    h1 { font-size: clamp(2rem, 6.2vw, 2.8rem); }
+    &__description { max-width: 28rem; font-size: 1.4rem; line-height: 1.6; }
+    &__link { margin-top: .6rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     &__digit, &__dot, &__spark, &__eyes i { animation: none; }
     &__link { transition: none; }
