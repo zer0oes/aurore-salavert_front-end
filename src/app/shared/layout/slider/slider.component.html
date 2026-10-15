@@ -7,9 +7,9 @@
       [attr.aria-hidden]="selectedIndex !== i" [attr.aria-label]="(i + 1) + ' / ' + images.length">
       <a *ngIf="image.projectSlug; else unlinkedImage" class="slide-image-link" [routerLink]="['/project', image.projectSlug]"
         [attr.aria-label]="(english ? 'Discover ' : 'Découvrir ') + image.projectTitle" draggable="false">
-        <img class="slider_content-img" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'">
+        <img class="slider_content-img" crossorigin="anonymous" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'">
       </a>
-      <ng-template #unlinkedImage><img class="slider_content-img" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false"></ng-template>
+      <ng-template #unlinkedImage><img class="slider_content-img" crossorigin="anonymous" (load)="updateContrast()" [src]="image.imgSrc" [alt]="image.imgAlt" draggable="false"></ng-template>
       <div *ngIf="image.position" class="slide-overlay" [attr.data-position]="image.position" [class.dark]="image.theme === 'dark'">
         <div class="slide-copy">
           <h2 class="slide-project-title" *ngIf="image.projectTitle">{{ image.projectTitle }}</h2>

@@ -105,8 +105,9 @@ export class SliderComponent implements OnInit {
         }
         target.style.color = lightScore > darkScore ? '#ffffff' : '#2C2929';
       }
-    } catch {
+    } catch (error) {
       // Keep the editorial theme if the media server disallows pixel access.
+      console.warn('Slider: automatic contrast unavailable; using the configured theme.', error instanceof Error ? error.name : 'ImageLoadError');
     }
   }
 
