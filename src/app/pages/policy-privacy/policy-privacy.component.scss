@@ -69,8 +69,9 @@
     padding: 14.5rem 8rem 8rem;
     overflow-y: auto;
     overflow-x: hidden;
-    background: $primary;
-    color: $on-base;
+    // Same gradient as the loading screen.
+    background: linear-gradient(145deg, $primary-light 0%, $primary 38%, $secondary 100%);
+    color: $on-primary;
   }
 
   &__content {
@@ -105,7 +106,8 @@
       line-height: 1.5;
       font-weight: 300;
       letter-spacing: .02em;
-      color: $on-base;
+      color: $on-primary;
+      text-shadow: 0px 1px 1px rgba($secondary, .5);
     }
 
     a {
@@ -114,12 +116,12 @@
       text-underline-offset: .3rem;
 
       &::after { display: none; }
-      &:hover { color: $secondary-dark; }
+      &:hover { color: $base-dark; }
     }
 
     strong {
       font-weight: $bold;
-      background-image: linear-gradient(rgba($on-primary, .45), rgba($on-primary, .45));
+      background-image: linear-gradient(rgba($secondary, .45), rgba($secondary, .45));
     }
 
     blockquote {
