@@ -12,11 +12,8 @@
 
 <nav class="menu">
   <ol class="menu_content" [ngClass]="{'menu-opened': menuOpened}">
-    <li>
-      <a [routerLink]="['/']"  (click)="navigateToSection('home')">Home</a>
-    </li>
     <li *ngFor="let item of menuItems">
-      <a [routerLink]="['/']"  (click)="navigateToSection(item.slug)">{{ item.title }}</a>
+      <a [href]="'/#' + item.slug" (click)="navigateToSection(item.slug, $event)">{{ item.title }}</a>
     </li>
   </ol>
 </nav>
