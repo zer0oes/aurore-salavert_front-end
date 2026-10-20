@@ -14,6 +14,8 @@ export class PolicyPrivacyComponent implements OnInit {
   public url = environment.url;
   policyData: any;
   groupedContent: any[] = [];
+  introBlocks: any[] = [];
+  sections: any[] = [];
 
   constructor(
     private renderer: Renderer2,
@@ -67,6 +69,10 @@ export class PolicyPrivacyComponent implements OnInit {
     if (currentGroup.length) {
       this.groupedContent.push(currentGroup);
     }
+
+    const hasIntro = this.groupedContent[0]?.[0]?.type !== 'heading';
+    this.introBlocks = hasIntro ? this.groupedContent[0] : [];
+    this.sections = hasIntro ? this.groupedContent.slice(1) : this.groupedContent;
   }
 }
 

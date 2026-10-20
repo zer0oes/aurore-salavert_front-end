@@ -1,12 +1,21 @@
 <div class="privacy-policy" *ngIf="groupedContent.length > 0">
-    <h1>{{ policyData.title }}<span>:</span></h1>
+    <div class="privacy-policy__aside">
+        <h1>{{ policyData.title }}<span>:</span></h1>
+        <!-- Text before the first heading, such as the update date, stays under the title. -->
+        <div *ngIf="introBlocks.length" class="privacy-policy__intro">
+            <ng-container *ngFor="let block of introBlocks">
+                <ng-container *ngTemplateOutlet="blockTemplate; context: { $implicit: block }"></ng-container>
+            </ng-container>
+        </div>
+    </div>
 
-    <section *ngFor="let group of groupedContent" class="privacy-policy__content"
-        [class.privacy-policy__content--intro]="group[0].type !== 'heading'">
-        <ng-container *ngFor="let block of group">
-            <ng-container *ngTemplateOutlet="blockTemplate; context: { $implicit: block }"></ng-container>
-        </ng-container>
-    </section>
+    <div class="privacy-policy__body">
+        <section *ngFor="let group of sections" class="privacy-policy__content">
+            <ng-container *ngFor="let block of group">
+                <ng-container *ngTemplateOutlet="blockTemplate; context: { $implicit: block }"></ng-container>
+            </ng-container>
+        </section>
+    </div>
 </div>
 
 <ng-template #blockTemplate let-block>
