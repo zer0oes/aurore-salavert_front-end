@@ -13,6 +13,7 @@ export function installOverlayScrollbars(): () => void {
   const handles = new Map<HTMLElement, HTMLElement>();
   const idleTimers = new Map<HTMLElement, ReturnType<typeof setTimeout>>();
   let frame = 0;
+  let footerAnimating = false;
   let drag: { element: HTMLElement; pointer: number; start: number; scroll: number; ratio: number } | undefined;
   const selector = 'body, .project, .project__gallery, .menu, .projects-list__filters';
 
@@ -104,8 +105,15 @@ export function installOverlayScrollbars(): () => void {
       if (handle.style.cssText !== css) handle.style.cssText = css;
       handle.hidden = false;
     }
+    // CSS transitions move the footer without firing scroll or resize events.
+    if (footerAnimating) schedule();
   };
   const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  const onFooterTransition = (event: TransitionEvent) => {
+    if (!(event.target instanceof HTMLElement) || event.target.tagName !== 'FOOTER' || event.propertyName !== 'bottom') return;
+    footerAnimating = event.type === 'transitionrun';
+    schedule();
+  };
   const onScroll = (event: Event) => {
     const element = event.target;
     if (element instanceof HTMLElement && element.classList.contains('projects-list__filters')) {
@@ -124,6 +132,9 @@ export function installOverlayScrollbars(): () => void {
   observer.observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
   document.addEventListener('scroll', onScroll, true);
   document.addEventListener('load', schedule, true);
+  document.addEventListener('transitionrun', onFooterTransition, true);
+  document.addEventListener('transitionend', onFooterTransition, true);
+  document.addEventListener('transitioncancel', onFooterTransition, true);
   window.addEventListener('resize', schedule);
   window.visualViewport?.addEventListener('resize', schedule);
   window.visualViewport?.addEventListener('scroll', schedule);
@@ -134,6 +145,9 @@ export function installOverlayScrollbars(): () => void {
     document.removeEventListener('scroll', onScroll, true);
     idleTimers.forEach(timer => clearTimeout(timer));
     document.removeEventListener('load', schedule, true);
+    document.removeEventListener('transitionrun', onFooterTransition, true);
+    document.removeEventListener('transitionend', onFooterTransition, true);
+    document.removeEventListener('transitioncancel', onFooterTransition, true);
     window.removeEventListener('resize', schedule);
     window.visualViewport?.removeEventListener('resize', schedule);
     window.visualViewport?.removeEventListener('scroll', schedule);

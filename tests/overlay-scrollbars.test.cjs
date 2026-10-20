@@ -10,6 +10,13 @@ const context = { exports: {} };
 vm.runInNewContext(compiled.outputText, context);
 const { scrollbarGeometry } = context.exports;
 
+test('handle stays above the first footer row throughout its slide in both directions', () => {
+  for (const footerTop of [647, 642, 637, 632, 627, 632, 637, 642, 647]) {
+    const geometry = scrollbarGeometry(20, footerTop, 627, 3000, 3000 - 627);
+    assert.ok(geometry.start + geometry.length <= footerTop + 0.0001);
+  }
+});
+
 test('mobile browser chrome and footer constrain the whole handle', () => {
   const geometry = scrollbarGeometry(20, 720, 916, 2556, 2556 - 916);
   assert.equal(geometry.start + geometry.length, 720);

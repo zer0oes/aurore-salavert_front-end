@@ -49,3 +49,12 @@
         }
     }
 }
+
+// MOBILE
+@media only screen and (max-width: 935px) {
+    .services {
+        &__content {
+            &__text p { font-size: 1.4rem; }
+        }
+    }
+}

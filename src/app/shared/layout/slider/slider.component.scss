@@ -82,7 +82,7 @@
     -webkit-text-fill-color: transparent;
   }
   :host { height: calc(100svh - 4rem); min-height: 54rem; }
-  .slide-overlay { padding: 11rem 2rem 9rem; }
+  .slide-overlay { padding: 11rem 2rem 6rem; }
   .slide-overlay[data-position] { align-items: flex-end; justify-content: center; text-align: center; }
   .slide-copy { display: grid; grid-template-columns: minmax(0, max-content); max-width: 100%; padding: 1rem 0; }
   .slide-project-title, .slide-hook { width: 0; min-width: 100%; }
@@ -197,6 +197,10 @@
       &-dots { bottom: 2rem; }
     }
   }
+
+  .slide-project-title { font-size: 1.2rem; }
+  .slide-hook { font-size: clamp(1.8rem, 5vw, 2.2rem); }
+  .slide-actions a { font-size: clamp(.85rem, 2.4vw, 1rem); }
 }
 
 // TABLETS
