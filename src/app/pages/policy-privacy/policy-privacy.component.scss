@@ -98,6 +98,7 @@
     }
 
     p, li, blockquote {
+      overflow-wrap: break-word;
       font-family: $base-font-family;
       font-size: 1.6rem;
       line-height: 1.5;
@@ -173,14 +174,15 @@
 @media only screen and (max-width: 935px) {
   .privacy-policy {
     flex-direction: column;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     height: calc(100vh - 4rem);
     height: calc(100dvh - 4rem);
 
     &__aside,
     &__body {
       position: unset;
-      width: calc(100vw - 4rem);
+      width: 100%;
       height: auto;
       flex-shrink: 0;
     }

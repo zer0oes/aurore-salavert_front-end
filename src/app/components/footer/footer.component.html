@@ -19,6 +19,6 @@
   </div>
 </footer>
 <div class="privacy-policy-mobile" *ngIf="(privacyPolicyLink && privacyPolicyTitle) || manageCookiesLabel">
-  <button *ngIf="manageCookiesLabel" type="button" class="cookies-button link" (click)="openCookieBanner()">{{ manageCookiesLabel }}</button>
   <a *ngIf="privacyPolicyLink && privacyPolicyTitle" [href]="privacyPolicyLink">{{ privacyPolicyTitle }}</a>
+  <button *ngIf="manageCookiesLabel" type="button" class="cookies-button link" (click)="openCookieBanner()">{{ manageCookiesLabel }}</button>
 </div>

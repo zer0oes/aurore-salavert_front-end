@@ -88,9 +88,11 @@ footer {
       &__author { font-size: inherit; }
     }
   }
+  // The revealed bar stacks the privacy and cookie links.
   :host {
+    --privacy-bar-height: 3.6rem;
     display: block;
-    height: 2rem;
+    height: var(--privacy-bar-height);
   }
 
   footer,
@@ -100,20 +102,22 @@ footer {
 
   .privacy-policy-mobile {
     position: fixed;
-    bottom: calc(var(--privacy-reveal, 0px) - 2rem);
+    bottom: calc(var(--privacy-reveal, 0px) - var(--privacy-bar-height));
     left: 0;
     right: 0;
     z-index: 5;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    height: var(--privacy-bar-height);
+    box-sizing: border-box;
     padding: 0 2rem;
     background: $base-light;
     font-size: .9rem;
     line-height: 1;
     text-align: right;
-    gap: 1.5rem;
+    gap: .6rem;
 
     a { padding: 0; }
   }
