@@ -29,8 +29,10 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
         ? privacyRevealOffset(body.scrollTop, viewportBottom, rect.top, rect.height, 0)
         : 0;
       const value = `${offset}px`;
-      if (host.style.getPropertyValue('--privacy-reveal') !== value) {
-        host.style.setProperty('--privacy-reveal', value);
+      // Set on the root so the cookie banner can stop above the footer too.
+      const root = document.documentElement;
+      if (root.style.getPropertyValue('--privacy-reveal') !== value) {
+        root.style.setProperty('--privacy-reveal', value);
       }
     });
   };
@@ -71,6 +73,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.contentObserver?.disconnect();
     this.footerObserver?.disconnect();
     cancelAnimationFrame(this.frame);
+    document.documentElement.style.removeProperty('--privacy-reveal');
   }
 
   ngOnInit(): void {
