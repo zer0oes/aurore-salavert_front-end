@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit } from 
 import { SocialNetworkService } from '@app/services/social-network.service';
 import { PrivacyPolicyService } from '@app/services/privacy-policy.service';
 import { LocaleService } from '@app/services/locale.service';
+import { CookieConsentService } from '@app/services/cookie-consent.service';
 import { privacyRevealOffset } from './footer-position';
 
 @Component({
@@ -28,8 +29,10 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
         ? privacyRevealOffset(body.scrollTop, viewportBottom, rect.top, rect.height, 0)
         : 0;
       const value = `${offset}px`;
-      if (host.style.getPropertyValue('--privacy-reveal') !== value) {
-        host.style.setProperty('--privacy-reveal', value);
+      // Set on the root so the cookie banner can stop above the footer too.
+      const root = document.documentElement;
+      if (root.style.getPropertyValue('--privacy-reveal') !== value) {
+        root.style.setProperty('--privacy-reveal', value);
       }
     });
   };
@@ -37,13 +40,15 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
   socialNetworks: any[] = [];
   privacyPolicyLink: string | null = null;
   privacyPolicyTitle: string | null = null;
+  manageCookiesLabel: string | null = null;
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,
     private zone: NgZone,
     private socialNetworkService: SocialNetworkService,
     private privacyPolicyService: PrivacyPolicyService,
-    private localeService: LocaleService
+    private localeService: LocaleService,
+    private cookieConsentService: CookieConsentService
   ) { }
 
   ngAfterViewInit(): void {
@@ -68,6 +73,7 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.contentObserver?.disconnect();
     this.footerObserver?.disconnect();
     cancelAnimationFrame(this.frame);
+    document.documentElement.style.removeProperty('--privacy-reveal');
   }
 
   ngOnInit(): void {
@@ -82,6 +88,10 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
+    this.cookieConsentService.getLabels().subscribe((labels) => {
+      this.manageCookiesLabel = labels.manageLabel;
+    });
+
     const locale = this.localeService.getLocale();
     this.privacyPolicyService.getPrivacyPolicy(locale).subscribe((response: any) => {
       if (response && response.data) {
@@ -91,5 +101,9 @@ export class FooterComponent implements OnInit, AfterViewInit, OnDestroy {
         console.error('Erreur: Aucune donnée trouvée dans la réponse de l\'API');
       }
     });
+  }
+
+  openCookieBanner(): void {
+    this.cookieConsentService.openBanner();
   }
 }

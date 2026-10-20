@@ -30,10 +30,26 @@
             margin-bottom: 2rem;
         }
     }
+    // Keeps the line breaks typed in Strapi.
+    &__message {
+        white-space: pre-line;
+    }
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+    &__content &__policy {
+        margin: 0;
+        text-align: left;
+    }
     &__buttons {
         display: flex;
         gap: 2rem;
         justify-content: flex-end;
+        margin-left: auto;
 
         .btn {
             font-family: $base-font-family;
@@ -68,9 +84,11 @@
         top: 2rem;
         left: 2rem;
         right: 2rem;
-        bottom: 2rem;
-        block-size: calc(100% - 4rem);
+        // Stops above the footer, which rises when the privacy bar is revealed.
+        bottom: calc(2rem + var(--privacy-reveal, 0px));
+        block-size: auto;
         inline-size: calc(100% - 4rem);
+        transition: bottom .22s cubic-bezier(.22, 1, .36, 1), background-color .5s ease-in-out, backdrop-filter .5s ease-in-out;
     
         &__content {
             width: calc(100vw - 4rem);
@@ -79,6 +97,17 @@
             p {
                 margin-bottom: 2rem;
             }
+        }
+
+        &__content &__policy {
+            width: 100%;
+            text-align: center;
+        }
+
+        &__buttons {
+            width: 100%;
+
+            .btn { flex: 1; padding: 1.5rem 1rem; }
         }
     }
 }
