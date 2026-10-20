@@ -35,7 +35,13 @@
       text-transform: none;
       text-align: center;
 
-      &::after { display: none; }
+      // Same vertical line as the home page section titles.
+      &::after {
+        width: .1rem;
+        height: 8rem;
+        margin: 4rem auto 0;
+        background-color: $on-base;
+      }
 
       span { color: $primary; }
     }
@@ -47,15 +53,6 @@
     align-items: center;
     gap: 1rem;
     text-align: center;
-
-    &::before {
-      content: "";
-      display: block;
-      height: .2rem;
-      width: 6rem;
-      margin-bottom: 3rem;
-      background: $on-base;
-    }
 
     p { font-size: 1.2rem; }
   }
@@ -70,7 +67,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     // Same gradient as the loading screen.
-    background: linear-gradient(145deg, $primary-light 0%, $primary 38%, $secondary 100%);
+    background: linear-gradient(145deg, $secondary 0%, $primary 62%, $primary-light 100%);
     color: $on-primary;
   }
 
@@ -87,7 +84,7 @@
 
     h2 {
       &::after {
-        height: .2rem;
+        height: .1rem;
         width: 6rem;
         background: $on-primary;
         margin: 2rem 0 0;
@@ -110,13 +107,17 @@
       text-shadow: 0px 1px 1px rgba($secondary, .5);
     }
 
+    // Same highlighted underline as the site's text links, tinted for the violet background.
     a {
       color: $on-primary;
-      text-decoration: underline;
-      text-underline-offset: .3rem;
 
-      &::after { display: none; }
-      &:hover { color: $base-dark; }
+      &::after { background: rgba($secondary, .75); }
+
+      &:hover {
+        color: $on-primary;
+
+        &::after { background: rgba($secondary, .35); }
+      }
     }
 
     strong {
@@ -152,8 +153,8 @@
         content: "";
         top: .75em;
         left: -3rem;
-        width: 2rem;
-        height: .2rem;
+        width: 1.5rem;
+        height: .1rem;
         background: $on-primary;
       }
     }
@@ -191,7 +192,10 @@
       h1 { font-size: 2.8rem; }
     }
 
-    &__intro::before { margin-bottom: 2rem; }
+    &__aside h1::after {
+      height: 6rem;
+      margin: 2rem auto 0;
+    }
 
     &__body {
       gap: 4rem;
