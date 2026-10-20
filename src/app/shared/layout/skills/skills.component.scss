@@ -86,4 +86,12 @@
       }
     }
   }
+
+  .skills {
+    &__title { font-size: 2.8rem; }
+
+    &__grid {
+      .skill__title { font-size: 1.6rem; }
+    }
+  }
 }

@@ -84,6 +84,8 @@
 // MOBILE
 @media only screen and (max-width: 935px) {
   .privacy-policy {
+    h1 { font-size: 2.8rem; }
+
     padding: 12.5rem 2rem 4rem;
     gap: 2rem;
 
@@ -92,7 +94,7 @@
 
       ul {
         li {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
 
           &::before,
           &::after {
@@ -110,6 +112,7 @@
       }
     }
   }
+
 }
 
 // TABLETS

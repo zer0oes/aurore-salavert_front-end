@@ -100,21 +100,37 @@
 @media only screen and (max-width: 935px) {
   .projects-list {
     padding-top: 6rem;
+    gap: 2rem;
 
     &__wrap {
       padding: 0 4rem;
       text-align: center;
+      margin-bottom: 0;
+      gap: 2rem;
+    }
+
+    &__title::after {
+      height: 6rem;
+      margin: 2rem auto 0;
     }
 
     &__filters {
       justify-content: flex-start;
-      padding: 0 2rem 2rem;
+      // The overlay handle occupies the last 5px: leave 2rem on either side.
+      padding: 0 2rem calc(2rem + 5px);
       width: calc(100vw - 4rem);
-      padding-bottom: 1rem;
       overflow-x: scroll;
       overflow-y: hidden;
+      gap: 1rem;
 
-  
+      .btn-filter {
+        font-size: 1rem;
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 1rem 2rem;
+        text-align: center;
+        letter-spacing: 0;
+      }
     }
 
     // PORTRAIT 
@@ -122,6 +138,7 @@
       &__grid {
         width: calc(100vw - 4rem);
         grid-template-columns: repeat(1, 1fr);
+        margin-top: -2rem;
       }
 
       &__item {
@@ -146,6 +163,7 @@
       }
     }
   }
+
 }
 
 // TABLETS

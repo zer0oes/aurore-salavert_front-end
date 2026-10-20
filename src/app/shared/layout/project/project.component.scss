@@ -106,3 +106,14 @@
     }
   }
 }
+
+// MOBILE
+@media only screen and (max-width: 935px) {
+  .project-content {
+    &__title { font-size: 1.6rem; }
+
+    &__category {
+      a, span { font-size: 1.2rem; }
+    }
+  }
+}

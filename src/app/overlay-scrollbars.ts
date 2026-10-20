@@ -11,7 +11,9 @@ export function scrollbarGeometry(start: number, end: number, viewport: number, 
 
 export function installOverlayScrollbars(): () => void {
   const handles = new Map<HTMLElement, HTMLElement>();
+  const idleTimers = new Map<HTMLElement, ReturnType<typeof setTimeout>>();
   let frame = 0;
+  let footerAnimating = false;
   let drag: { element: HTMLElement; pointer: number; start: number; scroll: number; ratio: number } | undefined;
   const selector = 'body, .project, .project__gallery, .menu, .projects-list__filters';
 
@@ -49,6 +51,8 @@ export function installOverlayScrollbars(): () => void {
       if (!candidates.has(element)) {
         handle.remove();
         handles.delete(element);
+        clearTimeout(idleTimers.get(element));
+        idleTimers.delete(element);
       }
     }
     for (const element of candidates) {
@@ -65,7 +69,7 @@ export function installOverlayScrollbars(): () => void {
       }
       if (!handle) {
         handle = document.createElement('div');
-        handle.className = 'overlay-scrollbar';
+        handle.className = 'overlay-scrollbar' + (horizontal ? ' overlay-scrollbar--auto-hide' : '');
         handle.setAttribute('aria-hidden', 'true');
         document.body.appendChild(handle);
         handles.set(element, handle);
@@ -101,14 +105,36 @@ export function installOverlayScrollbars(): () => void {
       if (handle.style.cssText !== css) handle.style.cssText = css;
       handle.hidden = false;
     }
+    // CSS transitions move the footer without firing scroll or resize events.
+    if (footerAnimating) schedule();
   };
   const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  const onFooterTransition = (event: TransitionEvent) => {
+    if (!(event.target instanceof HTMLElement) || event.target.tagName !== 'FOOTER' || event.propertyName !== 'bottom') return;
+    footerAnimating = event.type === 'transitionrun';
+    schedule();
+  };
+  const onScroll = (event: Event) => {
+    const element = event.target;
+    if (element instanceof HTMLElement && element.classList.contains('projects-list__filters')) {
+      handles.get(element)?.classList.add('is-scrolling');
+      clearTimeout(idleTimers.get(element));
+      idleTimers.set(element, setTimeout(() => {
+        handles.get(element)?.classList.remove('is-scrolling');
+        idleTimers.delete(element);
+      }, 800));
+    }
+    schedule();
+  };
   const observer = new MutationObserver(records => {
     if (records.some(record => !(record.target instanceof Element && record.target.classList.contains('overlay-scrollbar')))) schedule();
   });
   observer.observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
-  document.addEventListener('scroll', schedule, true);
+  document.addEventListener('scroll', onScroll, true);
   document.addEventListener('load', schedule, true);
+  document.addEventListener('transitionrun', onFooterTransition, true);
+  document.addEventListener('transitionend', onFooterTransition, true);
+  document.addEventListener('transitioncancel', onFooterTransition, true);
   window.addEventListener('resize', schedule);
   window.visualViewport?.addEventListener('resize', schedule);
   window.visualViewport?.addEventListener('scroll', schedule);
@@ -116,8 +142,12 @@ export function installOverlayScrollbars(): () => void {
   return () => {
     observer.disconnect();
     cancelAnimationFrame(frame);
-    document.removeEventListener('scroll', schedule, true);
+    document.removeEventListener('scroll', onScroll, true);
+    idleTimers.forEach(timer => clearTimeout(timer));
     document.removeEventListener('load', schedule, true);
+    document.removeEventListener('transitionrun', onFooterTransition, true);
+    document.removeEventListener('transitionend', onFooterTransition, true);
+    document.removeEventListener('transitioncancel', onFooterTransition, true);
     window.removeEventListener('resize', schedule);
     window.visualViewport?.removeEventListener('resize', schedule);
     window.visualViewport?.removeEventListener('scroll', schedule);

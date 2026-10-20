@@ -90,11 +90,20 @@
 // MOBILE
 @media only screen and (max-width: 935px) {
     .contact {
+        &__title { font-size: 2.8rem; }
+
+        &__email {
+            font-size: 1.4rem;
+            margin-top: -2rem;
+        }
+
         &__wrap {
             padding: 6rem 4rem;
             text-align: center;
         }
     }
+
+    :host ::ng-deep .contact__desc p { font-size: 1.2rem; }
 }
 
 // TABLETS
