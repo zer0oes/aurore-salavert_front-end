@@ -15,7 +15,7 @@ export function installOverlayScrollbars(): () => void {
   let frame = 0;
   let footerAnimating = false;
   let drag: { element: HTMLElement; pointer: number; start: number; scroll: number; ratio: number } | undefined;
-  const selector = 'body, .project, .project__gallery, .menu, .projects-list__filters';
+  const selector = 'body, .project, .project__gallery, .privacy-policy__body, .menu, .projects-list__filters';
 
   const measure = (element: HTMLElement, horizontal: boolean) => {
     const rect = element.getBoundingClientRect();
@@ -69,7 +69,9 @@ export function installOverlayScrollbars(): () => void {
       }
       if (!handle) {
         handle = document.createElement('div');
-        handle.className = 'overlay-scrollbar' + (horizontal ? ' overlay-scrollbar--auto-hide' : '');
+        handle.className = 'overlay-scrollbar' + (horizontal ? ' overlay-scrollbar--auto-hide' : '')
+          // The privacy policy text sits on a violet background.
+          + (element.classList.contains('privacy-policy__body') ? ' overlay-scrollbar--light' : '');
         handle.setAttribute('aria-hidden', 'true');
         document.body.appendChild(handle);
         handles.set(element, handle);

@@ -54,6 +54,7 @@
 body,
 .project,
 .project__gallery,
+.privacy-policy__body,
 .menu,
 .projects-list__filters {
   scrollbar-width: none;
@@ -75,6 +76,12 @@ body,
   &:hover { background: $secondary; }
   &:active { cursor: grabbing; background: $secondary-dark; }
   &[hidden] { display: none; }
+
+  &--light {
+    background: $on-primary;
+
+    &:hover, &:active { background: $base-dark; }
+  }
 
   &--auto-hide {
     opacity: 0;
