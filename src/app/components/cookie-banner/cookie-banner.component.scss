@@ -30,10 +30,27 @@
             margin-bottom: 2rem;
         }
     }
+    // Keeps the line breaks typed in Strapi.
+    &__message {
+        white-space: pre-line;
+    }
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+    &__policy {
+        font-family: $base-font-family;
+        font-size: 1.6rem;
+        text-align: left;
+    }
     &__buttons {
         display: flex;
         gap: 2rem;
         justify-content: flex-end;
+        margin-left: auto;
 
         .btn {
             font-family: $base-font-family;
@@ -79,6 +96,14 @@
             p {
                 margin-bottom: 2rem;
             }
+        }
+
+        &__policy { font-size: 1.2rem; }
+
+        &__buttons {
+            width: 100%;
+
+            .btn { flex: 1; padding: 1.5rem 1rem; }
         }
     }
 }

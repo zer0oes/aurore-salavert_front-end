@@ -1,12 +1,13 @@
 <ng-container *ngIf="visible$ | async">
     <div class="cookie-banner" *ngIf="labels$ | async as labels">
         <div class="cookie-banner__content" role="dialog" aria-live="polite">
-            <p>
-                {{ labels.message }} <a [routerLink]="'/privacy-policy'">{{ labels.policyLinkLabel }}</a>
-            </p>
-            <div class="cookie-banner__buttons">
-                <button class="btn btn-cookie" (click)="rejectCookies()">{{ labels.rejectLabel }}</button>
-                <button class="btn btn-cookie" (click)="acceptCookies()">{{ labels.acceptLabel }}</button>
+            <p class="cookie-banner__message">{{ labels.message }}</p>
+            <div class="cookie-banner__actions">
+                <a class="cookie-banner__policy" [routerLink]="'/privacy-policy'">{{ labels.policyLinkLabel }}</a>
+                <div class="cookie-banner__buttons">
+                    <button class="btn btn-cookie" (click)="rejectCookies()">{{ labels.rejectLabel }}</button>
+                    <button class="btn btn-cookie" (click)="acceptCookies()">{{ labels.acceptLabel }}</button>
+                </div>
             </div>
         </div>
     </div>
