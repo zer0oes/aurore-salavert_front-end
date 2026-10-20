@@ -3,7 +3,8 @@
         <div class="cookie-banner__content" role="dialog" aria-live="polite">
             <p class="cookie-banner__message">{{ labels.message }}</p>
             <div class="cookie-banner__actions">
-                <a class="cookie-banner__policy" [routerLink]="'/privacy-policy'">{{ labels.policyLinkLabel }}</a>
+                <!-- Inside a paragraph so the link keeps the site's highlighted underline. -->
+                <p class="cookie-banner__policy"><a [routerLink]="'/privacy-policy'">{{ labels.policyLinkLabel }}</a></p>
                 <div class="cookie-banner__buttons">
                     <button class="btn btn-cookie" (click)="rejectCookies()">{{ labels.rejectLabel }}</button>
                     <button class="btn btn-cookie" (click)="acceptCookies()">{{ labels.acceptLabel }}</button>

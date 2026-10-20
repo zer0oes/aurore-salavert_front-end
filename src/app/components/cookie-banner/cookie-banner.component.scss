@@ -41,9 +41,8 @@
         align-items: center;
         gap: 2rem;
     }
-    &__policy {
-        font-family: $base-font-family;
-        font-size: 1.6rem;
+    &__content &__policy {
+        margin: 0;
         text-align: left;
     }
     &__buttons {
@@ -97,8 +96,6 @@
                 margin-bottom: 2rem;
             }
         }
-
-        &__policy { font-size: 1.2rem; }
 
         &__buttons {
             width: 100%;
