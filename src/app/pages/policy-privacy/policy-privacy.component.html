@@ -2,23 +2,73 @@
     <h1>{{ policyData.title }}<span>:</span></h1>
 
     <div *ngFor="let group of groupedContent" class="privacy-policy__content">
-        <ng-container *ngFor="let section of group">
-            <h2 *ngIf="section.type === 'heading' && section.level === 2">
-              {{ section.children[0].text }}
-            </h2>
-
-            <p *ngIf="section.type === 'paragraph'">
-                <ng-container *ngFor="let child of section.children">
-                    <a *ngIf="child.type === 'link'" [href]="child.url" target="_blank">{{ child.children[0].text }}</a>
-                    <ng-container *ngIf="child.type !== 'link'">{{ child.text }}</ng-container>
-                </ng-container>
-            </p>
-
-            <ul *ngIf="section.type === 'list' && section.format === 'unordered'">
-                <li *ngFor="let item of section.children">
-                    {{ item.children[0].text }}
-                </li>
-            </ul>
+        <ng-container *ngFor="let block of group">
+            <ng-container *ngTemplateOutlet="blockTemplate; context: { $implicit: block }"></ng-container>
         </ng-container>
     </div>
 </div>
+
+<ng-template #blockTemplate let-block>
+    <ng-container [ngSwitch]="block.type">
+        <ng-container *ngSwitchCase="'heading'">
+            <h2 *ngIf="block.level <= 2">
+                <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: block.children }"></ng-container>
+            </h2>
+            <h3 *ngIf="block.level > 2">
+                <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: block.children }"></ng-container>
+            </h3>
+        </ng-container>
+
+        <p *ngSwitchCase="'paragraph'">
+            <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: block.children }"></ng-container>
+        </p>
+
+        <blockquote *ngSwitchCase="'quote'">
+            <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: block.children }"></ng-container>
+        </blockquote>
+
+        <ng-container *ngSwitchCase="'list'">
+            <ol *ngIf="block.format === 'ordered'">
+                <ng-container *ngTemplateOutlet="listItemsTemplate; context: { $implicit: block.children }"></ng-container>
+            </ol>
+            <ul *ngIf="block.format !== 'ordered'">
+                <ng-container *ngTemplateOutlet="listItemsTemplate; context: { $implicit: block.children }"></ng-container>
+            </ul>
+        </ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-template #listItemsTemplate let-items>
+    <ng-container *ngFor="let item of items">
+        <!-- Strapi nests sub-lists as list nodes beside the list items. -->
+        <li *ngIf="item.type === 'list-item'">
+            <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: item.children }"></ng-container>
+        </li>
+        <li *ngIf="item.type === 'list'" class="privacy-policy__sublist">
+            <ng-container *ngTemplateOutlet="blockTemplate; context: { $implicit: item }"></ng-container>
+        </li>
+    </ng-container>
+</ng-template>
+
+<ng-template #inlineTemplate let-nodes>
+    <ng-container *ngFor="let node of nodes">
+        <a *ngIf="node.type === 'link'" [href]="node.url" target="_blank" rel="noopener noreferrer">
+            <ng-container *ngTemplateOutlet="inlineTemplate; context: { $implicit: node.children }"></ng-container>
+        </a>
+        <ng-container *ngIf="node.type !== 'link'">
+            <ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: 0 }"></ng-container>
+        </ng-container>
+    </ng-container>
+</ng-template>
+
+<!-- Each text node can carry several marks: nest one element per mark, then the text. -->
+<ng-template #textTemplate let-node let-index="index">
+    <ng-container [ngSwitch]="node.marks[index]">
+        <strong *ngSwitchCase="'bold'"><ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: index + 1 }"></ng-container></strong>
+        <em *ngSwitchCase="'italic'"><ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: index + 1 }"></ng-container></em>
+        <u *ngSwitchCase="'underline'"><ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: index + 1 }"></ng-container></u>
+        <s *ngSwitchCase="'strikethrough'"><ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: index + 1 }"></ng-container></s>
+        <code *ngSwitchCase="'code'"><ng-container *ngTemplateOutlet="textTemplate; context: { $implicit: node, index: index + 1 }"></ng-container></code>
+        <ng-container *ngSwitchDefault>{{ node.text }}</ng-container>
+    </ng-container>
+</ng-template>

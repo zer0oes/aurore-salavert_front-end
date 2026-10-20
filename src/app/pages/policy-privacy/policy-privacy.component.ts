@@ -53,7 +53,7 @@ export class PolicyPrivacyComponent implements OnInit {
   groupContentByHeading(): void {
     let currentGroup: any[] = [];
 
-    this.policyData.text.forEach((section: any) => {
+    (this.policyData.text || []).map(withTextMarks).forEach((section: any) => {
       if (section.type === 'heading' && section.level === 2) {
         if (currentGroup.length) {
           this.groupedContent.push(currentGroup);
@@ -68,4 +68,14 @@ export class PolicyPrivacyComponent implements OnInit {
       this.groupedContent.push(currentGroup);
     }
   }
+}
+
+const TEXT_MARKS = ['bold', 'italic', 'underline', 'strikethrough', 'code'];
+
+// Lists the formatting of each text node once, so the template can nest one element per mark.
+function withTextMarks(node: any): any {
+  if (node.type === 'text') {
+    return { ...node, marks: TEXT_MARKS.filter((mark) => node[mark]) };
+  }
+  return node.children ? { ...node, children: node.children.map(withTextMarks) } : node;
 }

@@ -12,8 +12,13 @@
       <span class="copyright__separator" aria-hidden="true">-</span>
       <a class="copyright__privacy" [href]="privacyPolicyLink">{{ privacyPolicyTitle }}</a>
     </ng-container>
+    <ng-container *ngIf="manageCookiesLabel">
+      <span class="copyright__separator" aria-hidden="true">-</span>
+      <button type="button" class="copyright__cookies link" (click)="openCookieBanner()">{{ manageCookiesLabel }}</button>
+    </ng-container>
   </div>
 </footer>
-<div class="privacy-policy-mobile" *ngIf="privacyPolicyLink && privacyPolicyTitle">
-  <a [href]="privacyPolicyLink">{{ privacyPolicyTitle }}</a>
+<div class="privacy-policy-mobile" *ngIf="(privacyPolicyLink && privacyPolicyTitle) || manageCookiesLabel">
+  <button *ngIf="manageCookiesLabel" type="button" class="cookies-button link" (click)="openCookieBanner()">{{ manageCookiesLabel }}</button>
+  <a *ngIf="privacyPolicyLink && privacyPolicyTitle" [href]="privacyPolicyLink">{{ privacyPolicyTitle }}</a>
 </div>

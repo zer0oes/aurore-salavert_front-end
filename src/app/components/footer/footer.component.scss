@@ -45,6 +45,15 @@ footer {
   }
 }
 
+.copyright__cookies,
+.cookies-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
 .privacy-policy-mobile { display: none; }
 
 // MOBILE
@@ -75,7 +84,7 @@ footer {
       font-size: .9rem;
       line-height: 1;
 
-      &__label, &__separator, &__privacy { display: none; }
+      &__label, &__separator, &__privacy, &__cookies { display: none; }
       &__author { font-size: inherit; }
     }
   }
@@ -104,6 +113,7 @@ footer {
     font-size: .9rem;
     line-height: 1;
     text-align: right;
+    gap: 1.5rem;
 
     a { padding: 0; }
   }
