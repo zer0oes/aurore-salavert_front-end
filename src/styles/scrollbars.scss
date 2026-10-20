@@ -75,4 +75,16 @@ body,
   &:hover { background: $secondary; }
   &:active { cursor: grabbing; background: $secondary-dark; }
   &[hidden] { display: none; }
+
+  &--auto-hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+
+    &.is-scrolling,
+    &:active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
 }

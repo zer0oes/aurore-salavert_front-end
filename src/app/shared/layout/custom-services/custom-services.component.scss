@@ -149,6 +149,19 @@
             }
         }
     }
+
+    .custom-services {
+        &__title { font-size: 1.2rem; }
+
+        &__text {
+            font-size: 1.4rem;
+
+            &::after {
+                height: 6rem;
+                margin: 2rem auto 0;
+            }
+        }
+    }
 }
 
 // TABLETS

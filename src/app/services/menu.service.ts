@@ -3,11 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@src/environment';
 import { BehaviorSubject, catchError, forkJoin, map, Observable, of } from 'rxjs';
 import { LocaleService } from './locale.service';
-
-interface MenuItem {
-  title: string;
-  slug: string;
-}
+import { applyMenuLabels, MenuItem, MenuSection } from './menu-labels';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +25,18 @@ export class MenuService {
   }
 
   getMenuItems(): Observable<MenuItem[]> {
+    return this.getSections();
+  }
+
+  getNavigationItems(): Observable<MenuItem[]> {
+    const locale = this.localeService.getLocale();
+    return forkJoin([
+      this.getSections(),
+      this.getOptionalContent(`${this.url}/api/menu?locale=${locale}`)
+    ]).pipe(map(([sections, labels]) => applyMenuLabels(sections, labels, locale)));
+  }
+
+  private getSections(): Observable<MenuSection[]> {
     const locale = this.localeService.getLocale(); // Obtention de la locale actuelle
 
     // Ajoute le paramètre `?locale=`
@@ -44,12 +52,13 @@ export class MenuService {
       this.getOptionalContent(contactUrl)
     ]).pipe(
       map((responses: any[]) => {
-        return responses.flatMap(response => {
+        const labelFields = ['ShowcaseLabel', 'SkillsLabel', 'ServicesLabel', 'ContactLabel'];
+        return responses.flatMap((response, index) => {
           if (response && response.data) {
             if (Array.isArray(response.data)) {
-              return response.data.map((item: any) => this.mapMenuItem(item));
+              return response.data.map((item: any) => this.mapMenuItem(item, labelFields[index]));
             } else {
-              return [this.mapMenuItem(response.data)];
+              return [this.mapMenuItem(response.data, labelFields[index])];
             }
           } else {
             return [];
@@ -65,9 +74,10 @@ export class MenuService {
     );
   }
 
-  private mapMenuItem(item: any): MenuItem {
-    const title = item.Title || item.title || 'Untitled';
-    const slug = item.slug || 'default-slug';
-    return { title, slug };
+  private mapMenuItem(item: any, labelField: string): MenuSection {
+    const content = item.attributes || item;
+    const title = content.Title || content.title || 'Untitled';
+    const slug = content.slug || 'default-slug';
+    return { title, slug, labelField };
   }
 }
