@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Category, CreativeShowcase, Gallery, Project } from '@app/models/frontend/project';
 import { LocaleService } from '@app/services/locale.service';
+import { completeGridPrefix } from './complete-grid-prefix';
 import { environment } from '@src/environment';
 
 @Component({
@@ -12,11 +13,42 @@ import { environment } from '@src/environment';
 export class ProjectListComponent implements OnInit, AfterViewInit {
   @ViewChildren('projectElement', { read: ElementRef }) projectElements!: QueryList<ElementRef>;
 
-  constructor(private http: HttpClient, private localeService: LocaleService) {}
+  constructor(private http: HttpClient, private localeService: LocaleService, private changeDetector: ChangeDetectorRef) {}
 
   @Input() showcaseInfos: Array<CreativeShowcase> = [];
   @Input() projects: Array<Project> = [];
   @Input() originalProjects: Array<Project> = [];
+  expanded = false;
+  get completeProjectCount(): number {
+    return completeGridPrefix(this.projects);
+  }
+
+  get showMoreLabel(): string {
+    const french = this.localeService.getLocale() === 'fr';
+    return this.expanded ? (french ? 'En voir moins' : 'Show less') : (french ? 'En voir plus' : 'Show more');
+  }
+
+  private gridAnimation?: Animation;
+
+  toggleProjects(container: HTMLElement): void {
+    const previousHeight = container.getBoundingClientRect().height;
+    this.gridAnimation?.cancel();
+    // Reveal tiles in place; only the container height should animate.
+    this.projectElements.toArray().slice(this.completeProjectCount).forEach(({ nativeElement }) => {
+      nativeElement.classList.add('fade-in');
+    });
+    this.expanded = !this.expanded;
+    this.changeDetector.detectChanges();
+    const nextHeight = container.getBoundingClientRect().height;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    this.gridAnimation = container.animate([
+      { height: `${previousHeight}px`, overflow: 'hidden' },
+      { height: `${nextHeight}px`, overflow: 'hidden' }
+    ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+
+  }
+
   usedCategories: string[] = [];
   activeCategory: string = 'All';
   fadeOut: boolean = false;
@@ -146,6 +178,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   filterProjectsByCategory(category: string): void {
     this.fadeOut = true;
     setTimeout(() => {
+      this.expanded = false;
       this.activeCategory = category;
       if (category === 'All') {
         this.projects = [...this.originalProjects];
