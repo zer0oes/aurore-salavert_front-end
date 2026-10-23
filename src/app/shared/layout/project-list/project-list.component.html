@@ -14,13 +14,19 @@
     </button>
   </div>
 
-  <div class="projects-list__grid" *ngIf="projects.length > 0">
+  <div class="projects-list__grid-reveal" #gridReveal>
+  <div id="showcase-projects" class="projects-list__grid" *ngIf="projects.length > 0">
     <project class="projects-list__item"
       *ngFor="let project of projects; let i = index"
       #projectElement
+      [class.projects-list__item--deferred]="!expanded && i >= completeProjectCount"
       [project]="project"
       [ngClass]="getProjectClasses(project)"
       [ngStyle]="{'order': i + 1}">
     </project>
+  </div>
+  </div>
+  <div class="projects-list__more projects-list__filters" *ngIf="completeProjectCount < projects.length">
+    <button type="button" class="btn btn-filter" aria-controls="showcase-projects" [attr.aria-expanded]="expanded" (click)="toggleProjects(gridReveal)">{{ showMoreLabel }}</button>
   </div>
 </div>
